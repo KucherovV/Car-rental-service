@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using CarRent.CustomValidation;
 
 namespace CarRent.Models
 {
@@ -82,28 +83,33 @@ namespace CarRent.Models
 
         [Required]
         [Display(Name = "Phone Number")]
+        [RegularExpression(@"^([0-9\-\(\) \+]{11,12})?$",
+            ErrorMessage = "Entered phone format is not valid. Format is 380123456789")]
         public string PhoneNumber { get; set; }
 
         [Required]
         [Display(Name = "ID Number")]
-        [StringLength(8, ErrorMessage = "ID Number must be 8 characters", MinimumLength = 8)]
+        [RegularExpression(@"^[А-Я]{2}\d[0-9]{5}", 
+            ErrorMessage = "ID number must be in format AA123456")]
         public string IDNumber { get; set; }
 
         [Required]
         [Display(Name = "TAX ID Number")]
-        [StringLength(10, ErrorMessage = " TAX ID Number must be 8 characters", MinimumLength = 10)]
+        [StringLength(10, ErrorMessage = " TAX ID Number must be 10 characters", MinimumLength = 10)]
         public string TaxID { get; set; }
 
         [Required]
         [Display(Name = "Birth Date")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [BirthDateValidation]
         public DateTime BirthDate { get; set; }
 
         [Required]
         [Display(Name = "Driver's License Date")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [CheckDriverLicense]
         public DateTime DrivingLicenseDate { get; set; }
 
         [Required]
