@@ -12,6 +12,7 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using CarRent.Models;
 using System.Net.Mail;
+using Twilio;
 
 namespace CarRent
 {
@@ -43,8 +44,17 @@ namespace CarRent
     {
         public Task SendAsync(IdentityMessage message)
         {
-            // Plug in your SMS service here to send a text message.
+            string AccountSid = "ACb785900ed2667e84b283ed8010159ef1";
+
+            string AuthToken = "1f4228340824976eeba2af411dfbb465";
+
+            string twilioPhoneNumber = "+12018174834";
+
+            var twilio = new TwilioRestClient(AccountSid, AuthToken);
+            twilio.SendMessage(twilioPhoneNumber, message.Destination, message.Body);
+
             return Task.FromResult(0);
+            
         }
     }
 
@@ -70,7 +80,7 @@ namespace CarRent
             manager.PasswordValidator = new PasswordValidator
             {
                 RequiredLength = 6,
-                RequireNonLetterOrDigit = true,
+                RequireNonLetterOrDigit = false,
                 RequireDigit = true,
                 RequireLowercase = true,
                 RequireUppercase = true,

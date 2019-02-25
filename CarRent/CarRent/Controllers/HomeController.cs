@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 
 namespace CarRent.Controllers
 {
@@ -17,10 +19,13 @@ namespace CarRent.Controllers
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
+            
+            
 
             return View();
         }
 
+        [Authorize(Roles = "admin")]
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";

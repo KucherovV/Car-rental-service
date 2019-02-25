@@ -8,13 +8,13 @@
 @using (Html.BeginForm("AddPhoneNumber", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
     @Html.AntiForgeryToken()
-    <h4>Add a phone number</h4>
+    <h4>Here you should verify your phone number. You can do it later, but if you want to rent a car, you must do it.</h4>
     <hr />
     @Html.ValidationSummary("", new { @class = "text-danger" })
     <div class="form-group">
         @Html.LabelFor(m => m.Number, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            @Html.TextBoxFor(m => m.Number, new { @class = "form-control" })
+            @Html.EditorFor(m => m.Number, new { @class = "form-control" })
         </div>
     </div>
     <div class="form-group">

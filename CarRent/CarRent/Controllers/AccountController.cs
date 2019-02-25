@@ -75,8 +75,16 @@ namespace CarRent.Controllers
                 {
                     if (user.EmailConfirmed == true)
                     {
-                        await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-                        return RedirectToLocal(returnUrl);
+                        if(user.PhoneNumberConfirmed == true)
+                        {
+                            await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                            return RedirectToLocal(returnUrl);
+                        }
+                        else
+                        {
+                            return RedirectToAction("AddPhoneNumber", "Manage", new AddPhoneNumberViewModel());
+                        }
+                        
                     }
                     else
                     {
@@ -190,8 +198,6 @@ namespace CarRent.Controllers
                     await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
                     return View("ConfirmEmail");
-
-                    //return RedirectToAction("Index", "Home");
                 }
                 AddErrors(result);
             }
@@ -210,7 +216,11 @@ namespace CarRent.Controllers
                 return View("Error");
             }
             var result = await UserManager.ConfirmEmailAsync(userId, code);
-            return View(result.Succeeded ? "ConfirmEmail" : "Error");
+            //return View(result.Succeeded ? "ConfirmEmail" : "Error");
+            if (result.Succeeded)
+                return RedirectToAction("AddPhoneNumber", "Manage", new AddPhoneNumberViewModel());
+            else
+                return View("Error");
         }
 
         //

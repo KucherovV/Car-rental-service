@@ -111,3 +111,7 @@ C:\Users\Visstal\Desktop\Car-rental-service\CarRent\CarRent\bin\Microsoft.Identi
 C:\Users\Visstal\Desktop\Car-rental-service\CarRent\CarRent\bin\System.IdentityModel.Tokens.Jwt.dll
 C:\Users\Visstal\Desktop\Car-rental-service\CarRent\CarRent\bin\Microsoft.IdentityModel.Tokens.xml
 C:\Users\Visstal\Desktop\Car-rental-service\CarRent\CarRent\bin\System.IdentityModel.Tokens.Jwt.xml
+C:\Users\Visstal\Desktop\Car-rental-service\CarRent\CarRent\bin\RestSharp.dll
+C:\Users\Visstal\Desktop\Car-rental-service\CarRent\CarRent\bin\Twilio.Api.dll
+C:\Users\Visstal\Desktop\Car-rental-service\CarRent\CarRent\bin\Twilio.Api.pdb
+C:\Users\Visstal\Desktop\Car-rental-service\CarRent\CarRent\bin\Twilio.Api.xml

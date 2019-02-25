@@ -80,13 +80,7 @@ namespace CarRent.Models
         [Display(Name = "Surname")]
         [StringLength(20, ErrorMessage = "Surname lenght must be between 2 and 20 characters")]
         public string LastName { get; set; }
-
-        [Required]
-        [Display(Name = "Phone Number")]
-        [RegularExpression(@"^([0-9\-\(\) \+]{11,12})?$",
-            ErrorMessage = "Entered phone format is not valid. Format is 380123456789")]
-        public string PhoneNumber { get; set; }
-
+        
         [Required]
         [Display(Name = "ID Number")]
         [RegularExpression(@"^[А-Я]{2}\d[0-9]{5}", 
@@ -116,6 +110,7 @@ namespace CarRent.Models
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
+        [RegularExpression(@"^[a-zA-Z0-9]+$", ErrorMessage = "Password can only contain latin characters and numbers")]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
