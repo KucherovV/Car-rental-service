@@ -7,11 +7,17 @@ namespace CarRent.Models
 {
     public class IndexViewModel
     {
-        public bool HasPassword { get; set; }
-        public IList<UserLoginInfo> Logins { get; set; }
-        public string PhoneNumber { get; set; }
-        public bool TwoFactor { get; set; }
-        public bool BrowserRemembered { get; set; }
+
+
+        [Required]
+        [Display(Name = "First Name")]
+        [StringLength(20, ErrorMessage = "Name lenght must be between 2 and 20 characters")]
+        public string FirstName { get; set; }
+
+        [Required]
+        [Display(Name = "Surname")]
+        [StringLength(20, ErrorMessage = "Surname lenght must be between 2 and 20 characters")]
+        public string LastName { get; set; }
     }
 
     public class ManageLoginsViewModel

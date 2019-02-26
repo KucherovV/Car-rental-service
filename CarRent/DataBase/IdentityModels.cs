@@ -5,7 +5,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 
-namespace CarRent.Models
+namespace DataBase
 {
     public class ApplicationUser : IdentityUser
     {

@@ -7,6 +7,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using CarRent.Models;
+using DataBase;
 
 namespace CarRent.Controllers
 {
@@ -52,27 +53,36 @@ namespace CarRent.Controllers
 
         //
         // GET: /Manage/Index
-        public async Task<ActionResult> Index(ManageMessageId? message)
+        public ActionResult Index(/*ManageMessageId? message*/)
         {
-            ViewBag.StatusMessage =
-                message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
-                : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
-                : message == ManageMessageId.SetTwoFactorSuccess ? "Your two-factor authentication provider has been set."
-                : message == ManageMessageId.Error ? "An error has occurred."
-                : message == ManageMessageId.AddPhoneSuccess ? "Your phone number was added."
-                : message == ManageMessageId.RemovePhoneSuccess ? "Your phone number was removed."
-                : "";
-
             var userId = User.Identity.GetUserId();
+
+            var user = DB.GetEntityById<ApplicationUser>(userId) as ApplicationUser;
             var model = new IndexViewModel
             {
-                HasPassword = HasPassword(),
-                PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
-                TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
-                Logins = await UserManager.GetLoginsAsync(userId),
-                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
+                //HasPassword = HasPassword(),
+                //PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
+                //TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
+                //Logins = await UserManager.GetLoginsAsync(userId),
+                //BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
+
+                FirstName = user.FirstName,
+                LastName = user.LastName
             };
             return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult AccountEdited(IndexViewModel viewModel)
+        {
+            var user = DB.GetEntityById<ApplicationUser>(User.Identity.GetUserId()) as ApplicationUser;
+
+            user.FirstName = viewModel.FirstName;
+            user.LastName = viewModel.LastName;
+
+            DB.Update<ApplicationUser>(user.Id);
+
+            return RedirectToAction("Index", "Manage", viewModel);
         }
 
         //
@@ -103,7 +113,12 @@ namespace CarRent.Controllers
         // GET: /Manage/AddPhoneNumber
         public ActionResult AddPhoneNumber()
         {
-            return View();
+            AddPhoneNumberViewModel viewModel = new AddPhoneNumberViewModel()
+            {
+                Number = (DB.GetEntityById<ApplicationUser>(User.Identity.GetUserId()) as ApplicationUser).PhoneNumber
+            };
+
+            return View(viewModel);
         }
 
         //

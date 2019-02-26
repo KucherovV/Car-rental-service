@@ -54,6 +54,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DB.cs" />
     <Compile Include="IdentityModels.cs" />
     <Compile Include="Migrations\201902250152164_initialDB.cs" />
     <Compile Include="Migrations\201902250152164_initialDB.Designer.cs">

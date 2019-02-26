@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using CarRent.Models;
+using DataBase;
 
 namespace CarRent.Controllers
 {
@@ -75,9 +76,9 @@ namespace CarRent.Controllers
                 {
                     if (user.EmailConfirmed == true)
                     {
-                        if(user.PhoneNumberConfirmed == true)
+                        await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                        if (user.PhoneNumberConfirmed == true)
                         {
-                            await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                             return RedirectToLocal(returnUrl);
                         }
                         else
@@ -198,6 +199,10 @@ namespace CarRent.Controllers
                     await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
                     return View("ConfirmEmail");
+                }
+                else
+                {
+                    ModelState.AddModelError("Email", "This email is already takken");
                 }
                 AddErrors(result);
             }
