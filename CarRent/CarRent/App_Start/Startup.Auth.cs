@@ -7,6 +7,7 @@ using Microsoft.Owin.Security.Google;
 using Owin;
 using CarRent.Models;
 using DataBase;
+using Entities;
 
 namespace CarRent
 {

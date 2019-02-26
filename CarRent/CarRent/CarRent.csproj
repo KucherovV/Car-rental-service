@@ -274,6 +274,10 @@
       <Project>{eaf4d119-8665-46fe-8271-7592326c7671}</Project>
       <Name>DataBase</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Entities\Entities.csproj">
+      <Project>{7799f651-406e-4e3e-a1de-578610fa2d03}</Project>
+      <Name>Entities</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using CarRent.Models;
 using DataBase;
+using Entities;
 
 namespace CarRent.Controllers
 {

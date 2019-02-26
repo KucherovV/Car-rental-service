@@ -115,3 +115,6 @@ C:\Users\Visstal\Desktop\Car-rental-service\CarRent\CarRent\bin\RestSharp.dll
 C:\Users\Visstal\Desktop\Car-rental-service\CarRent\CarRent\bin\Twilio.Api.dll
 C:\Users\Visstal\Desktop\Car-rental-service\CarRent\CarRent\bin\Twilio.Api.pdb
 C:\Users\Visstal\Desktop\Car-rental-service\CarRent\CarRent\bin\Twilio.Api.xml
+C:\Users\Visstal\Desktop\Car-rental-service\CarRent\CarRent\bin\Entities.dll
+C:\Users\Visstal\Desktop\Car-rental-service\CarRent\CarRent\bin\Entities.pdb
+C:\Users\Visstal\Desktop\Car-rental-service\CarRent\CarRent\bin\Entities.dll.config

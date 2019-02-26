@@ -14,7 +14,7 @@ using CarRent.Models;
 using System.Net.Mail;
 using Twilio;
 using DataBase;
-
+using Entities;
 namespace CarRent
 {
     public class EmailService : IIdentityMessageService
