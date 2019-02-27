@@ -55,7 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DB.cs" />
-    <Compile Include="IdentityModels.cs" />
+    <Compile Include="ApplicationDbContext.cs" />
     <Compile Include="Migrations\201902250152164_initialDB.cs" />
     <Compile Include="Migrations\201902250152164_initialDB.Designer.cs">
       <DependentUpon>201902250152164_initialDB.cs</DependentUpon>
@@ -75,6 +75,14 @@
     <Compile Include="Migrations\201902250246530_fix_user_model_2.cs" />
     <Compile Include="Migrations\201902250246530_fix_user_model_2.Designer.cs">
       <DependentUpon>201902250246530_fix_user_model_2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201902270824158_added_Brands.cs" />
+    <Compile Include="Migrations\201902270824158_added_Brands.Designer.cs">
+      <DependentUpon>201902270824158_added_Brands.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201902270840478_fix_Brands.cs" />
+    <Compile Include="Migrations\201902270840478_fix_Brands.Designer.cs">
+      <DependentUpon>201902270840478_fix_Brands.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -98,6 +106,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201902250246530_fix_user_model_2.resx">
       <DependentUpon>201902250246530_fix_user_model_2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902270824158_added_Brands.resx">
+      <DependentUpon>201902270824158_added_Brands.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902270840478_fix_Brands.resx">
+      <DependentUpon>201902270840478_fix_Brands.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

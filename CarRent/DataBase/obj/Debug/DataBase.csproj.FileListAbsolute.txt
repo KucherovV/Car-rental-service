@@ -23,3 +23,5 @@ C:\Users\Visstal\Desktop\Car-rental-service\CarRent\DataBase\obj\Debug\DataBase.
 C:\Users\Visstal\Desktop\Car-rental-service\CarRent\DataBase\bin\Debug\Entities.dll
 C:\Users\Visstal\Desktop\Car-rental-service\CarRent\DataBase\bin\Debug\Entities.pdb
 C:\Users\Visstal\Desktop\Car-rental-service\CarRent\DataBase\bin\Debug\Entities.dll.config
+C:\Users\Visstal\Desktop\Car-rental-service\CarRent\DataBase\obj\Debug\DataBase.Migrations.added_Brands.resources
+C:\Users\Visstal\Desktop\Car-rental-service\CarRent\DataBase\obj\Debug\DataBase.Migrations.fix_Brands.resources

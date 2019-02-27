@@ -15,6 +15,7 @@ using System.Net.Mail;
 using Twilio;
 using DataBase;
 using Entities;
+
 namespace CarRent
 {
     public class EmailService : IIdentityMessageService
@@ -31,7 +32,6 @@ namespace CarRent
             client.Credentials = new System.Net.NetworkCredential(from, pass);
             client.EnableSsl = true;
 
-            // создаем письмо: message.Destination - адрес получателя
             var mail = new MailMessage(from, message.Destination);
             mail.Subject = message.Subject;
             mail.Body = message.Body;

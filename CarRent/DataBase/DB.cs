@@ -33,10 +33,10 @@ namespace DataBase
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <returns></returns>
-        public static object GetList<TEntity>()
+        public static IEnumerable<TEntity> GetList<TEntity>()
             where TEntity : class
         {
-            return context.Set<TEntity>();
+            return context.Set<TEntity>() as IEnumerable<TEntity>;
         }
 
         /// <summary>
