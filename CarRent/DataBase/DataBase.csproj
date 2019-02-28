@@ -84,6 +84,38 @@
     <Compile Include="Migrations\201902270840478_fix_Brands.Designer.cs">
       <DependentUpon>201902270840478_fix_Brands.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201902270957361_add_Cities.cs" />
+    <Compile Include="Migrations\201902270957361_add_Cities.Designer.cs">
+      <DependentUpon>201902270957361_add_Cities.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201902271141250_add_cars.cs" />
+    <Compile Include="Migrations\201902271141250_add_cars.Designer.cs">
+      <DependentUpon>201902271141250_add_cars.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201902271218172_car_fix.cs" />
+    <Compile Include="Migrations\201902271218172_car_fix.Designer.cs">
+      <DependentUpon>201902271218172_car_fix.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201902271445458_car_fix2.cs" />
+    <Compile Include="Migrations\201902271445458_car_fix2.Designer.cs">
+      <DependentUpon>201902271445458_car_fix2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201902271559264_car_fix3.cs" />
+    <Compile Include="Migrations\201902271559264_car_fix3.Designer.cs">
+      <DependentUpon>201902271559264_car_fix3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201902280803196_extendCarClass.cs" />
+    <Compile Include="Migrations\201902280803196_extendCarClass.Designer.cs">
+      <DependentUpon>201902280803196_extendCarClass.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201902281421565_changed_brands_source.cs" />
+    <Compile Include="Migrations\201902281421565_changed_brands_source.Designer.cs">
+      <DependentUpon>201902281421565_changed_brands_source.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201902281433080_removed_brand_controller.cs" />
+    <Compile Include="Migrations\201902281433080_removed_brand_controller.Designer.cs">
+      <DependentUpon>201902281433080_removed_brand_controller.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -112,6 +144,30 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201902270840478_fix_Brands.resx">
       <DependentUpon>201902270840478_fix_Brands.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902270957361_add_Cities.resx">
+      <DependentUpon>201902270957361_add_Cities.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902271141250_add_cars.resx">
+      <DependentUpon>201902271141250_add_cars.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902271218172_car_fix.resx">
+      <DependentUpon>201902271218172_car_fix.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902271445458_car_fix2.resx">
+      <DependentUpon>201902271445458_car_fix2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902271559264_car_fix3.resx">
+      <DependentUpon>201902271559264_car_fix3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902280803196_extendCarClass.resx">
+      <DependentUpon>201902280803196_extendCarClass.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902281421565_changed_brands_source.resx">
+      <DependentUpon>201902281421565_changed_brands_source.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902281433080_removed_brand_controller.resx">
+      <DependentUpon>201902281433080_removed_brand_controller.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

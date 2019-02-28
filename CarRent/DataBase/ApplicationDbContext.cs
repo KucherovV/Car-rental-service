@@ -31,7 +31,8 @@ namespace DataBase
         {
         }
 
-       public DbSet<Brand> Brands { get; set; }
+        public DbSet<City> Cities { get; set; }
+        public DbSet<Car> Cars { get; set; }
 
         public static ApplicationDbContext Create()
         {

@@ -25,3 +25,11 @@ C:\Users\Visstal\Desktop\Car-rental-service\CarRent\DataBase\bin\Debug\Entities.
 C:\Users\Visstal\Desktop\Car-rental-service\CarRent\DataBase\bin\Debug\Entities.dll.config
 C:\Users\Visstal\Desktop\Car-rental-service\CarRent\DataBase\obj\Debug\DataBase.Migrations.added_Brands.resources
 C:\Users\Visstal\Desktop\Car-rental-service\CarRent\DataBase\obj\Debug\DataBase.Migrations.fix_Brands.resources
+C:\Users\Visstal\Desktop\Car-rental-service\CarRent\DataBase\obj\Debug\DataBase.Migrations.add_Cities.resources
+C:\Users\Visstal\Desktop\Car-rental-service\CarRent\DataBase\obj\Debug\DataBase.Migrations.add_cars.resources
+C:\Users\Visstal\Desktop\Car-rental-service\CarRent\DataBase\obj\Debug\DataBase.Migrations.car_fix.resources
+C:\Users\Visstal\Desktop\Car-rental-service\CarRent\DataBase\obj\Debug\DataBase.Migrations.car_fix2.resources
+C:\Users\Visstal\Desktop\Car-rental-service\CarRent\DataBase\obj\Debug\DataBase.Migrations.car_fix3.resources
+C:\Users\Visstal\Desktop\Car-rental-service\CarRent\DataBase\obj\Debug\DataBase.Migrations.extendCarClass.resources
+C:\Users\Visstal\Desktop\Car-rental-service\CarRent\DataBase\obj\Debug\DataBase.Migrations.changed_brands_source.resources
+C:\Users\Visstal\Desktop\Car-rental-service\CarRent\DataBase\obj\Debug\DataBase.Migrations.removed_brand_controller.resources

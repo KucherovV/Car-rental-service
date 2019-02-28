@@ -7,18 +7,18 @@ using Entities;
 namespace CarRent.Controllers
 {
     [Authorize(Roles = "admin")]
-    public class BrandController : Controller
+    public class CityController : Controller
     {
         public ActionResult Index()
         {
-            var brands = DB.GetList<Brand>().ToList();
-            
-            if(brands == null)
+            var cities = DB.GetList<City>().ToList();
+
+            if (cities == null)
             {
-                brands = new List<Brand>();
+                cities = new List<City>();
             }
 
-            return View(brands);
+            return View(cities);
         }
 
         [HttpGet]
@@ -26,14 +26,14 @@ namespace CarRent.Controllers
         {
             return View();
         }
-      
+
         [HttpPost]
-        public ActionResult Create(Brand brand)
+        public ActionResult Create(City city)
         {
-            if (brand == null)
+            if (city == null)
                 return HttpNotFound();
 
-            DB.Save<Brand>(brand);
+            DB.Save<City>(city);
 
             return RedirectToAction("Index");
         }
@@ -41,8 +41,8 @@ namespace CarRent.Controllers
         [HttpGet]
         public ActionResult Delete(int id)
         {
-            var brand = DB.GetEntityById<Brand>(id) as Brand;
-            DB.Delete<Brand>(brand);
+            var city = DB.GetEntityById<City>(id) as City;
+            DB.Delete<City>(city);
 
             return RedirectToAction("Index");
         }

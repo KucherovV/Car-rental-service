@@ -82,6 +82,6 @@ namespace DataBase
             var entity = context.Set<TEntity>().Find(id);
             context.Entry(entity).State = EntityState.Modified;
             context.SaveChanges();
-        }
+        }       
     }
 }

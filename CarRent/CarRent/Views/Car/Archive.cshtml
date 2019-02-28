@@ -1,0 +1,105 @@
+﻿@model Entities.Car
+
+@{
+    ViewBag.Title = "Archive";
+}
+
+<h2>Archive</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Brand)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Brand)
+        </dd>     
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Model)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Model)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PassangerCount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PassangerCount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LuggageCount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LuggageCount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FuelConsumption)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FuelConsumption)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DoorCount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DoorCount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EngineType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EngineType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TransmissionType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TransmissionType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HasAirConditioning)
+        </dt>
+
+        <dd>
+            @if (Model.HasAirConditioning)
+            {
+                @:True
+            }
+            else
+            {
+                @:False
+            }
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FileName)
+        </dt>
+
+        <dd>
+            <img src="@Url.Content(Constants.ProductImagePath + Model.FileName)" width="300px" />
+        </dd>
+    </dl>
+</div>
+<p>
+    Are you sure you want to archive this car?<br />
+
+    @Html.ActionLink("Yes", "ArchiveConfirmed", new { id = Model.ID })
+    @Html.ActionLink("No", "Index")
+</p>
