@@ -17,3 +17,6 @@ C:\Users\Visstal\Desktop\Car-rental-service\CarRent\Database\obj\Debug\Database.
 C:\Users\Visstal\Desktop\Car-rental-service\CarRent\Database\obj\Debug\Database.csproj.CopyComplete
 C:\Users\Visstal\Desktop\Car-rental-service\CarRent\Database\obj\Debug\Database.dll
 C:\Users\Visstal\Desktop\Car-rental-service\CarRent\Database\obj\Debug\Database.pdb
+C:\Users\Visstal\Desktop\Car-rental-service\CarRent\Database\obj\Debug\Database.Migrations.block_reason.resources
+C:\Users\Visstal\Desktop\Car-rental-service\CarRent\Database\obj\Debug\DataBase.csproj.GenerateResource.cache
+C:\Users\Visstal\Desktop\Car-rental-service\CarRent\Database\obj\Debug\Database.Migrations.extended_user_class.resources

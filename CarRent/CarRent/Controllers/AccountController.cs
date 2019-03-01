@@ -187,7 +187,7 @@ namespace CarRent.Controllers
                     IDNumber = model.IDNumber,
                     TaxID = model.TaxID,
                     BirthDate = model.BirthDate,
-                    DrivingLicenseDate = model.DrivingLicenseDate
+                    DrivingLicenseDate = model.DrivingLicenseDate,
                 };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 var userManager = new ApplicationUserManager(new UserStore<ApplicationUser>(DB.GetContext()));

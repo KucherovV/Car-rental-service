@@ -56,6 +56,15 @@
   <ItemGroup>
     <Compile Include="ApplicationDbContext.cs" />
     <Compile Include="DB.cs" />
+    <Compile Include="Migrations\201903011214393_block_reason.cs" />
+    <Compile Include="Migrations\201903011214393_block_reason.Designer.cs">
+      <DependentUpon>201903011214393_block_reason.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903011634515_extended_user_class.cs" />
+    <Compile Include="Migrations\201903011634515_extended_user_class.Designer.cs">
+      <DependentUpon>201903011634515_extended_user_class.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -67,6 +76,14 @@
       <Project>{7799f651-406e-4e3e-a1de-578610fa2d03}</Project>
       <Name>Entities</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201903011214393_block_reason.resx">
+      <DependentUpon>201903011214393_block_reason.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903011634515_extended_user_class.resx">
+      <DependentUpon>201903011634515_extended_user_class.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

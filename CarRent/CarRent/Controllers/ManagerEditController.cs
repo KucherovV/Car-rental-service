@@ -40,7 +40,7 @@ namespace CarRent.Controllers
 
         public ActionResult Index()
         {
-            var users = DB.GetUsers().ToList();
+            var users = (DB.GetUsers() as IEnumerable<ApplicationUser>).ToList();
             var managers = new List<ManagerRegisterViewModel>();
 
             if (users == null)

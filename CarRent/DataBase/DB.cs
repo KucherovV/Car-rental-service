@@ -3,7 +3,7 @@ using System.Linq;
 using System.Data.Entity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity;
-using Entities;
+//using Entities;
 
 namespace DataBase
 {
@@ -91,7 +91,7 @@ namespace DataBase
             return context;
         }
 
-        public static IEnumerable<ApplicationUser> GetUsers()
+        public static object GetUsers()
         {
             return context.Users;
         }

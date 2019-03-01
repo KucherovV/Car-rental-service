@@ -10,14 +10,14 @@
     @Html.ActionLink("Create New", "Create")
 </p>
 
-@using (Html.BeginForm("Index", "Car", FormMethod.Get, new { @class = "navbar-form navbar-left" }))
+@using (Html.BeginForm("Index", "Admin", FormMethod.Get, new { @class = "navbar-form navbar-left" }))
 {
     <div class="form-group">
         @Html.TextBox("search", null, new { @class = "form-control", @placeholder = "Search Car" })
     </div>
     @:|
     <div class="checkbox">
-        @Html.CheckBox("showArchive", false) Show archive cars
+        @Html.CheckBox("showBlock", false) Show archive cars
     </div>
     @:|
     <button type="submit" class="btn btn-default">Submit</button>

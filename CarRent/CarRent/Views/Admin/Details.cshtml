@@ -1,0 +1,116 @@
+﻿@model CarRent.ViewModels.UserDetailsViewModel
+
+<h3>Are you sure you want to delete this manager?</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FirstName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LastName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LastName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BirthDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => Model.BirthDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DrivingLicenseDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => Model.DrivingLicenseDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IDNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => Model.IDNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PhoneNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => Model.PhoneNumber)
+        </dd>
+    </dl>
+</div>
+
+@if (!Model.IsBlocked)
+{
+    using (Html.BeginForm("BlockUser", "Admin"))
+    {
+        <hr />
+        <p>
+            Block this user
+        </p>
+        <div class="form-horizontal">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Blocking.Reason, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Blocking.Reason, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Blocking.Reason, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Blocking.BlockFinish, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Blocking.BlockFinish, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Blocking.BlockFinish, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            @Html.Hidden("userID", Model.UserID)
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Block" class="btn btn-danger" />
+                </div>
+            </div>
+        </div>
+    }
+}
+else
+{
+    using (Html.BeginForm("UnblockUser", "Admin"))
+    {
+        @Html.Hidden("userID", Model.UserID)
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Unblock" class="btn btn-success" />
+            </div>
+        </div>
+    }
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

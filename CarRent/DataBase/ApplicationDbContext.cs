@@ -34,11 +34,14 @@ namespace DataBase
         public DbSet<City> Cities { get; set; }
         public DbSet<Car> Cars { get; set; }
         public DbSet<AdditionalOption> AdditionalOptions { get; set; }
+        public DbSet<Blocking> Blockings { get; set; }
 
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();
         }
+
+        //public System.Data.Entity.DbSet<Entities.ApplicationUser> ApplicationUsers { get; set; }
 
         //public System.Data.Entity.DbSet<Entities.ApplicationUser> ApplicationUsers { get; set; }
 
