@@ -8,11 +8,6 @@ namespace Entities
 
         public bool Archived { get; set; }
 
-        //public int BrandID { get; set; }
-
-        //[Display(Name = "Brand")]
-        //public virtual Brand Brand { get; set; }
-
         public string Brand { get; set; }
 
         public string Model { get; set; }

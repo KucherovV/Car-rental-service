@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{EAF4D119-8665-46FE-8271-7592326C7671}</ProjectGuid>
+    <ProjectGuid>{16BFF7B6-8E84-439D-A805-263FDF490348}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DataBase</RootNamespace>
-    <AssemblyName>DataBase</AssemblyName>
+    <RootNamespace>Database</RootNamespace>
+    <AssemblyName>Database</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -32,10 +32,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.2\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
@@ -54,121 +54,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DB.cs" />
     <Compile Include="ApplicationDbContext.cs" />
-    <Compile Include="Migrations\201902250152164_initialDB.cs" />
-    <Compile Include="Migrations\201902250152164_initialDB.Designer.cs">
-      <DependentUpon>201902250152164_initialDB.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201902250224061_extended_user_model.cs" />
-    <Compile Include="Migrations\201902250224061_extended_user_model.Designer.cs">
-      <DependentUpon>201902250224061_extended_user_model.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201902250231054_fix_user_model.cs" />
-    <Compile Include="Migrations\201902250231054_fix_user_model.Designer.cs">
-      <DependentUpon>201902250231054_fix_user_model.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201902250235335_fix_user_model_1.cs" />
-    <Compile Include="Migrations\201902250235335_fix_user_model_1.Designer.cs">
-      <DependentUpon>201902250235335_fix_user_model_1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201902250246530_fix_user_model_2.cs" />
-    <Compile Include="Migrations\201902250246530_fix_user_model_2.Designer.cs">
-      <DependentUpon>201902250246530_fix_user_model_2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201902270824158_added_Brands.cs" />
-    <Compile Include="Migrations\201902270824158_added_Brands.Designer.cs">
-      <DependentUpon>201902270824158_added_Brands.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201902270840478_fix_Brands.cs" />
-    <Compile Include="Migrations\201902270840478_fix_Brands.Designer.cs">
-      <DependentUpon>201902270840478_fix_Brands.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201902270957361_add_Cities.cs" />
-    <Compile Include="Migrations\201902270957361_add_Cities.Designer.cs">
-      <DependentUpon>201902270957361_add_Cities.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201902271141250_add_cars.cs" />
-    <Compile Include="Migrations\201902271141250_add_cars.Designer.cs">
-      <DependentUpon>201902271141250_add_cars.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201902271218172_car_fix.cs" />
-    <Compile Include="Migrations\201902271218172_car_fix.Designer.cs">
-      <DependentUpon>201902271218172_car_fix.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201902271445458_car_fix2.cs" />
-    <Compile Include="Migrations\201902271445458_car_fix2.Designer.cs">
-      <DependentUpon>201902271445458_car_fix2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201902271559264_car_fix3.cs" />
-    <Compile Include="Migrations\201902271559264_car_fix3.Designer.cs">
-      <DependentUpon>201902271559264_car_fix3.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201902280803196_extendCarClass.cs" />
-    <Compile Include="Migrations\201902280803196_extendCarClass.Designer.cs">
-      <DependentUpon>201902280803196_extendCarClass.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201902281421565_changed_brands_source.cs" />
-    <Compile Include="Migrations\201902281421565_changed_brands_source.Designer.cs">
-      <DependentUpon>201902281421565_changed_brands_source.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201902281433080_removed_brand_controller.cs" />
-    <Compile Include="Migrations\201902281433080_removed_brand_controller.Designer.cs">
-      <DependentUpon>201902281433080_removed_brand_controller.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="DB.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201902250152164_initialDB.resx">
-      <DependentUpon>201902250152164_initialDB.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201902250224061_extended_user_model.resx">
-      <DependentUpon>201902250224061_extended_user_model.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201902250231054_fix_user_model.resx">
-      <DependentUpon>201902250231054_fix_user_model.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201902250235335_fix_user_model_1.resx">
-      <DependentUpon>201902250235335_fix_user_model_1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201902250246530_fix_user_model_2.resx">
-      <DependentUpon>201902250246530_fix_user_model_2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201902270824158_added_Brands.resx">
-      <DependentUpon>201902270824158_added_Brands.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201902270840478_fix_Brands.resx">
-      <DependentUpon>201902270840478_fix_Brands.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201902270957361_add_Cities.resx">
-      <DependentUpon>201902270957361_add_Cities.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201902271141250_add_cars.resx">
-      <DependentUpon>201902271141250_add_cars.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201902271218172_car_fix.resx">
-      <DependentUpon>201902271218172_car_fix.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201902271445458_car_fix2.resx">
-      <DependentUpon>201902271445458_car_fix2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201902271559264_car_fix3.resx">
-      <DependentUpon>201902271559264_car_fix3.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201902280803196_extendCarClass.resx">
-      <DependentUpon>201902280803196_extendCarClass.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201902281421565_changed_brands_source.resx">
-      <DependentUpon>201902281421565_changed_brands_source.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201902281433080_removed_brand_controller.resx">
-      <DependentUpon>201902281433080_removed_brand_controller.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Entities\Entities.csproj">

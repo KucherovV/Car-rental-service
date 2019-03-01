@@ -54,6 +54,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdditionalOption.cs" />
     <Compile Include="ApplicationUser.cs" />
     <Compile Include="Brand.cs" />
     <Compile Include="Car.cs" />

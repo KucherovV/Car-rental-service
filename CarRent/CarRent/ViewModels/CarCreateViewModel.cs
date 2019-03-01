@@ -15,11 +15,6 @@ namespace CarRent.ViewModels
         [Display(Name = "Transmission Type")]
         public SelectList TransmissionTypes { get; set; }
 
-        //[Display(Name = "Brand")]
-        //public int BrandID { get; set; }
-
-        //public Brand Brand { get; set; }
-
         public string Brand { get; set; }
 
         public int CarID { get; set; }

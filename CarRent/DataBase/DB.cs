@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Data.Entity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.AspNet.Identity;
+using Entities;
 
 namespace DataBase
 {
@@ -17,14 +20,13 @@ namespace DataBase
         public static object GetEntityById<TEntity>(int id)
             where TEntity : class
         {
-            
+
             return context.Set<TEntity>().Find(id);
         }
 
         public static object GetEntityById<TEntity>(string id)
            where TEntity : class
         {
-
             return context.Set<TEntity>().Find(id);
         }
 
@@ -82,6 +84,42 @@ namespace DataBase
             var entity = context.Set<TEntity>().Find(id);
             context.Entry(entity).State = EntityState.Modified;
             context.SaveChanges();
-        }       
+        }
+
+        public static ApplicationDbContext GetContext()
+        {
+            return context;
+        }
+
+        public static IEnumerable<ApplicationUser> GetUsers()
+        {
+            return context.Users;
+        }
     }
+
+
+    //public static void AsignRoleWithUser(string roleName, ApplicationUser user)
+    //{
+    //    var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
+    //    //var manager = new ApplicationUserManager(new UserStore<Entities.ApplicationUser>(context.Get<ApplicationDbContext>()));
+    //    var userRoles = new List<IdentityUserRole>();
+    //    //var userManager = new ApplicationUserManager(new UserStore<ApplicationUser>(context));
+
+
+
+
+    //    string roleID = context.Roles.SingleOrDefault(r => r.Name == roleName).Id;
+
+    //    IdentityUserRole userRole = new IdentityUserRole
+    //    {
+    //        RoleId = roleID,
+    //        UserId = user.Id
+    //    };
+
+    //    context.R
+
+
+    //}
 }
+
+

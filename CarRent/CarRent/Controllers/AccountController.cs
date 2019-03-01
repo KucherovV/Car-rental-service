@@ -11,6 +11,7 @@ using Microsoft.Owin.Security;
 using CarRent.Models;
 using DataBase;
 using Entities;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace CarRent.Controllers
 {
@@ -189,6 +190,9 @@ namespace CarRent.Controllers
                     DrivingLicenseDate = model.DrivingLicenseDate
                 };
                 var result = await UserManager.CreateAsync(user, model.Password);
+                var userManager = new ApplicationUserManager(new UserStore<ApplicationUser>(DB.GetContext()));
+                userManager.AddToRole(user.Id, "user");
+
                 if (result.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);

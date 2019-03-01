@@ -185,12 +185,14 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AdditionalOptionController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\CarController.cs" />
     <Compile Include="Controllers\CityController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\ManagerEditController.cs" />
     <Compile Include="CustomValidation\BirthDateValidation.cs" />
     <Compile Include="CustomValidation\CheckDriverLicense.cs" />
     <Compile Include="Global.asax.cs">
@@ -201,6 +203,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\CarCreateViewModel.cs" />
+    <Compile Include="ViewModels\ManagerRegisterViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -266,6 +269,12 @@
     <Content Include="Views\Error\FileUploadLimitExceeded.cshtml" />
     <Content Include="Views\Car\Edit.cshtml" />
     <Content Include="Views\Car\Archive.cshtml" />
+    <Content Include="Views\AdditionalOption\Index.cshtml" />
+    <Content Include="Views\AdditionalOption\Create.cshtml" />
+    <Content Include="Views\AdditionalOption\Delete.cshtml" />
+    <Content Include="Views\ManagerEdit\Register.cshtml" />
+    <Content Include="Views\ManagerEdit\Index.cshtml" />
+    <Content Include="Views\ManagerEdit\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -285,8 +294,8 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DataBase\DataBase.csproj">
-      <Project>{eaf4d119-8665-46fe-8271-7592326c7671}</Project>
+    <ProjectReference Include="..\Database\DataBase.csproj">
+      <Project>{16bff7b6-8e84-439d-a805-263fdf490348}</Project>
       <Name>DataBase</Name>
     </ProjectReference>
     <ProjectReference Include="..\Entities\Entities.csproj">
