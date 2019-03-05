@@ -11,7 +11,7 @@ namespace Entities
         public string UserID { get; set; }
 
         [Required]
-        [StringLength(30, MinimumLength = 5, ErrorMessage = "Max lenght is 30 characters")]
+        [StringLength(30, MinimumLength = 5, ErrorMessage = "Message lenght must be betwrrn 5 and 30 characters")]
         public string Reason { get; set; }
 
         public DateTime BlockStart { get; set; }

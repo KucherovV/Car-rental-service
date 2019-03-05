@@ -34,11 +34,6 @@ namespace CarRent.Controllers
             return View(cars);
         }
 
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
         [HttpGet]
         public ActionResult Create()
         {
@@ -47,6 +42,7 @@ namespace CarRent.Controllers
                 BrandsList = new SelectList(Enumerations.Brands.OrderBy(b =>b)),
                 EngineTypes = new SelectList(Enumerations.EngineTypes),
                 TransmissionTypes = new SelectList(Enumerations.TransmissionTypes),
+                GradeList = new SelectList(Enumerations.Grades)
             };
 
             return View(carCreateViewModel);
@@ -80,11 +76,10 @@ namespace CarRent.Controllers
 
             if (ModelState.IsValid)
             {
-                //string brand = DB.GetEntityById<Brand>(carCreateViewModel.BrandID).ToString();
-
                 Car car = new Car()
                 {
                     Brand = carCreateViewModel.Brand,
+                    Grade = carCreateViewModel.SelectedGrade,
                     DoorCount = carCreateViewModel.DoorCount,
                     EngineType = carCreateViewModel.SelectedEngineType,
                     FuelConsumption = carCreateViewModel.FuelConsumption,
@@ -108,36 +103,51 @@ namespace CarRent.Controllers
         }
 
         [HttpGet]
-        public ActionResult Edit(int id)
-        {
-            var car = DB.GetEntityById<Car>(id) as Car;
-
-            if (car != null)
+        public ActionResult Edit(string idUrl)
+        {        
+            try
             {
-                CarCreateViewModel carCreateViewModel = new CarCreateViewModel()
+                int id = int.Parse(idUrl);
+
+                var car = DB.GetEntityById<Car>(id) as Car;
+
+                if (car != null)
                 {
-                    CarID = id,
-                    Brand = car.Brand,
-                    BrandsList = new SelectList(Enumerations.Brands.OrderBy(b => b)),
-                    TransmissionTypes = new SelectList(Enumerations.TransmissionTypes),
-                    EngineTypes = new SelectList(Enumerations.EngineTypes),
-                    DoorCount = car.DoorCount,
-                    FileName = car.FileName,
-                    FuelConsumption = car.FuelConsumption,
-                    HasAirConditioning = car.HasAirConditioning,
-                    LuggageCount = car.LuggageCount,
-                    Model = car.Model,
-                    PassangerCount = car.PassangerCount,
-                    SelectedEngineType = car.EngineType,
-                    SelectedTransmissionType = car.TransmissionType
-                };
+                    CarCreateViewModel carCreateViewModel = new CarCreateViewModel()
+                    {
+                        CarID = id,
+                        Brand = car.Brand,
+                        BrandsList = new SelectList(Enumerations.Brands.OrderBy(b => b)),
+                        TransmissionTypes = new SelectList(Enumerations.TransmissionTypes),
+                        EngineTypes = new SelectList(Enumerations.EngineTypes),
+                        GradeList = new SelectList(Enumerations.Grades),
+                        SelectedGrade = car.Grade,
+                        DoorCount = car.DoorCount,
+                        FileName = car.FileName,
+                        FuelConsumption = car.FuelConsumption,
+                        HasAirConditioning = car.HasAirConditioning,
+                        LuggageCount = car.LuggageCount,
+                        Model = car.Model,
+                        PassangerCount = car.PassangerCount,
+                        SelectedEngineType = car.EngineType,
+                        SelectedTransmissionType = car.TransmissionType
+                    };
 
-                return View(carCreateViewModel);
+                    return View(carCreateViewModel);
+                }
+                else
+                {
+                    return RedirectToAction("CarNotFound", "Error");
+                }
             }
-            else
+            catch (ArgumentException)
             {
-                return HttpNotFound();
-            }        
+                return RedirectToAction("WrongUrl", "Error");
+            }
+            catch (FormatException)
+            {
+                return RedirectToAction("WrongUrl", "Error");
+            }
         }
 
         [HttpPost]
@@ -163,10 +173,9 @@ namespace CarRent.Controllers
             }            
             if (ModelState.IsValid)
             {
-                //string brand = DB.GetEntityById<Brand>(carCreateViewModel.BrandID).ToString();
-
                 Car car = DB.GetEntityById<Car>(carCreateViewModel.CarID) as Car;
                 car.Brand = carCreateViewModel.Brand;
+                car.Grade = carCreateViewModel.SelectedGrade;
                 car.DoorCount = carCreateViewModel.DoorCount;
                 car.EngineType = carCreateViewModel.SelectedEngineType;
                 car.FuelConsumption = carCreateViewModel.FuelConsumption;
@@ -189,41 +198,69 @@ namespace CarRent.Controllers
                 return View(carCreateViewModel);
             }
         }
-        
+
         [HttpGet]
-        public ActionResult Archive(int id)
+        public ActionResult Archive(string idUrl)
         {
-            var car = DB.GetEntityById<Car>(id) as Car;
-            if (!car.Archived)
+            try
             {
+                int id = int.Parse(idUrl);
+
+                var car = DB.GetEntityById<Car>(id) as Car;
                 if (car != null)
                 {
-                    return View(car);
+                    if (!car.Archived)
+                    {
+                        return View(car);
+                    }
+                    else
+                    {
+                        car.Archived = false;
+                        DB.Update<Car>(car.ID);
+                        return RedirectToAction("Index");
+                    }
+                }
+                else
+                {
+                    return RedirectToAction("CarNotFound", "Error");
                 }
             }
-            else
+            catch (ArgumentException)
             {
-                car.Archived = false;
-                DB.Update<Car>(car.ID);
-                return RedirectToAction("Index");
+                return RedirectToAction("WrongUrl", "Error");
             }
-
-            return HttpNotFound();
+            catch (FormatException)
+            {
+                return RedirectToAction("WrongUrl", "Error");
+            }
         }
 
         [HttpGet]
-        public ActionResult ArchiveConfirmed(int id)
+        public ActionResult ArchiveConfirmed(string idUrl)
         {
-            var car = DB.GetEntityById<Car>(id) as Car;
-            if(car != null)
+            try
             {
-                car.Archived = true;
-                DB.Update<Car>(car.ID);
-                return RedirectToAction("Index");
+                int id = int.Parse(idUrl);
+
+                var car = DB.GetEntityById<Car>(id) as Car;
+                if (car != null)
+                {
+                    car.Archived = true;
+                    DB.Update<Car>(car.ID);
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    return RedirectToAction("CarNotFound", "Error");
+                }
             }
-            else
+            catch (ArgumentException)
             {
-                return HttpNotFound();
+                return RedirectToAction("WrongUrl", "Error");
+            }
+            catch (FormatException)
+            {
+                return RedirectToAction("WrongUrl", "Error");
             }
         }    
 
@@ -248,5 +285,86 @@ namespace CarRent.Controllers
             }
             img.Save(Constants.ProductImagePath + Path.GetFileName(file.FileName));         
         }      
+
+        [HttpGet]
+        public ActionResult ManagePricing(string idUrl)
+        {
+            try
+            {
+                int id = int.Parse(idUrl);
+
+                var car = DB.GetEntityById<Car>(id) as Car;              
+                if (car != null)
+                {
+                    var carPricing = (DB.GetList<CarTimePricing>().ToList()).SingleOrDefault(cp => cp.CarID == car.ID) ?? new CarTimePricing();
+                    var carPricingViewModel = new CarPricingViewModel()
+                    {
+                        CarID = car.ID,
+                        CarName = car.Brand + " " + car.Model,
+                        PricePer1Day = carPricing.PricePer1Day,
+                        PricePer3Days = carPricing.PricePer3Days,
+                        PricePer7Days = carPricing.PricePer7Days,
+                        PricePer14Days = carPricing.PricePer14Days,
+                        PricePerMonth = carPricing.PricePerMonth,
+                        PricePerMoreThanMonth = carPricing.PricePerMoreThanMonth
+                    };
+
+                    return View(carPricingViewModel);
+                }
+                else
+                {
+                    return RedirectToAction("CarNotFound", "Error");
+                }
+            }
+            catch (ArgumentException)
+            {
+                return RedirectToAction("WrongUrl", "Error");
+            }
+            catch (FormatException)
+            {
+                return RedirectToAction("WrongUrl", "Error");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult ManagePricing(CarPricingViewModel carPricingViewModel)
+        {
+            if(carPricingViewModel != null)
+            {
+                bool isInDB = false;
+
+                var carPricing = (DB.GetList<CarTimePricing>().ToList())
+                    .SingleOrDefault(cp => cp.CarID == carPricingViewModel.CarID);
+               
+                if (carPricing == null)
+                {
+                    carPricing = new CarTimePricing();
+                    isInDB = true;
+                }
+
+                carPricing.CarID = carPricingViewModel.CarID;
+                carPricing.PricePer1Day = carPricingViewModel.PricePer1Day;
+                carPricing.PricePer3Days = carPricingViewModel.PricePer3Days;
+                carPricing.PricePer7Days = carPricingViewModel.PricePer7Days;
+                carPricing.PricePer14Days = carPricingViewModel.PricePer14Days;
+                carPricing.PricePerMonth = carPricingViewModel.PricePerMonth;
+                carPricing.PricePerMoreThanMonth = carPricingViewModel.PricePerMoreThanMonth;
+
+                if (isInDB)
+                {
+                    DB.Save<CarTimePricing>(carPricing);
+                }
+                else
+                {
+                    DB.Update<CarTimePricing>(carPricing.ID);
+                }
+
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return RedirectToAction("UnknownError", "Error");
+            }
+        }
     }
 }

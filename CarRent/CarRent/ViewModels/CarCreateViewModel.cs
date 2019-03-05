@@ -15,12 +15,15 @@ namespace CarRent.ViewModels
         [Display(Name = "Transmission Type")]
         public SelectList TransmissionTypes { get; set; }
 
+        [Display(Name = "Grade")]
+        public SelectList GradeList { get; set; }
+
         public string Brand { get; set; }
 
         public int CarID { get; set; }
 
         [Required(ErrorMessage = "Model field is required")]
-        [StringLength(20, ErrorMessage = "Model name must be less than 20 characters", MinimumLength = 2)]
+        [StringLength(12, ErrorMessage = "Model name must be less than 12 characters", MinimumLength = 2)]
         public string Model { get; set; }
 
         [Required(ErrorMessage = "Passanger Count field is required")]
@@ -53,5 +56,7 @@ namespace CarRent.ViewModels
         public string SelectedEngineType { get; set; }
 
         public string SelectedTransmissionType { get; set; }
+
+        public string SelectedGrade { get; set; }
     }
 }

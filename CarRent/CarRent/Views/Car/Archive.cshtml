@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "Archive";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
 <h2>Archive</h2>
@@ -100,6 +101,6 @@
 <p>
     Are you sure you want to archive this car?<br />
 
-    @Html.ActionLink("Yes", "ArchiveConfirmed", new { id = Model.ID })
+    @Html.ActionLink("Yes", "ArchiveConfirmed", new { idUrl = Model.ID.ToString() })
     @Html.ActionLink("No", "Index")
 </p>

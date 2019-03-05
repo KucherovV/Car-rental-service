@@ -1,16 +1,6 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Index Admin page";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
 <h2>Index Admin</h2>
-
-@Html.ActionLink("Manage cities", "Index", "City")
-<br />
-@Html.ActionLink("Manage cars", "Index", "Car")
-<br />
-@Html.ActionLink("Manage additional options", "Index", "AdditionalOption")
-<br />
-@Html.ActionLink("Manage managers", "Index", "ManagerEdit")
-<br />
-@Html.ActionLink("Manage users", "UserList", "Admin")

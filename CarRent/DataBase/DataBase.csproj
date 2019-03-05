@@ -64,6 +64,14 @@
     <Compile Include="Migrations\201903011634515_extended_user_class.Designer.cs">
       <DependentUpon>201903011634515_extended_user_class.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201903021416381_added_car_pricing.cs" />
+    <Compile Include="Migrations\201903021416381_added_car_pricing.Designer.cs">
+      <DependentUpon>201903021416381_added_car_pricing.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903031350336_added_grade_car.cs" />
+    <Compile Include="Migrations\201903031350336_added_grade_car.Designer.cs">
+      <DependentUpon>201903031350336_added_grade_car.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -83,6 +91,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201903011634515_extended_user_class.resx">
       <DependentUpon>201903011634515_extended_user_class.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903021416381_added_car_pricing.resx">
+      <DependentUpon>201903021416381_added_car_pricing.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903031350336_added_grade_car.resx">
+      <DependentUpon>201903031350336_added_grade_car.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

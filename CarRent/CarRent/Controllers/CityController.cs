@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using DataBase;
@@ -39,12 +40,21 @@ namespace CarRent.Controllers
         }
 
         [HttpGet]
-        public ActionResult Delete(int id)
+        public ActionResult Delete(string idUrl)
         {
-            var city = DB.GetEntityById<City>(id) as City;
-            DB.Delete<City>(city);
+            try
+            {
+                int id = int.Parse(idUrl);
 
-            return RedirectToAction("Index");
+                var city = DB.GetEntityById<City>(id) as City;
+                DB.Delete<City>(city);
+
+                return RedirectToAction("Index");
+            }
+            catch (ArgumentException)
+            {
+                return RedirectToAction("WrongUrl", "Error");
+            }
         }
     }
 }

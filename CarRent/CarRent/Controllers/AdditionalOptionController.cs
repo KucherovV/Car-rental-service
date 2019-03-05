@@ -8,6 +8,7 @@ using Entities;
 
 namespace CarRent.Controllers
 {
+    [Authorize(Roles = "admin")]
     public class AdditionalOptionController : Controller
     {
         public ActionResult Index()
@@ -43,31 +44,58 @@ namespace CarRent.Controllers
         }
       
         [HttpGet]
-        public ActionResult Delete(int id)
+        public ActionResult Delete(string idUrl)
         {
-            var additionalOption = DB.GetEntityById<AdditionalOption>(id) as AdditionalOption;
-            if(additionalOption != null)
+            try
             {
-                return View(additionalOption);
+                int id = int.Parse(idUrl);
+
+                var additionalOption = DB.GetEntityById<AdditionalOption>(id) as AdditionalOption;
+
+                if (additionalOption != null)
+                {
+                    return View(additionalOption);
+                }
+                else
+                {
+                    return RedirectToAction("AdditionalOptionNotFound", "Error");
+                }
             }
-            else
+            catch (ArgumentException)
             {
-                return HttpNotFound();
+                return RedirectToAction("WrongUrl", "Error");
+            }
+            catch (FormatException)
+            {
+                return RedirectToAction("WrongUrl", "Error");
             }
         }
 
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(string idUrl)
         {
-            var additionalOption = DB.GetEntityById<AdditionalOption>(id) as AdditionalOption;
-            if (additionalOption != null)
+            try
             {
-                DB.Delete<AdditionalOption>(additionalOption);
+                int id = int.Parse(idUrl);
 
-                return RedirectToAction("Index");
+                var additionalOption = DB.GetEntityById<AdditionalOption>(id) as AdditionalOption;
+                if (additionalOption != null)
+                {
+                    DB.Delete<AdditionalOption>(additionalOption);
+
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    return RedirectToAction("AdditionalOptionNotFound", "Error");
+                }
             }
-            else
+            catch (ArgumentException)
             {
-                return HttpNotFound();
+                return RedirectToAction("WrongUrl", "Error");
+            }
+            catch (FormatException)
+            {
+                return RedirectToAction("WrongUrl", "Error");
             }
         }
     }

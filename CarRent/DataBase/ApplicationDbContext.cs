@@ -35,6 +35,7 @@ namespace DataBase
         public DbSet<Car> Cars { get; set; }
         public DbSet<AdditionalOption> AdditionalOptions { get; set; }
         public DbSet<Blocking> Blockings { get; set; }
+        public DbSet<CarTimePricing> CarTimePricings { get; set; }
 
         public static ApplicationDbContext Create()
         {

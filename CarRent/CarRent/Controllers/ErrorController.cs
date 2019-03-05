@@ -9,5 +9,35 @@ namespace CarRent.Controllers
         {
             return View();
         }
+
+        public ActionResult CarNotFound()
+        {
+            return View();
+        }
+
+        public ActionResult AdditionalOptionNotFound()
+        {
+            return View();
+        }
+
+        public ActionResult ManagerNotFound()
+        {
+            return View();
+        }
+
+        public ActionResult UserNotFound()
+        {
+            return View();
+        }
+
+        public ActionResult WrongUrl()
+        {
+            return View();
+        }
+
+        public ActionResult UnknownError()
+        {
+            return View();
+        }
     }
 }

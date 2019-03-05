@@ -20,3 +20,5 @@ C:\Users\Visstal\Desktop\Car-rental-service\CarRent\Database\obj\Debug\Database.
 C:\Users\Visstal\Desktop\Car-rental-service\CarRent\Database\obj\Debug\Database.Migrations.block_reason.resources
 C:\Users\Visstal\Desktop\Car-rental-service\CarRent\Database\obj\Debug\DataBase.csproj.GenerateResource.cache
 C:\Users\Visstal\Desktop\Car-rental-service\CarRent\Database\obj\Debug\Database.Migrations.extended_user_class.resources
+C:\Users\Visstal\Desktop\Car-rental-service\CarRent\Database\obj\Debug\Database.Migrations.added_car_pricing.resources
+C:\Users\Visstal\Desktop\Car-rental-service\CarRent\Database\obj\Debug\Database.Migrations.added_grade_car.resources

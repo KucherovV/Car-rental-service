@@ -123,7 +123,7 @@ namespace CarRent.Controllers
             }
             else
             {
-                return HttpNotFound();
+                return RedirectToAction("ManagerNotFound", "Error");
             }
         }
 
@@ -138,7 +138,7 @@ namespace CarRent.Controllers
             }
             else
             {
-                return HttpNotFound();
+                return RedirectToAction("ManagerNotFound", "Error");
             }
             
         }

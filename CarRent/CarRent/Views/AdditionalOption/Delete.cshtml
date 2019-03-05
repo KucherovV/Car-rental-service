@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
 <h2>Delete</h2>
@@ -29,6 +30,6 @@
 </div>
 <p>
     Are you sure you want to delete this additional option? <br />
-    @Html.ActionLink("Yes", "DeleteConfirmed", new { id = Model.ID }) 
+    @Html.ActionLink("Yes", "DeleteConfirmed", new { idUrl = Model.ID.ToString() }) 
     @Html.ActionLink("No", "Index")
 </p>

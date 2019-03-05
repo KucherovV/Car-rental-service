@@ -193,6 +193,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ManagerEditController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="CustomValidation\BirthDateValidation.cs" />
     <Compile Include="CustomValidation\CheckDriverLicense.cs" />
     <Compile Include="Global.asax.cs">
@@ -203,6 +204,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\CarCreateViewModel.cs" />
+    <Compile Include="ViewModels\CarPricingViewModel.cs" />
+    <Compile Include="ViewModels\CarUserIndexViewModel.cs" />
+    <Compile Include="ViewModels\CarUserListItemViewModel.cs" />
     <Compile Include="ViewModels\ManagerRegisterViewModel.cs" />
     <Compile Include="ViewModels\UserDetailsViewModel.cs" />
     <Compile Include="ViewModels\UserIndexViewModel.cs" />
@@ -212,6 +216,7 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\ListStyleSheet.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -224,6 +229,8 @@
     <Content Include="Scripts\jquery-3.3.1.slim.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -279,6 +286,16 @@
     <Content Include="Views\ManagerEdit\Delete.cshtml" />
     <Content Include="Views\Admin\UserList.cshtml" />
     <Content Include="Views\Admin\Details.cshtml" />
+    <Content Include="Views\Error\CarNotFound.cshtml" />
+    <Content Include="Views\Error\WrongUrl.cshtml" />
+    <Content Include="Views\Error\AdditionalOptionNotFound.cshtml" />
+    <Content Include="Views\Error\ManagerNotFound.cshtml" />
+    <Content Include="Views\Error\UserNotFound.cshtml" />
+    <Content Include="Views\Account\BlockPage.cshtml" />
+    <Content Include="Views\Shared\_AdminLayout.cshtml" />
+    <Content Include="Views\Car\ManagePricing.cshtml" />
+    <Content Include="Views\Error\UnknownError.cshtml" />
+    <Content Include="Views\User\CarList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

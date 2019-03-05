@@ -1,9 +1,13 @@
 ﻿@model IEnumerable<CarRent.ViewModels.UserIndexViewModel>
+@{ 
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
 
+<h2>List of all users</h2>
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-<h4>List of all users</h4>
+
 @using (Html.BeginForm("UserList", "Admin", FormMethod.Get, new { @class = "navbar-form navbar-left" }))
 {
     <div class="form-group">

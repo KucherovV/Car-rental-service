@@ -94,5 +94,22 @@ namespace Entities
                 };
             }
         }
+
+        public static List<string> Grades
+        {
+            get
+            {
+                return new List<string>()
+                {
+                    "Cheap",
+                    "Comfort",
+                    "Premium",
+                    "Suv",
+                    "Sport",
+                    "Classic",
+                    "Sport Classic"
+                };
+            }
+        }
     }
 }

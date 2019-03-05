@@ -11,6 +11,7 @@ using Microsoft.Owin.Security;
 using CarRent.Models;
 using DataBase;
 using Entities;
+using System.Collections.Generic;
 using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace CarRent.Controllers
@@ -78,16 +79,25 @@ namespace CarRent.Controllers
                 {
                     if (user.EmailConfirmed == true)
                     {
-                        await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-                        if (user.PhoneNumberConfirmed == true)
+                        if (!user.IsBlocked)
                         {
-                            return RedirectToLocal(returnUrl);
+                            await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                            if (user.PhoneNumberConfirmed == true)
+                            {
+                                return RedirectToLocal(returnUrl);
+                            }
+                            else
+                            {
+                                return RedirectToAction("AddPhoneNumber", "Manage", new AddPhoneNumberViewModel());
+                            }
                         }
                         else
                         {
-                            return RedirectToAction("AddPhoneNumber", "Manage", new AddPhoneNumberViewModel());
+                            var blocking = (DB.GetList<Blocking>() as IEnumerable<Blocking>)
+                                .SingleOrDefault(b => b.UserID == user.Id) as Blocking;
+
+                            return View("BlockPage", blocking);
                         }
-                        
                     }
                     else
                     {

@@ -1,4 +1,7 @@
 ﻿@model CarRent.ViewModels.UserDetailsViewModel
+@{ 
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
 
 <h3>Are you sure you want to delete this manager?</h3>
 <div>
@@ -99,6 +102,26 @@
 }
 else
 {
+    <h4>This user is blocked</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Blocking.Reason)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Blocking.Reason)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Blocking.BlockFinish)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Blocking.BlockFinish)
+        </dd>
+    </dl>
+
     using (Html.BeginForm("UnblockUser", "Admin"))
     {
         @Html.Hidden("userID", Model.UserID)

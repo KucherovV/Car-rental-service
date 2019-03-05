@@ -18,6 +18,12 @@ namespace CarRent
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
+
+            routes.MapRoute(
+                name: "StringID",
+                url: "{controller}/{action}",
+                defaults: new { controller = "Home", action = "Index" }
+            );
         }
     }
 }

@@ -56,20 +56,28 @@ namespace CarRent.Controllers
             {
                 foreach (var user in users)
                 {
-                    if (userManager.GetRoles(user.Id).First() == "user")
+                    var userIndexViewModel = new UserIndexViewModel()
                     {
-                        usersOnly.Add(new UserIndexViewModel()
+                        UserID = user.Id,
+                        BirthDate = user.BirthDate.ToShortDateString(),
+                        DrivingLicenseDate = user.DrivingLicenseDate.ToShortDateString(),
+                        Email = user.Email,
+                        FirstName = user.FirstName,
+                        LastName = user.LastName,
+                        IDNumber = user.IDNumber,
+                        PhoneNumber = !String.IsNullOrEmpty(user.PhoneNumber) ? user.PhoneNumber : "none",
+                        IsBlocked = user.IsBlocked
+                    };
+                    try
+                    {
+                        if (userManager.GetRoles(user.Id).First() == "user")
                         {
-                            UserID = user.Id,
-                            BirthDate = user.BirthDate.ToShortDateString(),
-                            DrivingLicenseDate = user.DrivingLicenseDate.ToShortDateString(),
-                            Email = user.Email,
-                            FirstName = user.FirstName,
-                            LastName = user.LastName,
-                            IDNumber = user.IDNumber,
-                            PhoneNumber = !String.IsNullOrEmpty(user.PhoneNumber) ? user.PhoneNumber : "none",
-                            IsBlocked = user.IsBlocked
-                        });
+                            usersOnly.Add(userIndexViewModel);
+                        }
+                    }
+                    catch (InvalidOperationException)
+                    {
+                        usersOnly.Add(userIndexViewModel);
                     }
                 }
             }
@@ -112,11 +120,17 @@ namespace CarRent.Controllers
                     IsBlocked = user.IsBlocked
                 };
 
+                if (user.IsBlocked)
+                {
+                    userViewModel.Blocking =  (DB.GetList<Blocking>() as IEnumerable<Blocking>)
+                        .SingleOrDefault(b => b.UserID == user.Id) as Blocking;
+                }
+
                 return View(userViewModel);
             }
             else
             {
-                return HttpNotFound();
+                return RedirectToAction("UserNotFound", "Error");
             }
         }
 
@@ -156,9 +170,10 @@ namespace CarRent.Controllers
 
                 return RedirectToAction("UserList");
             }
-
-            return HttpNotFound();
-
+            else
+            {
+                return RedirectToAction("UserNotFound", "Error");
+            }
         }
 
         public ActionResult UnblockUser(string userID)
@@ -179,7 +194,7 @@ namespace CarRent.Controllers
             }
             else
             {
-                return HttpNotFound();
+                return RedirectToAction("UserNotFound", "Error");
             }
         }
     }

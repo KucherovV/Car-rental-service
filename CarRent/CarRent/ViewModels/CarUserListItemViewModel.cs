@@ -1,0 +1,40 @@
+﻿using Entities;
+using System.ComponentModel.DataAnnotations;
+
+namespace CarRent.ViewModels
+{
+    public class CarUserListItemViewModel
+    {
+        public string Brand { get; set; }
+
+        public string Model { get; set; }
+
+        public string Grade { get; set; }
+
+        [Display(Name = "Passangers Count")]
+        public int PassangerCount { get; set; }
+
+        [Display(Name = "Luggage count")]
+        public int LuggageCount { get; set; }
+
+        [Display(Name = "Fuel Consumption")]
+        public int FuelConsumption { get; set; }
+
+        [Display(Name = "Door Count")]
+        public int DoorCount { get; set; }
+
+        [Display(Name = "Engine Type")]
+        public string EngineType { get; set; }
+
+        [Display(Name = "Transmission Type")]
+        public string TransmissionType { get; set; }
+
+        [Display(Name = "Has Air Conditioning")]
+        public bool HasAirConditioning { get; set; }
+
+        [Display(Name = "Image")]
+        public string FileName { get; set; }
+
+        public CarTimePricing CarTimePricing { get; set; }
+    }
+}

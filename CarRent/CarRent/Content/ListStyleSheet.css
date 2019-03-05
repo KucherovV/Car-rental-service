@@ -1,0 +1,124 @@
+﻿.carList {
+    background-color: #ebf0fa;
+}
+
+.car {
+    border: 1px solid #d6e0f5;
+    border-radius: 8px;
+    margin: 10px 0;
+    background-color: white;
+}
+
+.name {
+    text-align: left;
+    font-size: 15px;
+    font-weight: 700;
+    color: #444;
+    font-family: 'Poppins', sans-serif;
+    background-color: #99ccff;
+    padding: 2px 5px;
+    border: 1px solid #99ccff;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.grade {
+    text-align: right;
+    font-size: 17px;
+    font-weight: 700;
+    display: inline-block;
+    float: right;
+    padding-right: 5px;
+    color: #444;
+    font-family: 'Poppins', sans-serif;
+}
+
+img {
+    width: 320px;
+    height: 180px;
+    border-radius: 10px;
+    margin: 5px;
+    float: left;
+}
+
+.carInfo {
+    padding-top: 15px;
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+}
+
+table {
+    border: 1px solid lightgray;
+    margin: 0 5px 5px 5px;
+    width: 98%;
+    height: 60px;
+    font-weight: 600;
+    border-radius: 15px;
+    border-collapse: separate !important;
+}
+
+    table td {
+        border: 1px solid lightgray;
+        text-align: center;
+        background-color: #f6f6f6;
+        width: 14%;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 500;
+    }
+
+.minPrice {
+    padding-left: 5px;
+    margin-top: 5px;
+    margin-bottom: 7px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 17px;
+ 
+}
+    .minPrice span {
+        padding-left: 5px;
+        font-family: 'Poppins', sans-serif;
+        font-size: 20px;
+    }
+
+.rent {
+    float: right;
+    padding: 5px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+}
+
+hr {
+    border: none;
+    border-top: 1px #CCCCCC solid;
+    height: 1px;
+    margin: 0;
+    padding: 0;
+}
+
+.sideNav {
+}
+
+    .sideNav .carSearch{
+        margin-top: 15px;
+    }
+
+    .sideNav .h4{
+        margin-top: 25px;
+        margin-bottom:5px;
+    }
+
+
+    .grades {
+        height: 130px !important;
+        overflow-y: hidden;
+        background-image: none;
+    }
+
+    .engines {
+        overflow-y: hidden;
+        background-image: none;
+    }
+
+    .apply{
+        margin-top:15px;
+    }

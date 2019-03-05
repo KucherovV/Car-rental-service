@@ -1,9 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Data.Entity;
-using Microsoft.AspNet.Identity.EntityFramework;
-using Microsoft.AspNet.Identity;
-//using Entities;
 
 namespace DataBase
 {
@@ -94,6 +91,21 @@ namespace DataBase
         public static object GetUsers()
         {
             return context.Users;
+        }
+
+        public static bool Contains<TEntity>(TEntity entity)
+            where TEntity : class
+        {
+            //var entity = context.Set<TEntity>().Find(id);
+            //if (entity == null)
+            //    return false;
+            //else
+            //    return true;
+
+            if (context.Set<TEntity>().Contains(entity))
+                return true;
+            else
+                return false;
         }
     }
 
