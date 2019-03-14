@@ -35,7 +35,22 @@ namespace CarRent.Controllers
             return View();
         }
 
+        public ActionResult CityNotFound()
+        {
+            return View();
+        }
+
+        public ActionResult OfficeNotFound()
+        {
+            return View();
+        }
+
         public ActionResult UnknownError()
+        {
+            return View();
+        }
+
+        public ActionResult OrderNotFound()
         {
             return View();
         }

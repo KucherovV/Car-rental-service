@@ -7,6 +7,7 @@ using DataBase;
 using CarRent.ViewModels;
 using System.IO;
 using System.Web.Helpers;
+using System.Collections.Generic;
 
 namespace CarRent.Controllers
 {
@@ -14,6 +15,11 @@ namespace CarRent.Controllers
     public class CarController : Controller
     {
         public ActionResult Index(string search, bool? showArchive)
+        {
+            return View();
+        }
+
+        public ActionResult GetCarList(string search, bool? showArchive)
         {
             var cars = DB.GetList<Car>();
 
@@ -31,8 +37,27 @@ namespace CarRent.Controllers
                 cars = cars.Where(c => c.Brand.Contains(search) || c.Model.Contains(search)).ToList();
             }
 
-            return View(cars);
+            var viewModels = new List<CarListAdminViewModel>();
+            foreach (var car in cars)
+            {
+                var pricing = (DB.GetList<CarTimePricing>()).SingleOrDefault(p => p.CarID == car.ID);
+                bool hasValue;
+                if (pricing == null)
+                    hasValue = false;
+                else
+                    hasValue = true;
+
+                viewModels.Add(new CarListAdminViewModel()
+                {
+                    Car = car,
+                    HasPricing = hasValue
+                });
+
+            }
+            
+            return PartialView(viewModels);
         }
+
 
         [HttpGet]
         public ActionResult Create()
@@ -88,7 +113,8 @@ namespace CarRent.Controllers
                     Model = carCreateViewModel.Model,
                     PassangerCount = carCreateViewModel.PassangerCount,
                     TransmissionType = carCreateViewModel.SelectedTransmissionType,
-                    FileName = file.FileName
+                    FileName = file.FileName,
+                    BrandModel = carCreateViewModel.Brand + " " +  carCreateViewModel.Model
                 };
 
                 DB.Save<Car>(car);
@@ -184,8 +210,9 @@ namespace CarRent.Controllers
                 car.Model = carCreateViewModel.Model;
                 car.PassangerCount = carCreateViewModel.PassangerCount;
                 car.TransmissionType = carCreateViewModel.SelectedTransmissionType;
+                car.BrandModel = carCreateViewModel.Brand + " " + carCreateViewModel.Model;
 
-                if(file != null)
+                if (file != null)
                     car.FileName = file.FileName;
                
                 DB.Update<Car>(car.ID);

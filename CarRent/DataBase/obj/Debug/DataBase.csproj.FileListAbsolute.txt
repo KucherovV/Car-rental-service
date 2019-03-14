@@ -22,3 +22,17 @@ C:\Users\Visstal\Desktop\Car-rental-service\CarRent\Database\obj\Debug\DataBase.
 C:\Users\Visstal\Desktop\Car-rental-service\CarRent\Database\obj\Debug\Database.Migrations.extended_user_class.resources
 C:\Users\Visstal\Desktop\Car-rental-service\CarRent\Database\obj\Debug\Database.Migrations.added_car_pricing.resources
 C:\Users\Visstal\Desktop\Car-rental-service\CarRent\Database\obj\Debug\Database.Migrations.added_grade_car.resources
+C:\Users\Visstal\Desktop\Car-rental-service\CarRent\Database\obj\Debug\Database.Migrations.added_stock.resources
+C:\Users\Visstal\Desktop\Car-rental-service\CarRent\Database\obj\Debug\Database.Migrations.fix.resources
+C:\Users\Visstal\Desktop\Car-rental-service\CarRent\Database\obj\Debug\Database.Migrations.added_offices.resources
+C:\Users\Visstal\Desktop\Car-rental-service\CarRent\Database\obj\Debug\Database.Migrations.office_model_extended.resources
+C:\Users\Visstal\Desktop\Car-rental-service\CarRent\Database\obj\Debug\Database.Migrations.office_model_extended1.resources
+C:\Users\Visstal\Desktop\Car-rental-service\CarRent\Database\obj\Debug\Database.Migrations.office_model_fix2.resources
+C:\Users\Visstal\Desktop\Car-rental-service\CarRent\Database\obj\Debug\Database.Migrations.ext_office_model.resources
+C:\Users\Visstal\Desktop\Car-rental-service\CarRent\Database\obj\Debug\Database.Migrations.ext_car_model.resources
+C:\Users\Visstal\Desktop\Car-rental-service\CarRent\Database\obj\Debug\Database.Migrations.added_orders.resources
+C:\Users\Visstal\Desktop\Car-rental-service\CarRent\Database\obj\Debug\Database.Migrations.extendOrderModel.resources
+C:\Users\Visstal\Desktop\Car-rental-service\CarRent\Database\obj\Debug\Database.Migrations.ext_Order.resources
+C:\Users\Visstal\Desktop\Car-rental-service\CarRent\Database\obj\Debug\Database.Migrations.added_order_feedbacks.resources
+C:\Users\Visstal\Desktop\Car-rental-service\CarRent\Database\obj\Debug\Database.Migrations.fix_order_feedbacks.resources
+C:\Users\Visstal\Desktop\Car-rental-service\CarRent\Database\obj\Debug\Database.Migrations.extProblemClass.resources

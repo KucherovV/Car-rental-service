@@ -1,0 +1,59 @@
+﻿@model CarRent.ViewModels.OrderCreateViewModel
+@{
+    ViewBag.Title = "RentForm";
+}
+
+
+<div class="container">
+    <div class="row">
+        <h2>Rent a Car</h2>
+        <div class="col-md-7">
+            @using (Ajax.BeginForm("RentForm", "User", new AjaxOptions() { UpdateTargetId = "results"}))
+            {          
+                <div id="results">
+                    @Html.Action("GetForm", new { viewModel = Model})
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Create" class="btn btn-default" />
+                    </div>
+                </div>
+            }
+        </div>
+
+        <div class="col-md-5">
+            <h3>@Model.Car.BrandModel</h3>
+            <img src="@Url.Content(Constants.ProductImagePath + Model.Car.FileName)" width="400px" />
+
+            <table>
+                <tr>
+                    <td><b>Days</b></td>
+                    <td>30+</td>
+                    <td>30-15</td>
+                    <td>14-8</td>
+                    <td>7-4</td>
+                    <td>3-2</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td><b>Price</b></td>
+                    <td>@Model.CarTimePricing.PricePerMoreThanMonth$</td>
+                    <td>@Model.CarTimePricing.PricePerMonth$</td>
+                    <td>@Model.CarTimePricing.PricePer14Days$</td>
+                    <td>@Model.CarTimePricing.PricePer7Days$</td>
+                    <td>@Model.CarTimePricing.PricePer3Days$</td>
+                    <td>@Model.CarTimePricing.PricePer1Day$</td>
+                </tr>
+            </table>
+
+            <p class="rentTime"></p>
+            <p class="price"></p>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+

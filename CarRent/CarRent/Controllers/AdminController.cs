@@ -45,7 +45,12 @@ namespace CarRent.Controllers
         }
 
         [HttpGet]
-        public ActionResult UserList(bool? showBlock, string search)
+        public ActionResult UserList()
+        {        
+            return View();
+        }
+
+        public ActionResult GetUserList(bool? showBlock, string search)
         {
             var users = (DB.GetUsers() as IEnumerable<ApplicationUser>).ToList();
             var usersOnly = new List<UserIndexViewModel>();
@@ -98,8 +103,7 @@ namespace CarRent.Controllers
                 || u.Email.Contains(search)).ToList();
             }
 
-
-            return View(usersOnly);
+            return PartialView(usersOnly);
         }
 
         public ActionResult Details(string id)

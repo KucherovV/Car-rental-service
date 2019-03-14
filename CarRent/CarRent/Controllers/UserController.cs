@@ -6,50 +6,66 @@ using System.Web.Mvc;
 using Entities;
 using DataBase;
 using CarRent.ViewModels;
+using Microsoft.AspNet.Identity;
+using Newtonsoft.Json;
 
 namespace CarRent.Controllers
 {
+    [Authorize]
     public class UserController : Controller
     {
-        public ActionResult CarList(string search, 
+        public ActionResult CarList()
+        {           
+            var pricing = DB.GetList<CarTimePricing>().ToList();
+
+            IEnumerable<Car> cars = DB.GetList<Car>().Where(c => c.Archived == false);
+            var carsInDB = new List<string>();
+            foreach(var car in cars)
+            {
+                carsInDB.Add(car.Brand);
+            }
+
+            CarUserIndexViewModel viewModel = new CarUserIndexViewModel()
+            {
+                Sortings = new SelectList(new List<string>()
+                {
+                    "Default",
+                    "Price Low",
+                    "Price High",
+                    "Name"
+                }),
+                Grades = new MultiSelectList(Enumerations.Grades),
+                EngineTypes = new MultiSelectList(Enumerations.EngineTypes),
+                MinPricePerDay = 0,
+                MaxPricePerDay = pricing.Max(p => p.PricePer1Day),
+                Brands = new SelectList(carsInDB.Distinct()),
+                Cities = new SelectList(DB.GetList<City>(), "ID", "Name")
+            };
+
+            return View(viewModel);
+        }
+
+        public ActionResult GetCars(string search,
+            int? CityID,
             List<string> SelectedBrands,
-            string SortBy, 
-            List<string> SelectedGrades, 
-            List<string> SelectedEngineTypes, 
-            int? MinPricePerDay, 
+            string SortBy,
+            List<string> SelectedGrades,
+            List<string> SelectedEngineTypes,
+            int? MinPricePerDay,
             int? MaxPricePerDay)
         {
-            //get list of all cars
             IEnumerable<Car> cars = DB.GetList<Car>().Where(c => c.Archived == false);
-            var carsInDb = cars;
-
-            //filter by search string
+            var items = new List<CarUserListItemViewModel>().ToList();
+            
             if (!string.IsNullOrEmpty(search))
             {
-                cars = cars.Where(c => c.Brand.ToLower().Contains(search) || c.Model.ToLower().Contains(search));               
+                cars = cars.Where(c => c.Brand.ToLower().Contains(search) || c.Model.ToLower().Contains(search));
             }
-           
             cars = cars.ToList();
-            var viewModelItems = new List<CarUserListItemViewModel>();
-            var viewModel = new CarUserIndexViewModel();
 
-            //initialize viewModel
-            viewModel.Sortings = new SelectList(new List<string>()
+            if(cars.Count() != 0)
             {
-                "Default",
-                "Price Low",
-                "Price High",
-                "Name"
-            });
-            viewModel.Grades = new MultiSelectList(Enumerations.Grades);
-            viewModel.EngineTypes = new MultiSelectList(Enumerations.EngineTypes);
-
-            //if cars exist
-            if (cars.Count() != 0)
-            {
-                //filter by brand
-
-                if (SelectedBrands != null)
+                if(SelectedBrands != null)
                 {
                     var tempCars = new List<Car>();
                     foreach (var item in cars)
@@ -59,10 +75,12 @@ namespace CarRent.Controllers
                     }
                     cars = tempCars;
                 }
+
                 foreach (var car in cars)
                 {
-                    viewModelItems.Add(new CarUserListItemViewModel
+                    items.Add(new CarUserListItemViewModel
                     {
+                        ID = car.ID,
                         Brand = car.Brand,
                         DoorCount = car.DoorCount,
                         EngineType = car.EngineType,
@@ -78,103 +96,312 @@ namespace CarRent.Controllers
                     });
                 }
 
-                //sort 
                 switch (SortBy)
                 {
                     case "Price Low":
                         {
-                            viewModelItems = viewModelItems.OrderBy(vm => vm.CarTimePricing.PricePer1Day).ToList();
+                            items = items.OrderBy(vm => vm.CarTimePricing.PricePer1Day).ToList();
                         }
                         break;
 
                     case "Price High":
                         {
-                            viewModelItems = viewModelItems.OrderByDescending(vm => vm.CarTimePricing.PricePer1Day).ToList();
+                            items = items.OrderByDescending(vm => vm.CarTimePricing.PricePer1Day).ToList();
                         }
                         break;
 
                     case "Name":
                         {
-                            viewModelItems = viewModelItems.OrderBy(vm => vm.Brand).ToList();
+                            items = items.OrderBy(vm => vm.Brand).ToList();
                         }
                         break;
                 }
-              
-                //filter by grades
+
                 if (SelectedGrades != null)
                 {
                     var temp = new List<CarUserListItemViewModel>();
-                    foreach (var item in viewModelItems)
+                    foreach (var item in items)
                     {
                         if (SelectedGrades.Contains(item.Grade))
                             temp.Add(item);
                     }
-                    viewModelItems = temp;
+                    items = temp;
                 }
 
-                //filter by engineType
-                if (SelectedEngineTypes != null)
+                if(SelectedEngineTypes != null)
                 {
                     var temp = new List<CarUserListItemViewModel>();
-                    foreach (var item in viewModelItems)
+                    foreach (var item in items)
                     {
                         if (SelectedEngineTypes.Contains(item.EngineType))
                             temp.Add(item);
                     }
-                    viewModelItems = temp;
+                    items = temp;
                 }
 
-                //set price range if null
-                if (MinPricePerDay == null)
+                if(MinPricePerDay == null)
                 {
                     var pricing = DB.GetList<CarTimePricing>().ToList();
-                    viewModel.MaxPricePerDay = pricing.Max(p => p.PricePer1Day);
-
                     MinPricePerDay = 0;
-                    MaxPricePerDay = viewModel.MaxPricePerDay;
-                }
-                //check for error
-                else
-                {
-                    if(MinPricePerDay > MaxPricePerDay)
-                    {
-                        ModelState.AddModelError("MinPricePerDay", "Min price cannot be higher than max");
-                        viewModel.Items = viewModelItems;
-
-                        var brands1 = new List<string>();
-                        foreach (var item in carsInDb)
-                        {
-                            brands1.Add(item.Brand);
-                        }
-                        viewModel.Brands = new MultiSelectList(brands1.Distinct().ToList());
-
-                        return View(viewModel);
-                    }
+                    MaxPricePerDay = pricing.Max(p => p.PricePer1Day);
                 }
 
-                //filter by price
                 var temp1 = new List<CarUserListItemViewModel>();
-                foreach(var item in viewModelItems)
+                foreach (var item in items)
                 {
-                    if(item.CarTimePricing.PricePer1Day >= MinPricePerDay && item.CarTimePricing.PricePer1Day <= MaxPricePerDay)
+                    if (item.CarTimePricing.PricePer1Day >= MinPricePerDay && item.CarTimePricing.PricePer1Day <= MaxPricePerDay)
                     {
                         temp1.Add(item);
                     }
                 }
-                viewModelItems = temp1;           
+                items = temp1;
+
             }
 
-            viewModel.Items = viewModelItems;
-
-            //filter distinct brands
-            var brands = new List<string>();
-            foreach(var item in carsInDb)
+            foreach(var item in items)
             {
-                brands.Add(item.Brand);
-            }
-            viewModel.Brands = new MultiSelectList(brands.Distinct().ToList());
+                item.IconDescription = new Dictionary<string, string>(); 
 
-            return View(viewModel);
+                string path = Constants.IconsPath;
+                switch (item.EngineType)
+                {
+                    case "Petrol":
+                        {
+                            item.IconDescription.Add(path + "gas.png", "Gas");
+                        }
+                        break;
+                    case "Hybrid":
+                        {
+                            item.IconDescription.Add(path + "hybrid.png", "Hybrid");
+                        }
+                        break;
+                    case "Electro":
+                        {
+                            item.IconDescription.Add(path + "electric.png", "Electro");
+                        }
+                        break;                 
+                }
+
+                switch (item.TransmissionType)
+                {
+                    case "Automatic":
+                        {
+                            item.IconDescription.Add(path + "automatic.png", "Automatic");
+                        }
+                        break;
+                    case "SemiAutomatic":
+                        {
+                            item.IconDescription.Add(path + "automatic.png", "SemiAutomatic");
+                        }
+                        break;
+                    case "Manual":
+                        {
+                            item.IconDescription.Add(path + "manual.png", "Manual");
+                        }
+                        break;
+                }
+
+                item.IconDescription.Add(path + "fuel.png", item.FuelConsumption + "L/100km");
+                item.IconDescription.Add(path + "people.png", item.PassangerCount.ToString());
+                item.IconDescription.Add(path + "door1.png", item.DoorCount.ToString());
+
+                if (item.HasAirConditioning)
+                    item.IconDescription.Add(path + "conditioner.png", "Has condition");
+                else
+                {
+                    item.IconDescription.Add(path + "conditioner.png", "No condition");
+                }
+            }
+
+            var finalList = new List<CarUserListItemViewModel>();
+            foreach(var item in items)
+            {
+                var pricing = (DB.GetList<CarTimePricing>()).SingleOrDefault(p => p.CarID == item.ID);
+                if(pricing != null)
+                {
+                    finalList.Add(item);
+                }
+            }
+
+            if (CityID == null)
+            {
+                var cities = DB.GetList<City>().ToList();
+                if (cities != null)
+                {
+                    CityID = cities.First().ID;                 
+                }
+            }
+
+            var stocks = (DB.GetList<Stock>()).Where(s => s.CityID == CityID);
+            foreach (var item in finalList)
+            {
+                var stock = stocks.SingleOrDefault(s => s.CarID == item.ID) ?? new Stock();
+                if (stock.Amount == 0)
+                {
+                    item.IsInStock = false;
+                }
+                else
+                {
+                    item.IsInStock = true;
+                }
+            }
+
+            return PartialView(finalList.OrderByDescending(fl => fl.IsInStock));
+        }   
+
+        [HttpGet]
+        public ActionResult RentForm(string idUrl)
+        {
+            var user = DB.GetEntityById<ApplicationUser>(User.Identity.GetUserId()) as ApplicationUser;
+            if (!user.PhoneNumberConfirmed)
+            {
+                return RedirectToAction("AddPhoneNumber", "Manage");
+            }
+
+            try
+            {
+                int id = int.Parse(idUrl);
+                var car = DB.GetEntityById<Car>(id) as Car;
+
+                if (car != null)
+                {
+
+                    var viewModel = new OrderCreateViewModel()
+                    {
+                        CarID = car.ID,
+                        Cars = new SelectList(DB.GetList<Car>(), "ID", "BrandModel"),
+                        Offices = new SelectList(DB.GetList<Office>(), "ID", "PlaceDescription"),
+                        AdditionalOptions = DB.GetList<AdditionalOption>().ToList(),
+                        CarTimePricing = DB.GetList<CarTimePricing>().SingleOrDefault(ctp => ctp.CarID == car.ID) as CarTimePricing ?? new CarTimePricing(),
+                        RentStartDate = null,
+                        Car = car
+                    };
+                 
+                    return View(viewModel);
+                }
+                else
+                {
+                    return RedirectToAction("CarNotFound", "Error");
+                }
+            }
+            catch (ArgumentException)
+            {
+                return RedirectToAction("WrongUrl", "Error");
+            }
+            catch (FormatException)
+            {
+                return RedirectToAction("WrongUrl", "Error");
+            }
+        }
+
+        [HttpGet]
+        public ActionResult GetForm(OrderCreateViewModel viewModel)
+        {
+            return PartialView("GetForm", viewModel);         
+        }    
+
+        [HttpPost]
+        public ActionResult RentForm(OrderCreateViewModel viewModel)
+        {
+            if (viewModel != null)
+            {
+                viewModel.UserID = User.Identity.GetUserId();
+
+                viewModel.AdditionalOptions = new List<AdditionalOption>();
+                var allOptions = DB.GetList<AdditionalOption>().ToList();
+                for(int i = 0; i < allOptions.Count; i++)
+                {
+                    if (viewModel.OptionsSelected[i])
+                    {
+                        viewModel.AdditionalOptions.Add(allOptions[i]);
+                    }
+                }
+
+                var pricing = (DB.GetList<CarTimePricing>()).SingleOrDefault(p => p.CarID == viewModel.CarID);
+                int price = 0;
+
+
+                int days = ((DateTime)viewModel.RentFinishDate - (DateTime)viewModel.RentStartDate).Days;
+
+                var PricePer1Day = pricing.PricePer1Day;
+                var PricePer3Days = pricing.PricePer3Days;
+                var PricePer7Days = pricing.PricePer7Days;
+                var PricePer14Days = pricing.PricePer14Days;
+                var PricePerMonth = pricing.PricePerMonth;
+                var PricePerMoreThanMonth = pricing.PricePerMoreThanMonth;
+
+                if (days <= 1)
+                {
+                    price = 1 * PricePer1Day;
+                }
+                else if (days <= 3)
+                {
+                    price = days * PricePer3Days;
+                }
+                else if (days <= 7)
+                {
+                    price = days * PricePer7Days;
+                }
+                else if (days <= 14)
+                {
+                    price = days * PricePer14Days;
+                }
+                else if (days <= 30)
+                {
+                    price = days * PricePerMonth;
+                }
+                else
+                {
+                    price = days * PricePerMoreThanMonth;
+                }
+
+                foreach(var option in viewModel.AdditionalOptions)
+                {
+                    price += option.Price;
+                }
+
+
+                if (ModelState.IsValid)
+                {
+                    var order = new Order()
+                    {
+                        UserID = viewModel.UserID,
+                        CarID = viewModel.CarID,
+                        AdditionalOptionsJson = JsonConvert.SerializeObject(viewModel.AdditionalOptions),
+                        RentStartDateTime = (DateTime)viewModel.RentStartDate,
+                        RentFinishDateTime = (DateTime)viewModel.RentFinishDate,
+                        OrderDateTime = DateTime.Now,
+                        OfficeIdStart = viewModel.OfficeIdStart,
+                        OfficeIdEnd = viewModel.OfficeIdEnd,
+                        Comment = viewModel.Comment,
+                        Price = price,
+                        Status = "Waiting for manager review"
+                    };
+
+                    DB.Save<Order>(order);
+
+                    return JavaScript("window.location = 'http://localhost:55702/User/OrderSuccess'");
+                }
+                else
+                {
+                    viewModel.Cars = new SelectList(DB.GetList<Car>(), "ID", "BrandModel");
+                    viewModel.Offices = new SelectList(DB.GetList<Office>(), "ID", "PlaceDescription");
+                    viewModel.AdditionalOptions = DB.GetList<AdditionalOption>().ToList();
+                    viewModel.CarTimePricing = DB.GetList<CarTimePricing>().SingleOrDefault(ctp => ctp.CarID == viewModel.CarID) as CarTimePricing;
+
+                    return View("GetForm", viewModel);
+                }
+            }
+            else
+            {
+                return RedirectToAction("CarNotFound", "Error");
+            }
+        }
+
+        public ActionResult OrderSuccess()
+        {
+            return View();
         }
     }
+
 }

@@ -1,0 +1,51 @@
+﻿@using Entities
+@model IEnumerable<CarRent.ViewModels.CarListAdminViewModel>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Car.Brand)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Car.Model)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Car.Brand)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Car.Model)
+            </td>
+            <td>
+                @if (item.Car.Archived)
+                {
+                    @Html.ActionLink("Edit", "Edit", new { idUrl = item.Car.ID.ToString() }, new { @class = "text-danger" }) @:|
+                    @Html.ActionLink("Unarchive", "Archive", new { idUrl = item.Car.ID.ToString() }, new { @class = "text-danger" }) @:|
+                    @Html.ActionLink("Pricing", "ManagePricing", new { idUrl = item.Car.ID.ToString() }, new { @class = "text-danger" })
+                }
+                else
+                {
+                    @Html.ActionLink("Edit", "Edit", new { idUrl = item.Car.ID.ToString() }) @:|
+                    @Html.ActionLink("To archive", "Archive", new { idUrl = item.Car.ID.ToString() }) @:|
+
+                    if (item.HasPricing)
+                    {
+                        @Html.ActionLink("Pricing", "ManagePricing", new { idUrl = item.Car.ID.ToString() })
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Has no pricing", "ManagePricing", new { idUrl = item.Car.ID.ToString() },  new { @class = "text-danger" })
+                    }
+                }
+
+            </td>
+        </tr>
+    }
+
+</table>

@@ -1,0 +1,175 @@
+﻿@model CarRent.ViewModels.OrderCreateViewModel
+@{
+    ViewBag.Title = "GetForm";
+}
+
+@Html.LabelFor(model => model.CarID, htmlAttributes: new { @class = "formLabel" })
+@Html.DropDownListFor(model => model.CarID, Model.Cars, new { @class = "form-control" })
+
+<label class="formLabel">Datetime and plate to pick up a car</label>
+@Html.DropDownListFor(model => model.OfficeIdStart, Model.Offices, new { @class = "form-control" })
+
+<div class="form-group">
+    <div class='input-group date' id='picker1'>
+        <input type="text" class="form-control" name="RentStartDate" id="RentStartDate" />
+        <span class="input-group-addon">
+            <span class="glyphicon glyphicon-calendar"></span>
+        </span>
+    </div>
+</div>
+
+<div class="form-group">
+    <div class='input-group date' id='picker2'>
+        <input type='text' class="form-control" name='RentFinishDate' id="RentFinishDate" />
+        <span class="input-group-addon">
+            <span class="glyphicon glyphicon-calendar"></span>
+        </span>
+    </div>
+</div>
+
+<label class="formLabel">Datetime and plate to return a car</label>
+@Html.DropDownListFor(model => model.OfficeIdEnd, Model.Offices, new { @class = "form-control" })
+
+@for (int i = 0; i < Model.AdditionalOptions.Count(); i++)
+{
+    string description = Model.AdditionalOptions[i].Name + " " + Model.AdditionalOptions[i].Price + "$";
+    @Html.CheckBoxFor(m => m.OptionsSelected[i])
+    @description
+
+    <br />
+}
+
+<label class="formLabel">Comment</label> <br />
+@Html.TextAreaFor(m => m.Comment) <br />
+@Html.ValidationMessageFor(m => m.Comment, "", new { @class = "text-danger" }) <br />
+
+
+<script type="text/javascript">
+    var PriceCountScript = {};
+
+    $(function () {
+        PriceCountScript.price = 0;
+        PriceCountScript.optionsPrice = 0;
+        PriceCountScript.priceDays = 0;
+
+        $('[name *= "OptionsSelected"]').attr('disabled', true);
+
+        var startDate = '@Html.Raw(Model.RentStartDate)';
+        startDate = startDate.substring(0, startDate.length - 3);
+        $('#RentStartDate').val(startDate);
+
+        var finishDate = '@Html.Raw(Model.RentFinishDate)';
+        finishDate = finishDate.substring(0, startDate.length - 3);
+        $('#RentFinishDate').val(finishDate);
+
+      
+        function countDaysAndPrice() {
+            if ($('#RentStartDate').val() != '' && $('#RentFinishDate').val() != '') {
+                var startDate = $('#RentStartDate').val();
+                var startYear = startDate.substring(6, startDate.length - 5);
+                var startMonth = startDate.substring(3, startDate.length - 10);
+                var startDay = startDate.substring(0, startDate.length - 13);
+                var startDateTime = new Date(startYear, startMonth, startDay);
+
+                var finishDate = $('#RentFinishDate').val();
+                var finishYear = finishDate.substring(6, finishDate.length - 5);
+                var finishMonth = finishDate.substring(3, finishDate.length - 10);
+                var finishDay = finishDate.substring(0, finishDate.length - 13);
+                var finishDateTime = new Date(finishYear, finishMonth, finishDay);
+
+                var days = parseInt((finishDateTime.getTime() - startDateTime.getTime()) / (24 * 3600 * 1000));
+                $('.rentTime').text('You rent this car for ' + days + ' days');
+
+                var PricePer1Day = '@Html.Raw(Model.CarTimePricing.PricePer1Day)';
+                var PricePer3Days = '@Html.Raw(Model.CarTimePricing.PricePer3Days)';
+                var PricePer7Days = '@Html.Raw(Model.CarTimePricing.PricePer7Days)';
+                var PricePer14Days = '@Html.Raw(Model.CarTimePricing.PricePer14Days)';
+                var PricePerMonth = '@Html.Raw(Model.CarTimePricing.PricePerMonth)';
+                var PricePerMoreThanMonth = '@Html.Raw(Model.CarTimePricing.PricePerMoreThanMonth)';
+
+                if (days <= 1) {
+                    priceDays = 1 * PricePer1Day;
+                }
+                else if (days <= 3) {
+                    priceDays = days * PricePer3Days;
+                }
+                else if (days <= 7) {
+                    priceDays = days * PricePer7Days;
+                }
+                else if (days <= 14) {
+                    priceDays = days * PricePer14Days;
+                }
+                else if (days <= 30) {
+                    priceDays = days * PricePerMonth;
+                }
+                else {
+                    priceDays = days * PricePerMoreThanMonth;
+                }
+
+                price = priceDays + optionsPrice;
+
+                $('.price').text('Your price is ' + price);              
+            }
+            else {
+                price = 0;
+                $('.price').text('');
+            }
+        }
+
+        function countPrices() {
+            optionsPrice = 0;
+            $('[name *= "OptionsSelected"]').each(function () {
+                if (this.checked) {
+                    var index = $(this).attr('name').substring(16, 17);
+                    var json = '@Html.Raw(Json.Encode(Model.AdditionalOptions))';
+                    var pricing = $.parseJSON(json);
+                    var option = parseInt(pricing[index].Price);
+
+                    optionsPrice = optionsPrice + option;
+                 }
+            });
+
+            price = priceDays + optionsPrice;
+
+            $('.price').text('Your price is ' + price);
+        }
+
+        $('[name *= "OptionsSelected"]').change(countPrices);
+
+        function addOptions() {
+            if ($('#RentStartDate').val() != '' && $('#RentFinishDate').val() != '') {
+                $('[name *= "OptionsSelected"]').attr('disabled', false);
+                
+                countPrices();
+            }
+            else {
+                $('[name *= "OptionsSelected"]').attr('disabled', true);
+                $('[name *= "OptionsSelected"]').prop('checked', false);
+                priceDays = 0;
+                optionsPrice = 0;
+            }           
+        }
+
+        $('#picker1').datetimepicker({
+            format: 'DD.MM.YYYY H:mm',
+            minDate: '@DateTime.Now.ToString("MM-dd-yyyy H:mm")'
+        });
+
+        $('#picker2').datetimepicker({
+            format: 'DD.MM.YYYY H:mm',
+            useCurrent: false
+        });
+        $("#picker1").on("dp.change", function (e) {
+            $('#picker2').data("DateTimePicker").minDate(e.date);
+            countDaysAndPrice();
+            addOptions();
+        });
+        $("#picker2").on("dp.change", function (e) {
+            $('#picker1').data("DateTimePicker").maxDate(e.date);
+            countDaysAndPrice();
+            addOptions();
+        });
+
+    });
+</script>
+

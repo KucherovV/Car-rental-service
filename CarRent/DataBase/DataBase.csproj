@@ -72,6 +72,62 @@
     <Compile Include="Migrations\201903031350336_added_grade_car.Designer.cs">
       <DependentUpon>201903031350336_added_grade_car.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201903061444497_added_stock.cs" />
+    <Compile Include="Migrations\201903061444497_added_stock.Designer.cs">
+      <DependentUpon>201903061444497_added_stock.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903061522472_fix.cs" />
+    <Compile Include="Migrations\201903061522472_fix.Designer.cs">
+      <DependentUpon>201903061522472_fix.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903070801446_added_offices.cs" />
+    <Compile Include="Migrations\201903070801446_added_offices.Designer.cs">
+      <DependentUpon>201903070801446_added_offices.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903091350350_office_model_extended.cs" />
+    <Compile Include="Migrations\201903091350350_office_model_extended.Designer.cs">
+      <DependentUpon>201903091350350_office_model_extended.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903091405050_office_model_extended1.cs" />
+    <Compile Include="Migrations\201903091405050_office_model_extended1.Designer.cs">
+      <DependentUpon>201903091405050_office_model_extended1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903091443589_office_model_fix2.cs" />
+    <Compile Include="Migrations\201903091443589_office_model_fix2.Designer.cs">
+      <DependentUpon>201903091443589_office_model_fix2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903091835076_ext_office_model.cs" />
+    <Compile Include="Migrations\201903091835076_ext_office_model.Designer.cs">
+      <DependentUpon>201903091835076_ext_office_model.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903100724523_ext_car_model.cs" />
+    <Compile Include="Migrations\201903100724523_ext_car_model.Designer.cs">
+      <DependentUpon>201903100724523_ext_car_model.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903120514585_added_orders.cs" />
+    <Compile Include="Migrations\201903120514585_added_orders.Designer.cs">
+      <DependentUpon>201903120514585_added_orders.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903132310236_extendOrderModel.cs" />
+    <Compile Include="Migrations\201903132310236_extendOrderModel.Designer.cs">
+      <DependentUpon>201903132310236_extendOrderModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903140728273_ext_Order.cs" />
+    <Compile Include="Migrations\201903140728273_ext_Order.Designer.cs">
+      <DependentUpon>201903140728273_ext_Order.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903141348047_added_order_feedbacks.cs" />
+    <Compile Include="Migrations\201903141348047_added_order_feedbacks.Designer.cs">
+      <DependentUpon>201903141348047_added_order_feedbacks.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903141350352_fix_order_feedbacks.cs" />
+    <Compile Include="Migrations\201903141350352_fix_order_feedbacks.Designer.cs">
+      <DependentUpon>201903141350352_fix_order_feedbacks.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903141447077_extProblemClass.cs" />
+    <Compile Include="Migrations\201903141447077_extProblemClass.Designer.cs">
+      <DependentUpon>201903141447077_extProblemClass.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -97,6 +153,48 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201903031350336_added_grade_car.resx">
       <DependentUpon>201903031350336_added_grade_car.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903061444497_added_stock.resx">
+      <DependentUpon>201903061444497_added_stock.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903061522472_fix.resx">
+      <DependentUpon>201903061522472_fix.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903070801446_added_offices.resx">
+      <DependentUpon>201903070801446_added_offices.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903091350350_office_model_extended.resx">
+      <DependentUpon>201903091350350_office_model_extended.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903091405050_office_model_extended1.resx">
+      <DependentUpon>201903091405050_office_model_extended1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903091443589_office_model_fix2.resx">
+      <DependentUpon>201903091443589_office_model_fix2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903091835076_ext_office_model.resx">
+      <DependentUpon>201903091835076_ext_office_model.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903100724523_ext_car_model.resx">
+      <DependentUpon>201903100724523_ext_car_model.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903120514585_added_orders.resx">
+      <DependentUpon>201903120514585_added_orders.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903132310236_extendOrderModel.resx">
+      <DependentUpon>201903132310236_extendOrderModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903140728273_ext_Order.resx">
+      <DependentUpon>201903140728273_ext_Order.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903141348047_added_order_feedbacks.resx">
+      <DependentUpon>201903141348047_added_order_feedbacks.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903141350352_fix_order_feedbacks.resx">
+      <DependentUpon>201903141350352_fix_order_feedbacks.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903141447077_extProblemClass.resx">
+      <DependentUpon>201903141447077_extProblemClass.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

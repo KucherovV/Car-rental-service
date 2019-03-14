@@ -28,10 +28,16 @@ namespace CarRent.ViewModels
 
         public List<string> SelectedBrands { get; set; }
 
+        [Required(ErrorMessage = "Enter min price")]
         [Range(0, 1000, ErrorMessage = "Range in 0$ and 1000$")]
         public int MinPricePerDay { get; set; }
 
         [Range(0, 1000, ErrorMessage = "Range in 0$ and 1000$")]
+        [Required(ErrorMessage = "Enter max price")]
         public int MaxPricePerDay { get; set; }
+
+        public SelectList Cities { get; set; }
+
+        public int CityID { get; set; }
     }
 }

@@ -11,7 +11,7 @@
     @Html.ActionLink("Create New", "Create")
 </p>
 
-@using (Html.BeginForm("Index", "Car", FormMethod.Get, new { @class = "navbar-form navbar-left" }))
+@using (Ajax.BeginForm("GetCarList", "Car", null, new AjaxOptions { UpdateTargetId = "results" }, new { @class = "navbar-form navbar-left" }))
 {
     <div class="form-group">
         @Html.TextBox("search", null, new { @class = "form-control", @placeholder = "Search Car" })
@@ -24,44 +24,6 @@
     <button type="submit" class="btn btn-default">Submit</button>
 }
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Brand)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Model)
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
-        string id = item.ID.ToString();
-
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Brand)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Model)
-            </td>
-            <td>
-                @if (item.Archived)
-                {
-                    @Html.ActionLink("Edit", "Edit", new { idUrl = id }, new { @class = "text-danger" }) @:|
-                    @Html.ActionLink("Unarchive", "Archive", new { idUrl = id }, new { @class = "text-danger" }) @:|
-                    @Html.ActionLink("Pricing", "ManagePricing", new { idUrl = id }, new { @class = "text-danger" })
-                }
-                else
-                {
-                    @Html.ActionLink("Edit", "Edit", new { idUrl = id }) @:|
-                    @Html.ActionLink("To archive", "Archive", new { idUrl = id }) @:|
-                    @Html.ActionLink("Pricing", "ManagePricing", new { idUrl = id })
-                }
-
-            </td>
-        </tr>
-    }
-
-</table>
+<div id="results">
+    @Html.Action("GetCarList")
+</div>

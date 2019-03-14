@@ -1,0 +1,41 @@
+﻿@model IEnumerable<CarRent.ViewModels.OfficeIndexViewModel>
+
+@{
+    ViewBag.Title = "Index";
+
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Manage offices in cities</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table" style="width:40%;">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.City.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Amount)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.City.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Amount)
+            </td>
+            <td>
+                @Html.ActionLink("View offices", "ViewOffices", new { idUrl = item.City.ID.ToString() })
+            </td>
+        </tr>
+    }
+
+</table>
+

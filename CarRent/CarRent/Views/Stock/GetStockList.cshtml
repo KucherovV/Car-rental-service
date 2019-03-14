@@ -1,0 +1,37 @@
+﻿@using CarRent.ViewModels
+@model  StockManageViewModel
+
+<table class="table" style="width: 40%; ">
+    <tr>
+        <th>Car</th>
+        <th>Amount</th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.CarsInStock)
+    {
+        <tr>
+            <td>
+                @item.Car.Brand @item.Car.Model
+            </td>
+
+            <td>
+                @item.Amount
+            </td>
+
+            <td>
+                @Ajax.ActionLink("Add Car", "AddCar", "Stock", new { idUrl = item.ID.ToString(), cityId = Model.City.ID.ToString(), carID = item.CarID.ToString() }, new AjaxOptions { UpdateTargetId = "results" }, new { @class = "btn btn-info" })
+
+                @if (item.Amount >= 1)
+                {
+                    @Ajax.ActionLink("Remove car", "RemoveCar", "Stock", new { idUrl = item.ID.ToString(), cityId = Model.City.ID.ToString(), carID = item.CarID.ToString() }, new AjaxOptions { UpdateTargetId = "results" }, new { @class = "btn btn-warning" })
+                }
+                else
+                {
+                    @Ajax.ActionLink("Remove Car", "RemoveCar", "Stock", new { idUrl = item.ID.ToString(), cityId = Model.City.ID.ToString(), carID = item.CarID.ToString() }, new AjaxOptions { UpdateTargetId = "results" }, new { @class = "btn btn-warning disabled" })
+                }
+            </td>
+        </tr>
+
+    }
+</table>

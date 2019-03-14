@@ -8,7 +8,7 @@
 
 <div class="col-md-2 col-sm-2 sideNav">
 
-    @using (Html.BeginForm("CarList", "User", FormMethod.Get))
+    @using (Ajax.BeginForm("GetCars", "User", null, new AjaxOptions { UpdateTargetId = "results" }))
     {
         <p class="h3">Search and filters</p>
         <hr />
@@ -17,17 +17,41 @@
             @Html.TextBox("search", null, new { @class = "form-control", @placeholder = "Search Car" })
         </div>
 
+        <p class="h4">Choose city</p>
+        @Html.DropDownListFor(m => m.CityID, Model.Cities, new { @class = "form-control" })
+
+
         <p class="h4">Brands</p>
         @Html.ListBoxFor(m => m.SelectedBrands, Model.Brands, new { @class = "form-control brands" })
 
         <p class="h4">Sort by</p>
         @Html.DropDownListFor(m => m.SortBy, Model.Sortings, new { @class = "form-control" })
 
-        <p class="h4">Grades</p>
-        @Html.ListBoxFor(m => m.SelectedGrades, Model.Grades, new { @class = "form-control grades" })
+        <div class="panel-group">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" href="#collapseGrades">Grades</a>
+                    </h4>
+                </div>
+                <div id="collapseGrades" class="panel-collapse collapse">
+                    @Html.ListBoxFor(m => m.SelectedGrades, Model.Grades, new { @class = " form-control grades list-group" })
+                </div>
+            </div>
+        </div>
 
-        <p class="h4">EngineTypes</p>
-        @Html.ListBoxFor(m => m.SelectedEngineTypes, Model.EngineTypes, new { @class = "form-control engines" })
+        <div class="panel-group">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" href="#collapse1">Engines</a>
+                    </h4>
+                </div>
+                <div id="collapse1" class="panel-collapse collapse">
+                    @Html.ListBoxFor(m => m.SelectedEngineTypes, Model.EngineTypes, new { @class = " form-control engines list-group" })
+                </div>
+            </div>
+        </div>
 
         <p class="h4">Price range for single day</p>
         <p class="h5">Min</p>
@@ -39,73 +63,21 @@
 
         <div class="apply">
             <button type="submit" class="btn btn-info">Apply filters</button>
+            @Ajax.ActionLink("Reset", "GetCars", "User", new AjaxOptions { UpdateTargetId = "results" }, new { @class = "btn btn-danger" })
         </div>
     }
+
 </div>
 
 <div class="carList col-md-10 col-sm-10">
     <div class="row">
-        @if(Model.Items.Count == 0)
-        {
-            <h3>No cars found by your request. Change filters and try again</h3>
-        }
-        @foreach (var carViewModel in Model.Items)
-        {
-            <div class="col-md-5">
-                <div class="car">
-                    <div class="grade">@carViewModel.Grade</div>
-
-                    <div class="name">
-                        <span>@carViewModel.Brand</span>
-                        <span>@carViewModel.Model</span>
-                    </div>
-
-                    <img src="@Url.Content(Constants.ProductImagePath + carViewModel.FileName)" />
-
-                    <div class="carInfo">
-                        @carViewModel.EngineType
-                        <hr />
-                        Fuel consum. - @carViewModel.FuelConsumption L/100
-                        <hr />
-                        @carViewModel.TransmissionType tran.
-                        <hr />
-                        Passangers count - @carViewModel.PassangerCount
-                        <hr />
-                        Lugggage count - @carViewModel.LuggageCount
-                        <hr />
-                        @(carViewModel.HasAirConditioning == true ? "Has air conditioner" : "Don't have air condition")
-                    </div>
-
-                    <table>
-                        <tr>
-                            <td><b>Days</b></td>
-                            <td>30+</td>
-                            <td>30-15</td>
-                            <td>14-8</td>
-                            <td>7-4</td>
-                            <td>3-2</td>
-                            <td>1</td>
-                        </tr>
-                        <tr>
-                            <td><b>Price</b></td>
-                            <td>@carViewModel.CarTimePricing.PricePerMoreThanMonth$</td>
-                            <td>@carViewModel.CarTimePricing.PricePerMonth$</td>
-                            <td>@carViewModel.CarTimePricing.PricePer14Days$</td>
-                            <td>@carViewModel.CarTimePricing.PricePer7Days$</td>
-                            <td>@carViewModel.CarTimePricing.PricePer3Days$</td>
-                            <td>@carViewModel.CarTimePricing.PricePer1Day$</td>
-                        </tr>
-                    </table>
-
-                    @Html.ActionLink("Rent car", "ff", "22", htmlAttributes: new { @class = "btn btn-primary rent" })
-
-                    <div class="minPrice">Starting at <span>@carViewModel.CarTimePricing.PricePerMoreThanMonth$</span> per day</div>
-                </div>
-            </div>
-        }
+        <div id="results">
+            @Html.Action("GetCars")
+        </div>
     </div>
 </div>
 
+<script src="~/Scripts/UserIndexScripts.js"></script>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

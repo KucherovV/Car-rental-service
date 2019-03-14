@@ -1,0 +1,91 @@
+﻿@model IEnumerable<CarRent.ViewModels.ManagerOrderViewModel>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.User)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Car)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OrderDateTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OfficeStart)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RentStartDateTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OfficeEnd)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RentFinishDateTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AdditionalOptions)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Comment)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(model => item.ID)
+        </td>
+        <td style="color:@item.Color">
+            @Html.DisplayFor(model => item.Status)
+        </td>
+        <td>
+            @(item.User.FirstName + " " + item.User.LastName)
+        </td>
+        <td>
+            @(item.Car.BrandModel)
+        </td>
+        <td>
+            @(item.OrderDateTime.ToShortDateString() + " " + item.OrderDateTime.ToShortTimeString())
+        </td>
+        <td>
+            @Html.DisplayFor(model => item.OfficeStart.PlaceDescription)
+        </td>
+        <td>
+            @(item.RentStartDateTime.ToShortDateString() + " " + item.RentStartDateTime.ToShortTimeString())
+        </td>
+         <td>
+            @Html.DisplayFor(model => item.OfficeEnd.PlaceDescription)
+        </td>
+        <td>
+            @(item.RentFinishDateTime.ToShortDateString() + " " + item.RentFinishDateTime.ToShortTimeString())
+        </td>
+        <td>
+            @foreach(var option in item.AdditionalOptions)
+            {
+                @option.Name <br /> 
+            }
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Comment)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Price)
+        </td>
+        <td>
+            @Html.ActionLink("Manage", "Manage", new { idUrl=item.ID.ToString() })
+        </td>
+    </tr>
+}
+
+</table>

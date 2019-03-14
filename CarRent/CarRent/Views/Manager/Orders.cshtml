@@ -1,0 +1,33 @@
+﻿@model CarRent.ViewModels.OrderListViewModel
+@{
+    ViewBag.Title = "Orders";
+}
+
+<h2>Orders</h2>
+
+@using(Ajax.BeginForm("GetOrdersList", "Manager", null, new AjaxOptions() { UpdateTargetId = "results" }))
+{
+    <div class="form-group col-md-2">
+        @Html.TextBox("search", null, new { @class = "form-control", @placeholder = "Search User" })
+    </div>
+
+    <div class="panel-group col-md-2">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" href="#collapseGrades">Statuses</a>
+                </h4>
+            </div>
+            <div id="collapseGrades" class="panel-collapse collapse">
+                @Html.ListBoxFor(m => m.SelectedStatuses, Model.Statuses, new { @class = " form-control list-group" })
+            </div>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-default">Update</button>
+}
+
+
+<div id="results">
+    @Html.Action("GetOrdersList")
+</div>

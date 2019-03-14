@@ -12,6 +12,8 @@ namespace Entities
 
         public string Model { get; set; }
 
+        public string BrandModel { get; set; }
+
         public string Grade { get; set; }
 
         [Display(Name = "Passangers Count")]

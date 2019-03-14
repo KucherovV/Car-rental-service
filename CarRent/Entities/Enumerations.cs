@@ -11,7 +11,6 @@ namespace Entities
                 return new List<string>()
                 {
                     "Petrol",
-                    "Gas",
                     "Hybrid",
                     "Electro"
                 };
@@ -108,6 +107,23 @@ namespace Entities
                     "Sport",
                     "Classic",
                     "Sport Classic"
+                };
+            }
+        }
+
+        public static List<string> Statuses
+        {
+            get
+            {
+                return new List<string>()
+                {
+                    "Waiting for manager review",
+                    "Denied",
+                    "Waiting for customer confirm",
+                    "Waiting for execution",
+                    "On execution",
+                    "Exucuted",
+                    "Archived"
                 };
             }
         }

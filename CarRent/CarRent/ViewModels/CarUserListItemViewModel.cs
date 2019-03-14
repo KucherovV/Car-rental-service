@@ -1,10 +1,13 @@
 ﻿using Entities;
 using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
 
 namespace CarRent.ViewModels
 {
     public class CarUserListItemViewModel
     {
+        public int ID { get; set; }
+
         public string Brand { get; set; }
 
         public string Model { get; set; }
@@ -36,5 +39,9 @@ namespace CarRent.ViewModels
         public string FileName { get; set; }
 
         public CarTimePricing CarTimePricing { get; set; }
+
+        public Dictionary<string, string> IconDescription { get; set; }
+
+        public bool IsInStock { get; set; }
     }
 }
