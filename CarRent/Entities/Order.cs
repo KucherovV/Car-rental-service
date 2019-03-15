@@ -35,5 +35,7 @@ namespace Entities
         public int Price { get; set; }
 
         public string Status { get; set; }
+
+        public int? StockID { get; set; }
     }
 }

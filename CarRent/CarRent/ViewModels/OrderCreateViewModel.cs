@@ -54,6 +54,8 @@ namespace CarRent.ViewModels
 
         public SelectList Cars { get; set; }
 
+        public SelectList OfficesStart { get; set; }
+
         public SelectList Offices { get; set; }
 
         public List<AdditionalOption> AdditionalOptions { get; set; }

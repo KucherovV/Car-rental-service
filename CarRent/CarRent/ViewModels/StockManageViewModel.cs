@@ -1,5 +1,6 @@
 ﻿using Entities;
 using System.Collections.Generic;
+using CarRent.ViewModels;
 
 namespace CarRent.ViewModels
 {
@@ -7,6 +8,6 @@ namespace CarRent.ViewModels
     {
         public City City { get; set; }
 
-        public IEnumerable<Stock> CarsInStock { get; set; }
+        public IEnumerable<CarInStockListViewModel> CarsInStock { get; set; }
     }
 }

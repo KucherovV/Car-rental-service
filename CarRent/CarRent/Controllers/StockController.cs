@@ -54,26 +54,20 @@ namespace CarRent.Controllers
                 var carInStocks = DB.GetList<Stock>().Where(cs => cs.CityID == city.ID).ToList();
                 var carInStockCarIDs = carInStocks.Select(c => c.CarID).ToList();
                 var cars = DB.GetList<Car>().Where(c => c.Archived != true).ToList();
-                var list = new List<Stock>();
+                var stocks = DB.GetList<Stock>().ToList();
 
-                foreach (var car in cars)
+                var list = new List<CarInStockListViewModel>();
+
+                foreach(var car in cars)
                 {
-                    if (!carInStockCarIDs.Contains(car.ID))
+                    list.Add(new CarInStockListViewModel()
                     {
-                        list.Add(new Stock()
-                        {
-                            Amount = 0,
-                            CarID = car.ID,
-                            CityID = city.ID,
-                            Car = car
-                        });
-                    }
-                    else
-                    {
-                        list.Add(carInStocks.Single(cs => cs.CarID == car.ID));
-                    }
+                        Car = car,
+                        Amount = stocks.Where(s => s.CarID == car.ID && s.CityID == city.ID).Count(),
+                        AmountRented = stocks.Where(s => s.CarID == car.ID && s.CityID == city.ID && s.RentStartDateTime != null).Count()
+                    });
                 }
-
+             
                 var vm = new StockManageViewModel()
                 {
                     CarsInStock = list,
@@ -92,46 +86,66 @@ namespace CarRent.Controllers
             }
         }
 
-        public ActionResult AddCar(string idUrl, string cityID, string carID)
+        public ActionResult AddCar(string cityID, string carID)
         {
             try
             {
-                int id = int.Parse(idUrl);
                 int cityId = int.Parse(cityID);
                 int carId = int.Parse(carID);
-                var car = DB.GetEntityById<Car>(carId) as Car;
-                if(car == null)
-                {
-                    throw new ArgumentException();
-                }
 
-                if (id == 0)
+                var city = DB.GetEntityById<City>(cityId) as City;
+                var car = DB.GetEntityById<Car>(carId) as Car;
+
+                if(city != null && car != null)
                 {
-                    var carInstock = new Stock()
+                    var stock = new Stock()
                     {
-                        Amount = 1,
-                        CarID = car.ID,
+                        CarID = carId,
                         CityID = cityId
                     };
-                    DB.Save<Stock>(carInstock);
+
+                    DB.Save<Stock>(stock);
+                    return RedirectToAction("GetStockList", new { idUrl = cityID });
+                }
+                else
+                {
+                    return RedirectToAction("WrongUrl", "Error");
+                }
+
+            }
+            catch (ArgumentException)
+            {
+                return RedirectToAction("WrongUrl", "Error");
+            }
+            catch (FormatException)
+            {
+                return RedirectToAction("WrongUrl", "Error");
+            }      
+        }
+
+        public ActionResult RemoveCar(string cityID, string carID)
+        {
+            try
+            {
+                int cityId = int.Parse(cityID);
+                int carId = int.Parse(carID);
+
+                var city = DB.GetEntityById<City>(cityId) as City;
+                var car = DB.GetEntityById<Car>(carId) as Car;
+
+                if (city != null && car != null)
+                {
+                    var stock = DB.GetList<Stock>().First(s => s.CarID == carId && s.CityID == cityId && s.RentStartDateTime == null);
+
+                    DB.Delete<Stock>(stock);
 
                     return RedirectToAction("GetStockList", new { idUrl = cityID });
                 }
                 else
                 {
-                    var carInSrock = DB.GetEntityById<Stock>(id) as Stock;
-                    if (carInSrock != null)
-                    {
-                        carInSrock.Amount++;
-                        DB.Update<Stock>(id);
-
-                        return RedirectToAction("GetStockList", new { idUrl = cityID });
-                    }
-                    else
-                    {
-                        return RedirectToAction("WrongUrl", "Error");
-                    }
+                    return RedirectToAction("WrongUrl", "Error");
                 }
+
             }
             catch (ArgumentException)
             {
@@ -141,43 +155,42 @@ namespace CarRent.Controllers
             {
                 return RedirectToAction("WrongUrl", "Error");
             }
-        }
 
-        public ActionResult RemoveCar(string idUrl, string cityID)
-        {
-            try
-            {
-                int id = int.Parse(idUrl);
-                int cityId = int.Parse(cityID);
+            //    try
+            //    {
+            //        int id = int.Parse(idUrl);
+            //        int cityId = int.Parse(cityID);
 
-                if (id == 0)
-                {
-                    throw new ArgumentException();
-                }
-                else
-                {
-                    var carInSrock = DB.GetEntityById<Stock>(id) as Stock;
-                    if (carInSrock != null)
-                    {
-                        carInSrock.Amount--;
-                        DB.Update<Stock>(id);
+            //        if (id == 0)
+            //        {
+            //            throw new ArgumentException();
+            //        }
+            //        else
+            //        {
+            //            var carInSrock = DB.GetEntityById<Stock>(id) as Stock;
+            //            if (carInSrock != null)
+            //            {
+            //                carInSrock.Amount--;
+            //                DB.Update<Stock>(id);
 
-                        return RedirectToAction("GetStockList", new { idUrl = cityID });
-                    }
-                    else
-                    {
-                        return RedirectToAction("GetStockList", new { idUrl = cityID });
-                    }
-                }
-            }
-            catch (ArgumentException)
-            {
-                return RedirectToAction("WrongUrl", "Error");
-            }
-            catch (FormatException)
-            {
-                return RedirectToAction("WrongUrl", "Error");
-            }
+            //                return RedirectToAction("GetStockList", new { idUrl = cityID });
+            //            }
+            //            else
+            //            {
+            //                return RedirectToAction("GetStockList", new { idUrl = cityID });
+            //            }
+            //        }
+            //    }
+            //    catch (ArgumentException)
+            //    {
+            //        return RedirectToAction("WrongUrl", "Error");
+            //    }
+            //    catch (FormatException)
+            //    {
+            //        return RedirectToAction("WrongUrl", "Error");
+            //    }
+            //}
+            return null;
         }
     }
 }

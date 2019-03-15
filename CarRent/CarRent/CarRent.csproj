@@ -209,6 +209,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\CarCreateViewModel.cs" />
+    <Compile Include="ViewModels\CarInStockListViewModel.cs" />
     <Compile Include="ViewModels\CarListAdminViewModel.cs" />
     <Compile Include="ViewModels\CarPricingViewModel.cs" />
     <Compile Include="ViewModels\CarUserIndexViewModel.cs" />

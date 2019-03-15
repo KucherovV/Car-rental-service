@@ -56,7 +56,16 @@ namespace CarRent.Controllers
         {
             IEnumerable<Car> cars = DB.GetList<Car>().Where(c => c.Archived == false);
             var items = new List<CarUserListItemViewModel>().ToList();
-            
+
+            if (CityID == null)
+            {
+                var cities = DB.GetList<City>().ToList();
+                if (cities != null)
+                {
+                    CityID = cities.First().ID;
+                }
+            }
+
             if (!string.IsNullOrEmpty(search))
             {
                 cars = cars.Where(c => c.Brand.ToLower().Contains(search) || c.Model.ToLower().Contains(search));
@@ -78,6 +87,23 @@ namespace CarRent.Controllers
 
                 foreach (var car in cars)
                 {
+                    var freeCarInStock = DB.GetList<Stock>()
+                        .FirstOrDefault(s => s.CityID == CityID && s.CarID == car.ID && s.RentStartDateTime == null) as Stock;
+                    bool inStock;
+                    DateTime? abilityTime = null;
+
+                    if (freeCarInStock == null)
+                    {
+                        inStock = false;
+                        abilityTime = DB.GetList<Stock>().Where(s => s.CarID == car.ID && s.CityID == CityID)
+                            .Select(s => s.RentFinishDateTime).Min();
+                    }
+                    else
+                    {
+                        inStock = true;
+                    }
+
+
                     items.Add(new CarUserListItemViewModel
                     {
                         ID = car.ID,
@@ -92,7 +118,11 @@ namespace CarRent.Controllers
                         Model = car.Model,
                         PassangerCount = car.PassangerCount,
                         TransmissionType = car.TransmissionType,
-                        CarTimePricing = (DB.GetList<CarTimePricing>().ToList()).SingleOrDefault(cp => cp.CarID == car.ID) ?? new CarTimePricing()
+                        CarTimePricing = (DB.GetList<CarTimePricing>().ToList()).SingleOrDefault(cp => cp.CarID == car.ID) ?? new CarTimePricing(),
+                        CityID = (int)CityID,
+                        IsInStock = inStock,
+                        WillBeAviable = abilityTime
+
                     });
                 }
 
@@ -155,7 +185,6 @@ namespace CarRent.Controllers
                     }
                 }
                 items = temp1;
-
             }
 
             foreach(var item in items)
@@ -222,35 +251,12 @@ namespace CarRent.Controllers
                     finalList.Add(item);
                 }
             }
-
-            if (CityID == null)
-            {
-                var cities = DB.GetList<City>().ToList();
-                if (cities != null)
-                {
-                    CityID = cities.First().ID;                 
-                }
-            }
-
-            var stocks = (DB.GetList<Stock>()).Where(s => s.CityID == CityID);
-            foreach (var item in finalList)
-            {
-                var stock = stocks.SingleOrDefault(s => s.CarID == item.ID) ?? new Stock();
-                if (stock.Amount == 0)
-                {
-                    item.IsInStock = false;
-                }
-                else
-                {
-                    item.IsInStock = true;
-                }
-            }
-
-            return PartialView(finalList.OrderByDescending(fl => fl.IsInStock));
+         
+            return PartialView(finalList);
         }   
 
         [HttpGet]
-        public ActionResult RentForm(string idUrl)
+        public ActionResult RentForm(string idUrl, string cityID)
         {
             var user = DB.GetEntityById<ApplicationUser>(User.Identity.GetUserId()) as ApplicationUser;
             if (!user.PhoneNumberConfirmed)
@@ -261,16 +267,19 @@ namespace CarRent.Controllers
             try
             {
                 int id = int.Parse(idUrl);
+                var cityId = int.Parse(cityID);
                 var car = DB.GetEntityById<Car>(id) as Car;
+                var city = DB.GetEntityById<City>(cityId);
 
-                if (car != null)
+                if (car != null && city != null)
                 {
 
                     var viewModel = new OrderCreateViewModel()
                     {
                         CarID = car.ID,
                         Cars = new SelectList(DB.GetList<Car>(), "ID", "BrandModel"),
-                        Offices = new SelectList(DB.GetList<Office>(), "ID", "PlaceDescription"),
+                        OfficesStart = new SelectList(DB.GetList<Office>().Where(o => o.IsArchived == false && o.CityID == cityId), "ID", "PlaceDescription"),
+                        Offices = new SelectList(DB.GetList<Office>().Where(o => o.IsArchived == false), "ID", "PlaceDescription"),
                         AdditionalOptions = DB.GetList<AdditionalOption>().ToList(),
                         CarTimePricing = DB.GetList<CarTimePricing>().SingleOrDefault(ctp => ctp.CarID == car.ID) as CarTimePricing ?? new CarTimePricing(),
                         RentStartDate = null,
@@ -360,7 +369,6 @@ namespace CarRent.Controllers
                     price += option.Price;
                 }
 
-
                 if (ModelState.IsValid)
                 {
                     var order = new Order()
@@ -377,6 +385,14 @@ namespace CarRent.Controllers
                         Price = price,
                         Status = "Waiting for manager review"
                     };
+
+                    var cityID = (DB.GetEntityById<Office>(viewModel.OfficeIdStart) as Office).CityID;
+                    var stock = DB.GetList<Stock>().First(s => s.CarID == viewModel.CarID && s.CityID == cityID && s.RentStartDateTime == null);
+                    stock.RentStartDateTime = order.RentStartDateTime;
+                    stock.RentFinishDateTime = order.RentFinishDateTime;
+                    DB.Update<Stock>(stock.ID);
+
+                    order.StockID = stock.ID;
 
                     DB.Save<Order>(order);
 

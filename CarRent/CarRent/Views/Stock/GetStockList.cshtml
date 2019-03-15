@@ -5,6 +5,7 @@
     <tr>
         <th>Car</th>
         <th>Amount</th>
+        <th>Amount Rented</th>
         <th></th>
     </tr>
 
@@ -20,15 +21,19 @@
             </td>
 
             <td>
-                @Ajax.ActionLink("Add Car", "AddCar", "Stock", new { idUrl = item.ID.ToString(), cityId = Model.City.ID.ToString(), carID = item.CarID.ToString() }, new AjaxOptions { UpdateTargetId = "results" }, new { @class = "btn btn-info" })
+                @item.AmountRented
+            </td>
 
-                @if (item.Amount >= 1)
+            <td>
+                @Ajax.ActionLink("Add Car", "AddCar", "Stock", new {cityId = Model.City.ID.ToString(), carID = item.Car.ID.ToString() }, new AjaxOptions { UpdateTargetId = "results" }, new { @class = "btn btn-info" })
+
+                @if ((item.Amount - item.AmountRented) >= 1)
                 {
-                    @Ajax.ActionLink("Remove car", "RemoveCar", "Stock", new { idUrl = item.ID.ToString(), cityId = Model.City.ID.ToString(), carID = item.CarID.ToString() }, new AjaxOptions { UpdateTargetId = "results" }, new { @class = "btn btn-warning" })
+                    @Ajax.ActionLink("Remove car", "RemoveCar", "Stock", new { cityId = Model.City.ID.ToString(), carID = item.Car.ID.ToString() }, new AjaxOptions { UpdateTargetId = "results" }, new { @class = "btn btn-warning" })
                 }
                 else
                 {
-                    @Ajax.ActionLink("Remove Car", "RemoveCar", "Stock", new { idUrl = item.ID.ToString(), cityId = Model.City.ID.ToString(), carID = item.CarID.ToString() }, new AjaxOptions { UpdateTargetId = "results" }, new { @class = "btn btn-warning disabled" })
+                    @Ajax.ActionLink("Remove Car", "RemoveCar", "Stock", new { cityId = Model.City.ID.ToString(), carID = item.Car.ID.ToString() }, new AjaxOptions { UpdateTargetId = "results" }, new { @class = "btn btn-warning disabled" })
                 }
             </td>
         </tr>

@@ -128,6 +128,14 @@
     <Compile Include="Migrations\201903141447077_extProblemClass.Designer.cs">
       <DependentUpon>201903141447077_extProblemClass.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201903142150476_newStockModel.cs" />
+    <Compile Include="Migrations\201903142150476_newStockModel.Designer.cs">
+      <DependentUpon>201903142150476_newStockModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903150823272_extOrderClass.cs" />
+    <Compile Include="Migrations\201903150823272_extOrderClass.Designer.cs">
+      <DependentUpon>201903150823272_extOrderClass.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -195,6 +203,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201903141447077_extProblemClass.resx">
       <DependentUpon>201903141447077_extProblemClass.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903142150476_newStockModel.resx">
+      <DependentUpon>201903142150476_newStockModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903150823272_extOrderClass.resx">
+      <DependentUpon>201903150823272_extOrderClass.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -50,11 +50,22 @@
 
             @if (carViewModel.IsInStock)
             {
-                @Html.ActionLink("Rent car", "RentForm", "User", new { idUrl = carViewModel.ID.ToString() }, htmlAttributes: new { @class = "btn btn-primary rent" })
+                @Html.ActionLink("Rent car", "RentForm", "User", new { idUrl = carViewModel.ID.ToString(), cityID = carViewModel.CityID.ToString() }, htmlAttributes: new { @class = "btn btn-primary rent" })
             }
             else
             {
-                @Html.ActionLink("Out of stock", "", "", htmlAttributes: new { @class = "btn btn-warning rent disabled" });
+                string bntText = "";
+                if(carViewModel.WillBeAviable == null)
+                {
+                    bntText = "Out of stock";
+                }
+                else
+                {
+                    DateTime abilityTime = (DateTime)carViewModel.WillBeAviable;
+                    bntText = "Will be able " + abilityTime.ToShortDateString();
+                }
+
+                @Html.ActionLink(bntText, "", "", htmlAttributes: new { @class = "btn btn-warning rent disabled" });
             }
             <div class="minPrice">Starting at <span>@carViewModel.CarTimePricing.PricePerMoreThanMonth$</span> per day</div>
         </div>

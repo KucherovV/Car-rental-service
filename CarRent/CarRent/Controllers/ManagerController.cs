@@ -167,14 +167,15 @@ namespace CarRent.Controllers
             }
         }
 
-        public ActionResult UpdateStatus(string idUrl)
+        public ActionResult UpdateStatus(string idUrl, string carID, string cityID)
         {
             try
             {
                 int id = int.Parse(idUrl);
+               
                 var order = DB.GetEntityById<Order>(id) as Order;
-
-                if(order != null)
+              
+                if (order != null)
                 {
                     switch (order.Status)
                     {
@@ -187,8 +188,27 @@ namespace CarRent.Controllers
 
                         case "Waiting for customer confirm":
                             {
-                                order.Status = "Waiting for execution";
-                                DB.Update<Order>(order.ID);
+                                int cityId = int.Parse(cityID);
+                                int carId = int.Parse(carID);
+                                var city = DB.GetEntityById<City>(cityId) as City;
+                                var car = DB.GetEntityById<Car>(carId) as Car;
+
+                                if (city != null && car != null)
+                                {
+                                    
+                                    //var stock = DB.GetList<Stock>().First(s => s.CarID == carId && s.CityID == cityId && s.RentStartDateTime == null);
+                                    //stock.RentStartDateTime = order.RentStartDateTime;
+                                    //stock.RentFinishDateTime = order.RentFinishDateTime;
+                                    //DB.Update<Stock>(stock.ID);
+
+                                    order.Status = "Waiting for execution";
+                                    //order.StockID = stock.ID;
+                                    DB.Update<Order>(order.ID);
+                                }
+                                else
+                                {
+                                    return RedirectToAction("WrongUrl", "Error");
+                                }
                             }
                             break;
 

@@ -36,3 +36,5 @@ C:\Users\Visstal\Desktop\Car-rental-service\CarRent\Database\obj\Debug\Database.
 C:\Users\Visstal\Desktop\Car-rental-service\CarRent\Database\obj\Debug\Database.Migrations.added_order_feedbacks.resources
 C:\Users\Visstal\Desktop\Car-rental-service\CarRent\Database\obj\Debug\Database.Migrations.fix_order_feedbacks.resources
 C:\Users\Visstal\Desktop\Car-rental-service\CarRent\Database\obj\Debug\Database.Migrations.extProblemClass.resources
+C:\Users\Visstal\Desktop\Car-rental-service\CarRent\Database\obj\Debug\Database.Migrations.newStockModel.resources
+C:\Users\Visstal\Desktop\Car-rental-service\CarRent\Database\obj\Debug\Database.Migrations.extOrderClass.resources

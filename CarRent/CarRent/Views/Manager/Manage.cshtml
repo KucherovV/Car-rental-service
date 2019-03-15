@@ -90,6 +90,12 @@
             </dd>
 
             <dt>
+                Stock Id
+            </dt>
+            <dd>
+                @Model.CurrentOrder.StockID
+            </dd>
+            <dt>
                 Comment
             </dt>
             <dd>
@@ -231,7 +237,7 @@
                     <div class="col-md-offset-2">
                         <h4>Current status - @Model.CurrentOrder.Status</h4>
                         <h4>Next status - Waiting for execution</h4>
-                        @Html.ActionLink("Update Status", "UpdateStatus", "Manager", new { idUrl = Model.CurrentOrder.ID.ToString() }, htmlAttributes: new { @class = "btn btn-primary" }) <hr />
+                        @Html.ActionLink("Update Status", "UpdateStatus", "Manager", new { idUrl = Model.CurrentOrder.ID.ToString(), carID = Model.CurrentOrder.CarID.ToString(), cityID = Model.CurrentOrder.OfficeStart.CityID.ToString() },htmlAttributes: new { @class = "btn btn-primary" }) <hr />
 
                         @using (Html.BeginForm("DenyOrder", "Manager"))
                         {

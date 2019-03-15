@@ -1,4 +1,6 @@
-﻿namespace Entities
+﻿using System;
+
+namespace Entities
 {
     public class Stock
     {
@@ -10,7 +12,8 @@
 
         public virtual Car Car { get; set; }
 
+        public DateTime? RentStartDateTime { get; set; }
 
-        public int Amount { get; set; }
+        public DateTime? RentFinishDateTime { get; set; }
     }
 }

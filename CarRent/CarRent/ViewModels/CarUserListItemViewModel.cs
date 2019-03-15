@@ -1,6 +1,7 @@
 ﻿using Entities;
 using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
+using System;
 
 namespace CarRent.ViewModels
 {
@@ -11,6 +12,8 @@ namespace CarRent.ViewModels
         public string Brand { get; set; }
 
         public string Model { get; set; }
+        
+        public int CityID { get; set; }
 
         public string Grade { get; set; }
 
@@ -43,5 +46,7 @@ namespace CarRent.ViewModels
         public Dictionary<string, string> IconDescription { get; set; }
 
         public bool IsInStock { get; set; }
+
+        public DateTime? WillBeAviable { get; set; }
     }
 }
