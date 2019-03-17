@@ -30,12 +30,6 @@
             @Html.DisplayNameFor(model => model.RentFinishDateTime)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.AdditionalOptions)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Comment)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.Price)
         </th>
         <th></th>
@@ -70,15 +64,7 @@
         <td>
             @(item.RentFinishDateTime.ToShortDateString() + " " + item.RentFinishDateTime.ToShortTimeString())
         </td>
-        <td>
-            @foreach(var option in item.AdditionalOptions)
-            {
-                @option.Name <br /> 
-            }
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Comment)
-        </td>
+
         <td>
             @Html.DisplayFor(modelItem => item.Price)
         </td>

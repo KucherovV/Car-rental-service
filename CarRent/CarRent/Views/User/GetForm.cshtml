@@ -152,7 +152,8 @@
 
         $('#picker1').datetimepicker({
             format: 'DD.MM.YYYY H:mm',
-            minDate: '@DateTime.Now.ToString("MM-dd-yyyy H:mm")'
+            minDate: '@DateTime.Now.ToString("MM-dd-yyyy H:mm")',
+            maxDate: '@DateTime.Now.AddDays(3).ToString("MM-dd-yyyy H:mm")'
         });
 
         $('#picker2').datetimepicker({

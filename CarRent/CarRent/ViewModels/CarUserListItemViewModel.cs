@@ -48,5 +48,7 @@ namespace CarRent.ViewModels
         public bool IsInStock { get; set; }
 
         public DateTime? WillBeAviable { get; set; }
+
+        public bool IsBusy { get; set; }
     }
 }

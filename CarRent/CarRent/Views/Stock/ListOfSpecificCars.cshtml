@@ -1,0 +1,17 @@
+﻿@model CarRent.ViewModels.SpecificCarListViewModel
+
+@{
+    ViewBag.Title = "ListOfSpecificCars";
+
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Manage @Model.Car.BrandModel in @Model.City.Name</h2>
+
+<p>
+    @Ajax.ActionLink("Create New", "AddCar", new { cityId = Model.City.ID.ToString(), carID = Model.Car.ID.ToString() }, new AjaxOptions() { UpdateTargetId = "results" })
+</p>
+
+<div id="results">
+    @Html.Action("GetListOfSpecificCars", new { cityId = Model.City.ID.ToString(), carID = Model.Car.ID.ToString() })
+</div>

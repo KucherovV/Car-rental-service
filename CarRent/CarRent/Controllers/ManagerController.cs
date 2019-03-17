@@ -24,7 +24,7 @@ namespace CarRent.Controllers
 
         public ActionResult GetOrdersList(string search, List<string> SelectedStatuses)
         {
-            var orders = DB.GetList<Order>().ToList();
+            var orders = DB.GetList<Order>()/*.Where(o => o.IsArchived == false)*/.ToList();
             var offices = DB.GetList<Office>().ToList();
             var viewModels = new List<ManagerOrderViewModel>();
 
@@ -68,7 +68,17 @@ namespace CarRent.Controllers
                             color = "green";
                         }
                         break;
+                    case "On execution":
+                        {
+                            color = "purple";
+                        }
+                        break;
                     case "Denied":
+                        {
+                            color = "gray";
+                        }
+                        break;
+                    case "Executed":
                         {
                             color = "gray";
                         }
@@ -108,7 +118,15 @@ namespace CarRent.Controllers
                 {
                     var offices = DB.GetList<Office>().ToList();
                     var orders = DB.GetList<Order>().Where(o => o.UserID == order.UserID).ToList();
-                    var problems = DB.GetList<OrderProblem>().Where(o => o.Order.UserID == order.UserID).ToList();
+
+
+                    var problems = DB.GetList<OrderProblem>()/*.Where(o => o.Order.UserID == order.UserID)*/.ToList();
+                    foreach(var problem in problems)
+                    {
+                        problem.Order = DB.GetEntityById<Order>(problem.Order_ID) as Order;
+                    }
+
+
                     var orderProblemViewModels = new List<OrderProblemViewModel>();
 
                     order.OfficeStart = offices.SingleOrDefault(o => o.ID == order.OfficeIdStart);
@@ -116,7 +134,7 @@ namespace CarRent.Controllers
 
                     foreach(var ord in orders)
                     {
-                        var problem = problems.SingleOrDefault(p => p.OrderID == ord.ID);
+                        var problem = problems.SingleOrDefault(p => p.Order_ID == ord.ID);
                         var problemText = "No problems";
                         var fine = "";
                         if(problem != null)
@@ -146,7 +164,8 @@ namespace CarRent.Controllers
                         User = order.User,
                         OrderConfirmDeny = DB.GetList<OrderConfirmDeny>().SingleOrDefault(ocd => ocd.OrderID == order.ID) ?? new OrderConfirmDeny(),
                         OrderProblemViewModelsUserOrders = orderProblemViewModels,
-                        AdditionalOptions = JsonConvert.DeserializeObject<List<AdditionalOption>>(order.AdditionalOptionsJson)
+                        AdditionalOptions = JsonConvert.DeserializeObject<List<AdditionalOption>>(order.AdditionalOptionsJson),
+                        OrderProblem = DB.GetList<OrderProblem>().SingleOrDefault(op => op.Order_ID == order.ID)
                     };
 
                    
@@ -167,7 +186,7 @@ namespace CarRent.Controllers
             }
         }
 
-        public ActionResult UpdateStatus(string idUrl, string carID, string cityID)
+        public ActionResult UpdateStatus(string idUrl, string cityID, int? stockId)
         {
             try
             {
@@ -187,28 +206,10 @@ namespace CarRent.Controllers
                             break;                  
 
                         case "Waiting for customer confirm":
-                            {
-                                int cityId = int.Parse(cityID);
-                                int carId = int.Parse(carID);
-                                var city = DB.GetEntityById<City>(cityId) as City;
-                                var car = DB.GetEntityById<Car>(carId) as Car;
-
-                                if (city != null && car != null)
-                                {
-                                    
-                                    //var stock = DB.GetList<Stock>().First(s => s.CarID == carId && s.CityID == cityId && s.RentStartDateTime == null);
-                                    //stock.RentStartDateTime = order.RentStartDateTime;
-                                    //stock.RentFinishDateTime = order.RentFinishDateTime;
-                                    //DB.Update<Stock>(stock.ID);
-
-                                    order.Status = "Waiting for execution";
-                                    //order.StockID = stock.ID;
-                                    DB.Update<Order>(order.ID);
-                                }
-                                else
-                                {
-                                    return RedirectToAction("WrongUrl", "Error");
-                                }
+                            {                                      
+                                order.Status = "Waiting for execution";
+                                //order.StockID = stock.ID;
+                                DB.Update<Order>(order.ID);                                                        
                             }
                             break;
 
@@ -221,11 +222,24 @@ namespace CarRent.Controllers
 
                         case "On execution":
                             {
+                                if (stockId != null)
+                                {
+                                    order.Status = "Executed";
+                                    order.IsArchived = true;
+                                    DB.Update<Order>(order.ID);
 
+                                    var stock = DB.GetEntityById<Stock>((int)stockId) as Stock;
+                                    stock.IsBusy = false;
+                                    DB.Update<Stock>(stock.ID);
+                                }
+                                else
+                                {
+                                    RedirectToAction("OrderNotFound", "Error");
+                                }
                             }
                             break;
 
-                        case "Exucuted":
+                        case "Executed":
                             {
 
                             }
@@ -255,7 +269,6 @@ namespace CarRent.Controllers
             }
         }
 
-        //public ActionResult DenyOrder(OrderConfirmDeny deny)
         public ActionResult DenyOrder(OrderManageViewModel viewModel)
         {
             if (viewModel != null)
@@ -268,8 +281,42 @@ namespace CarRent.Controllers
 
                 DB.Save<OrderConfirmDeny>(deny);
 
-                return RedirectToAction("Orders");
+                var stock = DB.GetEntityById<Stock>((int)viewModel.CurrentOrder.StockID) as Stock;
+                stock.IsBusy = false;
+                DB.Update<Stock>(stock.ID);
 
+                return RedirectToAction("Orders");
+            }
+            else
+            {
+                return RedirectToAction("WrongUrl", "Error");
+            }
+        }
+
+        public ActionResult OrderProblem(OrderManageViewModel viewModel)
+        {
+            if (viewModel != null)
+            {
+                var problem = viewModel.OrderProblem;
+                problem.Order_ID = viewModel.OrderConfirmDeny.OrderID;
+                problem.UserID = viewModel.CurrentOrder.UserID;
+                
+                var order = DB.GetEntityById<Order>(viewModel.OrderConfirmDeny.OrderID) as Order;
+                order.Status = "Executed";
+                order.IsArchived = true;
+
+                var user = DB.GetEntityById<ApplicationUser>(viewModel.CurrentOrder.UserID) as ApplicationUser;
+                user.Fine += problem.Fine;
+
+                var stock = DB.GetEntityById<Stock>((int)viewModel.CurrentOrder.StockID) as Stock;
+                stock.IsBusy = false;
+
+                DB.Update<Order>(order.ID);
+                DB.Save<OrderProblem>(problem);
+                DB.Update<Stock>(stock.ID);
+                DB.Update<ApplicationUser>(viewModel.CurrentOrder.UserID);
+
+                return RedirectToAction("Orders");
             }
             else
             {

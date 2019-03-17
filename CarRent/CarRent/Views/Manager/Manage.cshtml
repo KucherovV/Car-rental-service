@@ -1,6 +1,7 @@
 ﻿@model CarRent.ViewModels.OrderManageViewModel
 @{
     ViewBag.Title = "Manage";
+    Layout = "~/Views/Shared/_ManagerLayout.cshtml";
 }
 
 <h2>Managing order</h2>
@@ -201,7 +202,6 @@
 </div>
 <div class="row">
     <div class="col-md-6">
-        <h3 class="col-md-offset-2">Action</h3>
         @switch (Model.CurrentOrder.Status)
         {
             case "Waiting for manager review":
@@ -214,8 +214,9 @@
                         @using (Html.BeginForm("DenyOrder", "Manager"))
                         {
                             <h5>Deny reason</h5>
-                            @Html.TextBoxFor(m => m.OrderConfirmDeny.Text, new { @class = "form-control reason" })
+                            @Html.TextBoxFor(m => m.OrderConfirmDeny.Text, new { @class = "form-control reasonDeny" })
                             @Html.HiddenFor(m => m.OrderConfirmDeny.OrderID, new { id = "OrderID", Value = Model.CurrentOrder.ID })
+                            @Html.HiddenFor(m => m.CurrentOrder.StockID)
                             <h6 class="error text-danger">Reason lenght must be between 10 and 100 characters</h6>
                             <br />
                             <input type="submit" value="Deny" class="btn btn-danger deny" />
@@ -237,13 +238,14 @@
                     <div class="col-md-offset-2">
                         <h4>Current status - @Model.CurrentOrder.Status</h4>
                         <h4>Next status - Waiting for execution</h4>
-                        @Html.ActionLink("Update Status", "UpdateStatus", "Manager", new { idUrl = Model.CurrentOrder.ID.ToString(), carID = Model.CurrentOrder.CarID.ToString(), cityID = Model.CurrentOrder.OfficeStart.CityID.ToString() },htmlAttributes: new { @class = "btn btn-primary" }) <hr />
+                        @Html.ActionLink("Update Status", "UpdateStatus", "Manager", new { idUrl = Model.CurrentOrder.ID.ToString(), carID = Model.CurrentOrder.CarID.ToString(), cityID = Model.CurrentOrder.OfficeStart.CityID.ToString() }, htmlAttributes: new { @class = "btn btn-primary" }) <hr />
 
                         @using (Html.BeginForm("DenyOrder", "Manager"))
                         {
                             <h5>Deny reason</h5>
-                            @Html.TextBoxFor(m => m.OrderConfirmDeny.Text, new { @class = "form-control reason" })
+                            @Html.TextBoxFor(m => m.OrderConfirmDeny.Text, new { @class = "form-control reasonDeny" })
                             @Html.HiddenFor(m => m.OrderConfirmDeny.OrderID, new { id = "OrderID", Value = Model.CurrentOrder.ID })
+                            @Html.HiddenFor(m => m.CurrentOrder.StockID)
                             <h6 class="error text-danger">Reason lenght must be between 10 and 100 characters</h6>
                             <br />
                             <input type="submit" value="Deny" class="btn btn-danger deny" />
@@ -262,8 +264,9 @@
                         @using (Html.BeginForm("DenyOrder", "Manager"))
                         {
                             <h5>Deny reason</h5>
-                            @Html.TextBoxFor(m => m.OrderConfirmDeny.Text, new { @class = "form-control reason" })
+                            @Html.TextBoxFor(m => m.OrderConfirmDeny.Text, new { @class = "form-control reasonDeny" })
                             @Html.HiddenFor(m => m.OrderConfirmDeny.OrderID, new { id = "OrderID", Value = Model.CurrentOrder.ID })
+                            @Html.HiddenFor(m => m.CurrentOrder.StockID)
                             <h6 class="error text-danger">Reason lenght must be between 10 and 100 characters</h6>
                             <br />
                             <input type="submit" value="Deny" class="btn btn-danger deny" />
@@ -274,13 +277,49 @@
 
             case "On execution":
                 {
+                    <div class="col-md-offset-2">
+                        <div class="col-md-6">
+                            <h4>Current status - @Model.CurrentOrder.Status</h4>
+                            <h4>Next status - Executed</h4>
+                            @Html.ActionLink("Update Status", "UpdateStatus", "Manager", new { idUrl = Model.CurrentOrder.ID.ToString(), stockId = Model.CurrentOrder.StockID}, htmlAttributes: new { @class = "btn btn-primary" }) <hr />
+                        </div>
+                        <div class="col-md-6">
+                            @using (Html.BeginForm("OrderProblem", "Manager"))
+                            {
+                                <h4>If there were any car damage or other issues, fill this form</h4>
+                                @Html.TextBoxFor(m => m.OrderProblem.Text, new { @class = "form-control reason" })
+                                <h6 class="error text-danger">Reason lenght must be between 10 and 100 characters</h6>
 
+                                <br />
+
+                                @Html.TextBoxFor(m => m.OrderProblem.Fine, new { @class = "form-control fine" })
+                                <h6 class="errorFine text-danger">Fine bust be between 1 and 10000$</h6>
+
+                                @Html.HiddenFor(m => m.OrderConfirmDeny.OrderID, new { id = "OrderID", Value = Model.CurrentOrder.ID })
+                                @Html.HiddenFor(m => m.CurrentOrder.StockID)
+                                @Html.HiddenFor(m => m.CurrentOrder.UserID)
+
+                                <br />
+                                <input type="submit" value="Register problem" class="btn btn-danger denyProblem" />
+                            }
+                        </div>
+                    </div>
                 }
                 break;
 
-            case "Exucuted":
+            case "Executed":
                 {
-
+                    <div class="col-md-offset-2">
+                        @if(Model.OrderProblem == null)
+                        {
+                            <h4>This order has been executed without any issues</h4>
+                        }
+                        else
+                        {
+                            <h3 class="text-danger">There was an issue in this order: <br /></h3>
+                            <h4>Reason - @Model.OrderProblem.Text <br />Fine - @Model.OrderProblem.Fine</h4>
+                        }
+                    </div>
                 }
                 break;
         }
@@ -294,11 +333,47 @@
 <script type="text/javascript">
     $(function () {
         $('.error').hide();
-            
-        $('.deny').click(function (e) {
+        $('.errorFine').hide();
+
+        $('.reason').focusout(reasonValidate);
+        $('.fine').focusout(fineValidate);
+        $('.reasonDeny').focusout(reasonValidateDeny);
+
+        function reasonValidate() {
+            $('.error').hide();
             if ($('.reason').val().length <= 10 || $('.reason').val().length >= 100) {
-                e.preventDefault();
                 $('.error').show();
+            }
+        }
+
+        function fineValidate() {
+            $('.errorFine').hide();
+                if (isNaN(parseInt($('.fine').val())) || parseInt($('.fine').val()) <= 1 || parseInt($('.fine').val()) >= 10000) {
+                    $('.errorFine').show();
+                }
+        }
+
+        function reasonValidateDeny() {
+            $('.error').hide();
+            if ($('.reasonDeny').val().length <= 10 || $('.reasonDeny').val().length >= 100) {
+                $('.error').show();
+            }
+        }
+
+        $('.denyProblem').click(function (e) {         
+            reasonValidate();
+            fineValidate();
+
+            if (!$('.error').is(":hidden") || !$('.errorFine').is(":hidden")) {
+                e.preventDefault();
+            }
+        });
+
+         $('.deny').click(function (e) {         
+             reasonValidateDeny();
+
+            if (!$('.error').is(":hidden")) {
+                e.preventDefault();
             }
         });
     });

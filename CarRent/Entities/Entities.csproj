@@ -68,6 +68,7 @@
     <Compile Include="OrderConfirmDeny.cs" />
     <Compile Include="OrderProblem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SpecificCar.cs" />
     <Compile Include="Stock.cs" />
   </ItemGroup>
   <ItemGroup>

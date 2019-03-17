@@ -122,7 +122,7 @@ namespace Entities
                     "Waiting for customer confirm",
                     "Waiting for execution",
                     "On execution",
-                    "Exucuted",
+                    "Executed",
                     "Archived"
                 };
             }

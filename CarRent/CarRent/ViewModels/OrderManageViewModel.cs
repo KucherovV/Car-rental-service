@@ -14,5 +14,7 @@ namespace CarRent.ViewModels
         public OrderConfirmDeny OrderConfirmDeny { get; set; }
 
         public List<AdditionalOption> AdditionalOptions { get; set; }
+
+        public OrderProblem OrderProblem { get; set; }
     }
 }

@@ -3,13 +3,12 @@
     ViewBag.Title = "RentForm";
 }
 
-
 <div class="container">
     <div class="row">
         <h2>Rent a Car</h2>
         <div class="col-md-7">
             @using (Ajax.BeginForm("RentForm", "User", new AjaxOptions() { UpdateTargetId = "results"}))
-            {          
+            {
                 <div id="results">
                     @Html.Action("GetForm", new { viewModel = Model})
                 </div>

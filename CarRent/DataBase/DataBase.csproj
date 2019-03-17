@@ -136,6 +136,86 @@
     <Compile Include="Migrations\201903150823272_extOrderClass.Designer.cs">
       <DependentUpon>201903150823272_extOrderClass.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201903151211472_remadeStockClass.cs" />
+    <Compile Include="Migrations\201903151211472_remadeStockClass.Designer.cs">
+      <DependentUpon>201903151211472_remadeStockClass.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903151222556_remadeStockClass1.cs" />
+    <Compile Include="Migrations\201903151222556_remadeStockClass1.Designer.cs">
+      <DependentUpon>201903151222556_remadeStockClass1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903151240342_addedSpecificCars.cs" />
+    <Compile Include="Migrations\201903151240342_addedSpecificCars.Designer.cs">
+      <DependentUpon>201903151240342_addedSpecificCars.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903151256200_remasteredStockModel.cs" />
+    <Compile Include="Migrations\201903151256200_remasteredStockModel.Designer.cs">
+      <DependentUpon>201903151256200_remasteredStockModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903151257178_remasteredStockModel2.cs" />
+    <Compile Include="Migrations\201903151257178_remasteredStockModel2.Designer.cs">
+      <DependentUpon>201903151257178_remasteredStockModel2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903151314296_remasteredStockModel3.cs" />
+    <Compile Include="Migrations\201903151314296_remasteredStockModel3.Designer.cs">
+      <DependentUpon>201903151314296_remasteredStockModel3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903151316293_remasteredStockModel4.cs" />
+    <Compile Include="Migrations\201903151316293_remasteredStockModel4.Designer.cs">
+      <DependentUpon>201903151316293_remasteredStockModel4.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903151337067_remasteredStockModel5.cs" />
+    <Compile Include="Migrations\201903151337067_remasteredStockModel5.Designer.cs">
+      <DependentUpon>201903151337067_remasteredStockModel5.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903151427472_remasteredStockModel6.cs" />
+    <Compile Include="Migrations\201903151427472_remasteredStockModel6.Designer.cs">
+      <DependentUpon>201903151427472_remasteredStockModel6.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903151613483_remasteredStockModel7.cs" />
+    <Compile Include="Migrations\201903151613483_remasteredStockModel7.Designer.cs">
+      <DependentUpon>201903151613483_remasteredStockModel7.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903151754273_remasteredStockModel8.cs" />
+    <Compile Include="Migrations\201903151754273_remasteredStockModel8.Designer.cs">
+      <DependentUpon>201903151754273_remasteredStockModel8.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903161118055_ext.cs" />
+    <Compile Include="Migrations\201903161118055_ext.Designer.cs">
+      <DependentUpon>201903161118055_ext.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903162232325_extOrder.cs" />
+    <Compile Include="Migrations\201903162232325_extOrder.Designer.cs">
+      <DependentUpon>201903162232325_extOrder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903162237366_extOrder1.cs" />
+    <Compile Include="Migrations\201903162237366_extOrder1.Designer.cs">
+      <DependentUpon>201903162237366_extOrder1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903162238049_extstock1.cs" />
+    <Compile Include="Migrations\201903162238049_extstock1.Designer.cs">
+      <DependentUpon>201903162238049_extstock1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903170828433_1.cs" />
+    <Compile Include="Migrations\201903170828433_1.Designer.cs">
+      <DependentUpon>201903170828433_1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903170854190_archiveOrder.cs" />
+    <Compile Include="Migrations\201903170854190_archiveOrder.Designer.cs">
+      <DependentUpon>201903170854190_archiveOrder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903171100578_extOrderProblem.cs" />
+    <Compile Include="Migrations\201903171100578_extOrderProblem.Designer.cs">
+      <DependentUpon>201903171100578_extOrderProblem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903171118176_extUserModel.cs" />
+    <Compile Include="Migrations\201903171118176_extUserModel.Designer.cs">
+      <DependentUpon>201903171118176_extUserModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903171145309_extUser2.cs" />
+    <Compile Include="Migrations\201903171145309_extUser2.Designer.cs">
+      <DependentUpon>201903171145309_extUser2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -209,6 +289,66 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201903150823272_extOrderClass.resx">
       <DependentUpon>201903150823272_extOrderClass.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903151211472_remadeStockClass.resx">
+      <DependentUpon>201903151211472_remadeStockClass.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903151222556_remadeStockClass1.resx">
+      <DependentUpon>201903151222556_remadeStockClass1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903151240342_addedSpecificCars.resx">
+      <DependentUpon>201903151240342_addedSpecificCars.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903151256200_remasteredStockModel.resx">
+      <DependentUpon>201903151256200_remasteredStockModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903151257178_remasteredStockModel2.resx">
+      <DependentUpon>201903151257178_remasteredStockModel2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903151314296_remasteredStockModel3.resx">
+      <DependentUpon>201903151314296_remasteredStockModel3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903151316293_remasteredStockModel4.resx">
+      <DependentUpon>201903151316293_remasteredStockModel4.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903151337067_remasteredStockModel5.resx">
+      <DependentUpon>201903151337067_remasteredStockModel5.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903151427472_remasteredStockModel6.resx">
+      <DependentUpon>201903151427472_remasteredStockModel6.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903151613483_remasteredStockModel7.resx">
+      <DependentUpon>201903151613483_remasteredStockModel7.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903151754273_remasteredStockModel8.resx">
+      <DependentUpon>201903151754273_remasteredStockModel8.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903161118055_ext.resx">
+      <DependentUpon>201903161118055_ext.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903162232325_extOrder.resx">
+      <DependentUpon>201903162232325_extOrder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903162237366_extOrder1.resx">
+      <DependentUpon>201903162237366_extOrder1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903162238049_extstock1.resx">
+      <DependentUpon>201903162238049_extstock1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903170828433_1.resx">
+      <DependentUpon>201903170828433_1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903170854190_archiveOrder.resx">
+      <DependentUpon>201903170854190_archiveOrder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903171100578_extOrderProblem.resx">
+      <DependentUpon>201903171100578_extOrderProblem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903171118176_extUserModel.resx">
+      <DependentUpon>201903171118176_extUserModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903171145309_extUser2.resx">
+      <DependentUpon>201903171145309_extUser2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

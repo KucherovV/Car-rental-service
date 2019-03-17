@@ -47,6 +47,8 @@ namespace DataBase
             return new ApplicationDbContext();
         }
 
+        //public System.Data.Entity.DbSet<Entities.ApplicationUser> ApplicationUsers { get; set; }
+
         //public System.Data.Entity.DbSet<CarRent.ViewModels.ManagerOrderViewModel> ManagerOrderViewModels { get; set; }
 
         //public System.Data.Entity.DbSet<Entities.ApplicationUser> ApplicationUsers { get; set; }

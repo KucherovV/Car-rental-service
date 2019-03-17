@@ -195,12 +195,14 @@
     <Compile Include="Controllers\ManagerController.cs" />
     <Compile Include="Controllers\ManagerEditController.cs" />
     <Compile Include="Controllers\OfficeController.cs" />
+    <Compile Include="Controllers\PaymentController.cs" />
     <Compile Include="Controllers\StockController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="CustomValidation\BirthDateValidation.cs" />
     <Compile Include="CustomValidation\CheckDriverLicense.cs" />
     <Compile Include="CustomValidation\RentStartDateValidation.cs" />
     <Compile Include="CustomValidation\TimeValidation.cs" />
+    <Compile Include="CustomValidation\UniqueVIN.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -223,7 +225,11 @@
     <Compile Include="ViewModels\OrderListViewModel.cs" />
     <Compile Include="ViewModels\OrderManageViewModel.cs" />
     <Compile Include="ViewModels\OrderProblemViewModel.cs" />
+    <Compile Include="ViewModels\PaymentIndex.cs" />
+    <Compile Include="ViewModels\SpecificCarEditViewModel.cs" />
+    <Compile Include="ViewModels\SpecificCarListViewModel.cs" />
     <Compile Include="ViewModels\StockManageViewModel.cs" />
+    <Compile Include="ViewModels\UserDebtInfo.cs" />
     <Compile Include="ViewModels\UserDetailsViewModel.cs" />
     <Compile Include="ViewModels\UserIndexViewModel.cs" />
   </ItemGroup>
@@ -428,10 +434,19 @@
     <Content Include="Views\Manager\GetOrdersList.cshtml" />
     <Content Include="Views\Error\OrderNotFound.cshtml" />
     <Content Include="Views\Manager\Manage.cshtml" />
+    <Content Include="Views\Stock\ListOfSpecificCars.cshtml" />
+    <Content Include="Views\Stock\AddCar.cshtml" />
+    <Content Include="Views\Stock\GetListOfSpecificCars.cshtml" />
+    <Content Include="Views\Shared\_ManagerLayout.cshtml" />
+    <Content Include="Views\Payment\Index.cshtml" />
+    <Content Include="Views\Payment\Edit.cshtml" />
+    <Content Include="Views\Payment\GetUserInfo.cshtml" />
+    <Content Include="Views\Error\UserHasDebt.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\ProductImages\" />
+    <Folder Include="Views\SpecificCar\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

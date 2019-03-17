@@ -54,5 +54,11 @@ namespace CarRent.Controllers
         {
             return View();
         }
+
+        public ActionResult UserHasDebt(string amount)
+        {
+            ViewBag.Amount = amount;
+            return View();
+        }
     }
 }

@@ -25,16 +25,7 @@
             </td>
 
             <td>
-                @Ajax.ActionLink("Add Car", "AddCar", "Stock", new {cityId = Model.City.ID.ToString(), carID = item.Car.ID.ToString() }, new AjaxOptions { UpdateTargetId = "results" }, new { @class = "btn btn-info" })
-
-                @if ((item.Amount - item.AmountRented) >= 1)
-                {
-                    @Ajax.ActionLink("Remove car", "RemoveCar", "Stock", new { cityId = Model.City.ID.ToString(), carID = item.Car.ID.ToString() }, new AjaxOptions { UpdateTargetId = "results" }, new { @class = "btn btn-warning" })
-                }
-                else
-                {
-                    @Ajax.ActionLink("Remove Car", "RemoveCar", "Stock", new { cityId = Model.City.ID.ToString(), carID = item.Car.ID.ToString() }, new AjaxOptions { UpdateTargetId = "results" }, new { @class = "btn btn-warning disabled" })
-                }
+                @Html.ActionLink("Manage specific cars", "ListOfSpecificCars", "Stock", new {cityId = Model.City.ID.ToString(), carID = item.Car.ID.ToString() }, new { @class = "btn btn-info" })               
             </td>
         </tr>
 

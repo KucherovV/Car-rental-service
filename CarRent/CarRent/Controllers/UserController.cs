@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using Entities;
+﻿using CarRent.ViewModels;
 using DataBase;
-using CarRent.ViewModels;
+using Entities;
 using Microsoft.AspNet.Identity;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
 
 namespace CarRent.Controllers
 {
@@ -15,12 +15,12 @@ namespace CarRent.Controllers
     public class UserController : Controller
     {
         public ActionResult CarList()
-        {           
+        {
             var pricing = DB.GetList<CarTimePricing>().ToList();
 
             IEnumerable<Car> cars = DB.GetList<Car>().Where(c => c.Archived == false);
             var carsInDB = new List<string>();
-            foreach(var car in cars)
+            foreach (var car in cars)
             {
                 carsInDB.Add(car.Brand);
             }
@@ -72,9 +72,9 @@ namespace CarRent.Controllers
             }
             cars = cars.ToList();
 
-            if(cars.Count() != 0)
+            if (cars.Count() != 0)
             {
-                if(SelectedBrands != null)
+                if (SelectedBrands != null)
                 {
                     var tempCars = new List<Car>();
                     foreach (var item in cars)
@@ -88,18 +88,28 @@ namespace CarRent.Controllers
                 foreach (var car in cars)
                 {
                     var freeCarInStock = DB.GetList<Stock>()
-                        .FirstOrDefault(s => s.CityID == CityID && s.CarID == car.ID && s.RentStartDateTime == null) as Stock;
+                        .FirstOrDefault(s => s.CityID == CityID && s.CarID == car.ID && s.IsBusy == false) as Stock;
+
                     bool inStock;
+                    //bool isBusy;
                     DateTime? abilityTime = null;
 
                     if (freeCarInStock == null)
                     {
                         inStock = false;
-                        abilityTime = DB.GetList<Stock>().Where(s => s.CarID == car.ID && s.CityID == CityID)
-                            .Select(s => s.RentFinishDateTime).Min();
+
+                        var temp = DB.GetList<Order>()
+                                    .Where(o => o.CarID == car.ID
+                                        && o.Stock.CityID == (int)CityID)
+                                    .Select(o => o.RentFinishDateTime).ToList();
+                        if (temp.Count != 0)
+                            abilityTime = temp.Min();
+
+
                     }
                     else
                     {
+                        //isBusy = false;
                         inStock = true;
                     }
 
@@ -122,7 +132,6 @@ namespace CarRent.Controllers
                         CityID = (int)CityID,
                         IsInStock = inStock,
                         WillBeAviable = abilityTime
-
                     });
                 }
 
@@ -158,7 +167,7 @@ namespace CarRent.Controllers
                     items = temp;
                 }
 
-                if(SelectedEngineTypes != null)
+                if (SelectedEngineTypes != null)
                 {
                     var temp = new List<CarUserListItemViewModel>();
                     foreach (var item in items)
@@ -169,7 +178,7 @@ namespace CarRent.Controllers
                     items = temp;
                 }
 
-                if(MinPricePerDay == null)
+                if (MinPricePerDay == null)
                 {
                     var pricing = DB.GetList<CarTimePricing>().ToList();
                     MinPricePerDay = 0;
@@ -187,9 +196,9 @@ namespace CarRent.Controllers
                 items = temp1;
             }
 
-            foreach(var item in items)
+            foreach (var item in items)
             {
-                item.IconDescription = new Dictionary<string, string>(); 
+                item.IconDescription = new Dictionary<string, string>();
 
                 string path = Constants.IconsPath;
                 switch (item.EngineType)
@@ -208,7 +217,7 @@ namespace CarRent.Controllers
                         {
                             item.IconDescription.Add(path + "electric.png", "Electro");
                         }
-                        break;                 
+                        break;
                 }
 
                 switch (item.TransmissionType)
@@ -243,17 +252,17 @@ namespace CarRent.Controllers
             }
 
             var finalList = new List<CarUserListItemViewModel>();
-            foreach(var item in items)
+            foreach (var item in items)
             {
                 var pricing = (DB.GetList<CarTimePricing>()).SingleOrDefault(p => p.CarID == item.ID);
-                if(pricing != null)
+                if (pricing != null)
                 {
                     finalList.Add(item);
                 }
             }
-         
+
             return PartialView(finalList);
-        }   
+        }
 
         [HttpGet]
         public ActionResult RentForm(string idUrl, string cityID)
@@ -262,6 +271,12 @@ namespace CarRent.Controllers
             if (!user.PhoneNumberConfirmed)
             {
                 return RedirectToAction("AddPhoneNumber", "Manage");
+            }
+
+            if(user.Fine > 0 || user.Debt > 0)
+            {
+                int amount = user.Debt + user.Fine;
+                return RedirectToAction("UserHasDebt", "Error", new { amount = amount });
             }
 
             try
@@ -273,7 +288,6 @@ namespace CarRent.Controllers
 
                 if (car != null && city != null)
                 {
-
                     var viewModel = new OrderCreateViewModel()
                     {
                         CarID = car.ID,
@@ -285,7 +299,7 @@ namespace CarRent.Controllers
                         RentStartDate = null,
                         Car = car
                     };
-                 
+
                     return View(viewModel);
                 }
                 else
@@ -306,19 +320,26 @@ namespace CarRent.Controllers
         [HttpGet]
         public ActionResult GetForm(OrderCreateViewModel viewModel)
         {
-            return PartialView("GetForm", viewModel);         
-        }    
+            return PartialView("GetForm", viewModel);
+        }
 
         [HttpPost]
         public ActionResult RentForm(OrderCreateViewModel viewModel)
         {
+            var user = DB.GetEntityById<ApplicationUser>(User.Identity.GetUserId()) as ApplicationUser;
+            if (user.Fine > 0 || user.Debt > 0)
+            {
+                int amount = user.Debt + user.Fine;
+                return RedirectToAction("UserHasDebt", "Error", new { amount = amount });
+            }
+
             if (viewModel != null)
             {
                 viewModel.UserID = User.Identity.GetUserId();
 
                 viewModel.AdditionalOptions = new List<AdditionalOption>();
                 var allOptions = DB.GetList<AdditionalOption>().ToList();
-                for(int i = 0; i < allOptions.Count; i++)
+                for (int i = 0; i < allOptions.Count; i++)
                 {
                     if (viewModel.OptionsSelected[i])
                     {
@@ -328,8 +349,6 @@ namespace CarRent.Controllers
 
                 var pricing = (DB.GetList<CarTimePricing>()).SingleOrDefault(p => p.CarID == viewModel.CarID);
                 int price = 0;
-
-
                 int days = ((DateTime)viewModel.RentFinishDate - (DateTime)viewModel.RentStartDate).Days;
 
                 var PricePer1Day = pricing.PricePer1Day;
@@ -364,9 +383,14 @@ namespace CarRent.Controllers
                     price = days * PricePerMoreThanMonth;
                 }
 
-                foreach(var option in viewModel.AdditionalOptions)
+                foreach (var option in viewModel.AdditionalOptions)
                 {
                     price += option.Price;
+                }
+
+                if((DateTime)viewModel.RentStartDate > DateTime.Now.AddDays(3))
+                {
+                    ModelState.AddModelError("RentStartDateTime", "THE DATE OF THE BEGINNING OF THE ORDER MUST NOT START LATER THAN IN 3 DAYS");
                 }
 
                 if (ModelState.IsValid)
@@ -386,16 +410,39 @@ namespace CarRent.Controllers
                         Status = "Waiting for manager review"
                     };
 
+                    //find free and busy stocks
+                    viewModel.OfficeStart = DB.GetEntityById<Office>(viewModel.OfficeIdStart) as Office;
                     var cityID = (DB.GetEntityById<Office>(viewModel.OfficeIdStart) as Office).CityID;
-                    var stock = DB.GetList<Stock>().First(s => s.CarID == viewModel.CarID && s.CityID == cityID && s.RentStartDateTime == null);
-                    stock.RentStartDateTime = order.RentStartDateTime;
-                    stock.RentFinishDateTime = order.RentFinishDateTime;
-                    DB.Update<Stock>(stock.ID);
+                    //var stocks = DB.GetList<Stock>()
+                    //    .Where(s => s.IsArchive == false && s.CarID == viewModel.CarID && s.CityID == cityID).ToList();
+                    var orders = DB.GetList<Order>().ToList();
+                    foreach(var item in orders)
+                    {
+                        item.OfficeStart = DB.GetEntityById<Office>(item.OfficeIdStart) as Office;
+                    }
 
-                    order.StockID = stock.ID;
+                    orders = orders.Where(o => o.CarID == order.CarID && o.Stock.CityID == viewModel.OfficeStart.CityID)
+                        .ToList();
 
-                    DB.Save<Order>(order);
+                    var stocksFree = DB.GetList<Stock>().Where(s => s.CityID == cityID
+                        && s.CarID == viewModel.CarID 
+                        && s.IsBusy == false).ToList();
+                
+                    if (stocksFree.Count != 0)
+                    {
+                        order.StockID = stocksFree.First().ID;
+                        stocksFree.First().IsBusy = true;
+                        DB.Save<Order>(order);
 
+                        user = DB.GetEntityById<ApplicationUser>(order.UserID) as ApplicationUser; // var user
+                        user.Debt += order.Price;
+                        DB.Update<ApplicationUser>(user.Id);
+                    }
+                    else
+                    {
+                        return RedirectToAction("OrderNotFound", "Error");
+                    }
+                  
                     return JavaScript("window.location = 'http://localhost:55702/User/OrderSuccess'");
                 }
                 else

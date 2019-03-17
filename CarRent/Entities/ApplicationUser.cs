@@ -34,5 +34,9 @@ namespace Entities
         public bool IsBlocked { get; set; }
 
         public DateTime? BlockEnd { get; set; }
+
+        public int Fine { get; set; }
+
+        public int Debt { get; set; }
     }
 }

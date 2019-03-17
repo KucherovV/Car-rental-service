@@ -1,0 +1,40 @@
+﻿@model Entities.ApplicationUser
+
+<div>
+    <h4>@(Model.FirstName + " " + Model.LastName)'s debts</h4>
+    <hr />
+    <table style="width:40%" class="table">
+        <tr>
+            <th>Name</th>
+            <th>Amount</th>
+            <th></th>
+        </tr>
+        <tr>
+            <td>Debt</td>
+            <td>@Model.Debt $</td>
+            @if (Model.Debt > 0)
+            {
+                <td>@Ajax.ActionLink("Pay debt", "PayDebt", new { userID = Model.Id}, new AjaxOptions() { UpdateTargetId = "results" })</td>
+            }
+            else
+            {
+               <td>Payed</td>
+            }
+        </tr>
+        <tr>
+            <td>Fine</td>
+            <td>@Model.Fine $</td>
+            @if (Model.Fine > 0)
+            {
+            <td>@Ajax.ActionLink("Pay fine", "PayFine",  new { userID = Model.Id}, new AjaxOptions() { UpdateTargetId = "results" })</td>
+            }
+            else
+            {
+                <td>Payed</td>
+            }
+        </tr>
+    </table>
+</div>
+<p>
+    @Html.ActionLink("Back to List", "Index")
+</p>

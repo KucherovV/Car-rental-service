@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System;
 using CarRent.ViewModels;
+using System.Data.SqlClient;
+using System.Data.Entity.Infrastructure;
 
 namespace CarRent.Controllers
 {
@@ -64,7 +66,7 @@ namespace CarRent.Controllers
                     {
                         Car = car,
                         Amount = stocks.Where(s => s.CarID == car.ID && s.CityID == city.ID).Count(),
-                        AmountRented = stocks.Where(s => s.CarID == car.ID && s.CityID == city.ID && s.RentStartDateTime != null).Count()
+                        AmountRented = stocks.Where(s => s.CarID == car.ID && s.CityID == city.ID && s.IsBusy == true).Count(),
                     });
                 }
              
@@ -86,26 +88,97 @@ namespace CarRent.Controllers
             }
         }
 
+        public ActionResult ListOfSpecificCars(string carID, string cityID)
+        {
+            try
+            {
+                int carId = int.Parse(carID);
+                int cityId = int.Parse(cityID);
+
+                var car = DB.GetEntityById<Car>(carId) as Car;
+                var city = DB.GetEntityById<City>(cityId) as City;
+
+                if (car != null && city != null)
+                {
+                    var stocks = DB.GetList<Stock>().Where(s => s.CityID == cityId && s.CarID == carId).ToList();
+
+                    var viewModel = new SpecificCarListViewModel()
+                    {
+                        Car = car,
+                        City = city
+                    };
+
+                    return View(viewModel);                   
+                }
+                else
+                {
+                    return RedirectToAction("WrongUrl", "Error");
+                }
+            }
+            catch (ArgumentException)
+            {
+                return RedirectToAction("WrongUrl", "Error");
+            }
+            catch (FormatException)
+            {
+                return RedirectToAction("WrongUrl", "Error");
+            }
+        }
+
+        public ActionResult GetListOfSpecificCars(string carID, string cityID)
+        {
+            try
+            {
+                int carId = int.Parse(carID);
+                int cityId = int.Parse(cityID);
+
+                var car = DB.GetEntityById<Car>(carId) as Car;
+                var city = DB.GetEntityById<City>(cityId) as City;
+
+                if (car != null && city != null)
+                {
+                    var stocks = DB.GetList<Stock>().Where(s => s.CityID == cityId && s.CarID == carId).ToList();
+
+                    
+                    return PartialView(stocks);
+                }
+                else
+                {
+                    return RedirectToAction("WrongUrl", "Error");
+                }
+            }
+            catch (ArgumentException)
+            {
+                return RedirectToAction("WrongUrl", "Error");
+            }
+            catch (FormatException)
+            {
+                return RedirectToAction("WrongUrl", "Error");
+            }
+        }
+
+        [HttpGet]
         public ActionResult AddCar(string cityID, string carID)
         {
             try
             {
-                int cityId = int.Parse(cityID);
                 int carId = int.Parse(carID);
+                int cityId = int.Parse(cityID);
 
-                var city = DB.GetEntityById<City>(cityId) as City;
                 var car = DB.GetEntityById<Car>(carId) as Car;
+                var city = DB.GetEntityById<City>(cityId) as City;
 
-                if(city != null && car != null)
+                if (car != null && city != null)
                 {
-                    var stock = new Stock()
+                    var stock = new SpecificCarEditViewModel()
                     {
                         CarID = carId,
-                        CityID = cityId
+                        Car = car,
+                        CityID = cityId,
+                        City = city
                     };
 
-                    DB.Save<Stock>(stock);
-                    return RedirectToAction("GetStockList", new { idUrl = cityID });
+                    return View(stock);
                 }
                 else
                 {
@@ -120,26 +193,34 @@ namespace CarRent.Controllers
             catch (FormatException)
             {
                 return RedirectToAction("WrongUrl", "Error");
-            }      
+            }
         }
 
-        public ActionResult RemoveCar(string cityID, string carID)
+        [HttpGet]
+        public ActionResult EditCar(string idUrl)
         {
             try
             {
-                int cityId = int.Parse(cityID);
-                int carId = int.Parse(carID);
+                int id = int.Parse(idUrl);
+                var stock = DB.GetEntityById<Stock>(id) as Stock;
 
-                var city = DB.GetEntityById<City>(cityId) as City;
-                var car = DB.GetEntityById<Car>(carId) as Car;
-
-                if (city != null && car != null)
+                if (stock != null && !stock.IsBusy)
                 {
-                    var stock = DB.GetList<Stock>().First(s => s.CarID == carId && s.CityID == cityId && s.RentStartDateTime == null);
+                    var viewModel = new SpecificCarEditViewModel()
+                    {
+                        Car = stock.Car,
+                        CarID = stock.CarID,
+                        City = stock.City,
+                        CityID = stock.CityID,
+                        Color = stock.Color,
+                        Defects = stock.Defects,
+                        ID = stock.ID,
+                        RegistrationNumber = stock.RegistrationNumber,
+                        VIN = stock.VIN,
+                        IsEditing = true
+                    };
 
-                    DB.Delete<Stock>(stock);
-
-                    return RedirectToAction("GetStockList", new { idUrl = cityID });
+                    return View("AddCar", viewModel);
                 }
                 else
                 {
@@ -155,42 +236,114 @@ namespace CarRent.Controllers
             {
                 return RedirectToAction("WrongUrl", "Error");
             }
+        }
 
-            //    try
-            //    {
-            //        int id = int.Parse(idUrl);
-            //        int cityId = int.Parse(cityID);
+        [HttpPost]
+        public ActionResult AddCar(SpecificCarEditViewModel viewModel)
+        {
+            try
+            {
 
-            //        if (id == 0)
-            //        {
-            //            throw new ArgumentException();
-            //        }
-            //        else
-            //        {
-            //            var carInSrock = DB.GetEntityById<Stock>(id) as Stock;
-            //            if (carInSrock != null)
-            //            {
-            //                carInSrock.Amount--;
-            //                DB.Update<Stock>(id);
+                if (ModelState.IsValid)
+                {
+                    var stock = new Stock();
 
-            //                return RedirectToAction("GetStockList", new { idUrl = cityID });
-            //            }
-            //            else
-            //            {
-            //                return RedirectToAction("GetStockList", new { idUrl = cityID });
-            //            }
-            //        }
-            //    }
-            //    catch (ArgumentException)
-            //    {
-            //        return RedirectToAction("WrongUrl", "Error");
-            //    }
-            //    catch (FormatException)
-            //    {
-            //        return RedirectToAction("WrongUrl", "Error");
-            //    }
-            //}
-            return null;
+                    if (viewModel.IsEditing)
+                    {
+                        stock = DB.GetEntityById<Stock>(viewModel.ID) as Stock;
+                        stock.CarID = viewModel.CarID;
+                        stock.CityID = viewModel.CityID;
+                        stock.Color = viewModel.Color;
+                        stock.Defects = viewModel.Defects;
+                        stock.RegistrationNumber = viewModel.RegistrationNumber;
+                        stock.VIN = viewModel.VIN;
+
+                        DB.Update<Stock>(viewModel.ID);
+                    }
+                    else
+                    {
+                        stock = new Stock()
+                        {
+                            CarID = viewModel.CarID,
+                            CityID = viewModel.CityID,
+                            Color = viewModel.Color,
+                            Defects = viewModel.Defects,
+                            RegistrationNumber = viewModel.RegistrationNumber,
+                            VIN = viewModel.VIN
+                        };
+
+                        DB.Save<Stock>(stock);
+                    }
+
+                    return RedirectToAction("ListOfSpecificCars", "Stock", new { cityID = viewModel.CityID, carID = viewModel.CarID });
+                    //var stocks = DB.GetList<Stock>().Where(s => s.CityID == stock.CityID && s.CarID == stock.CarID).ToList();
+                    //return PartialView("GetListOfSpecificCars", stocks);
+                }
+                else
+                {
+                    ModelState.AddModelError("VIN", "Vin is not unique");
+                    viewModel.Car = DB.GetEntityById<Car>(viewModel.CarID) as Car;
+                    viewModel.City = DB.GetEntityById<City>(viewModel.CityID) as City;
+
+                    return View(viewModel);
+                }
+                
+            }
+            catch (ArgumentException)
+            {
+                return RedirectToAction("WrongUrl", "Error");
+            }
+            catch (FormatException)
+            {
+                return RedirectToAction("WrongUrl", "Error");
+            }
+            catch (DbUpdateException)
+            {
+                ModelState.AddModelError("VIN", "VIN is not unique");
+                //return RedirectToAction("AddCar", "Stock", new { cityID = viewModel.CityID, carID = viewModel.CarID });
+                return RedirectToAction("GetListOfSpecificCars", "Stock", new { cityID = viewModel.CityID, carID = viewModel.CarID });
+            }
+        }
+
+        [HttpGet]
+        public ActionResult Archive(string idUrl)
+        {
+            try
+            {
+                int id = int.Parse(idUrl);
+                var stock = DB.GetEntityById<Stock>(id) as Stock;
+
+                if (stock != null && !stock.IsBusy)
+                {
+                    if (stock.IsArchive)
+                    {
+                        stock.IsArchive = false;
+                    }
+                    else
+                    {
+                        stock.IsArchive = true;
+                    }
+
+                    DB.Update<Stock>(stock.ID);
+
+                    //return RedirectToAction("ListOfSpecificCars", "Stock", new { cityID = stock.CityID, carID = stock.CarID });
+                    var stocks = DB.GetList<Stock>().Where(s => s.CityID == stock.CityID && s.CarID == stock.CarID).ToList();
+                    return PartialView("GetListOfSpecificCars", stocks);
+                }
+                else
+                {
+                    return RedirectToAction("WrongUrl", "Error");
+                }
+
+            }
+            catch (ArgumentException)
+            {
+                return RedirectToAction("WrongUrl", "Error");
+            }
+            catch (FormatException)
+            {
+                return RedirectToAction("WrongUrl", "Error");
+            }
         }
     }
 }

@@ -37,5 +37,9 @@ namespace Entities
         public string Status { get; set; }
 
         public int? StockID { get; set; }
+
+        public virtual Stock Stock { get; set; }
+
+        public bool IsArchived { get; set; }
     }
 }
