@@ -1,0 +1,36 @@
+﻿@model List<CarRent.ViewModels.PaymentIndex>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_ManagerLayout.cshtml";
+}
+
+<h2>Users with debts</h2>
+
+<table class="table" style="width:40%">
+    <tr>
+        <th>
+            User
+        </th>
+        <th>
+            Email
+        </th>
+        <th></th>
+    </tr>   
+    @foreach (var user in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(m => user.UserNamee)
+            </td>
+
+            <td>
+                @Html.DisplayFor(m => user.Email)
+            </td>
+
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { userID = user.UserID})
+            </td>
+        </tr>
+    }
+
+</table>

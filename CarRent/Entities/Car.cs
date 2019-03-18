@@ -39,5 +39,7 @@ namespace Entities
 
         [Display(Name = "Image")]
         public string FileName { get; set; }
+
+        public int OrdersCount { get; set; }
     }
 }

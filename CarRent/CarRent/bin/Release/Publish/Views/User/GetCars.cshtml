@@ -1,0 +1,74 @@
+﻿@using CarRent.ViewModels
+@model IEnumerable<CarUserListItemViewModel>
+
+@if (Model.Count() == 0)
+{
+    <h3>No cars found by your request. Change filters and try again</h3>
+}
+@foreach (var carViewModel in Model)
+{
+    <div class="col-md-5">
+        <div class="car">
+            <div class="grade">@carViewModel.Grade</div>
+
+            <div class="name">
+                <span>@carViewModel.Brand</span>
+                <span>@carViewModel.Model</span>
+            </div>
+
+            <img src="@Url.Content(Constants.ProductImagePath + carViewModel.FileName)" />
+
+            <div class="carInfo">
+                @foreach (var iconDescription in carViewModel.IconDescription)
+                {
+                    <div class="iconDescription">
+                        <img src="@Url.Content(iconDescription.Key)" />
+                        <span>@iconDescription.Value</span>
+                    </div>
+                }
+            </div>
+            <table>
+                <tr>
+                    <td><b>Days</b></td>
+                    <td>30+</td>
+                    <td>30-15</td>
+                    <td>14-8</td>
+                    <td>7-4</td>
+                    <td>3-2</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td><b>Price</b></td>
+                    <td>@carViewModel.CarTimePricing.PricePerMoreThanMonth$</td>
+                    <td>@carViewModel.CarTimePricing.PricePerMonth$</td>
+                    <td>@carViewModel.CarTimePricing.PricePer14Days$</td>
+                    <td>@carViewModel.CarTimePricing.PricePer7Days$</td>
+                    <td>@carViewModel.CarTimePricing.PricePer3Days$</td>
+                    <td>@carViewModel.CarTimePricing.PricePer1Day$</td>
+                </tr>
+            </table>
+
+            @if (carViewModel.IsInStock)
+            {
+                @Html.ActionLink("Rent car", "RentForm", "User", new { idUrl = carViewModel.ID.ToString(), cityID = carViewModel.CityID.ToString() }, htmlAttributes: new { @class = "btn btn-primary rent" })
+            }
+            else
+            {
+                string bntText = "";
+                if(carViewModel.WillBeAviable == null)
+                {
+                    bntText = "Out of stock";
+                }
+                else
+                {
+                    DateTime abilityTime = (DateTime)carViewModel.WillBeAviable;
+                    bntText = "Will be able " + abilityTime.ToShortDateString();
+                }
+
+                @Html.ActionLink(bntText, "", "", htmlAttributes: new { @class = "btn btn-warning rent disabled" });
+            }
+            <div class="minPrice">Starting at <span>@carViewModel.CarTimePricing.PricePerMoreThanMonth$</span> per day</div>
+        </div>
+    </div>
+}
+

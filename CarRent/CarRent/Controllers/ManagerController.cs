@@ -7,17 +7,34 @@ using Entities;
 using DataBase;
 using Newtonsoft.Json;
 using CarRent.ViewModels;
+using CarRent.Common;
+using CarRent.VO;
 
 namespace CarRent.Controllers
 {
     public class ManagerController : Controller
     {
+        private readonly DB DB;
+
+        public ManagerController(DB Db)
+        {
+            DB = Db;
+        }
+        public ManagerController()
+        {
+            DB = new DB();
+        }
+
+        ManagerControllerVO vo = new ManagerControllerVO();
+
         public ActionResult Orders()
         {
             var viewModel = new OrderListViewModel()
             {
                 Statuses = new MultiSelectList(Enumerations.Statuses)
             };
+
+            vo.OrderPageShown();
 
             return View(viewModel);
         }
@@ -103,6 +120,8 @@ namespace CarRent.Controllers
                 });
             }
 
+            vo.OrdersDownloaded(viewModels.Select(vm => vm.ID).ToList());
+
             return PartialView(viewModels);
         }
 
@@ -168,20 +187,27 @@ namespace CarRent.Controllers
                         OrderProblem = DB.GetList<OrderProblem>().SingleOrDefault(op => op.Order_ID == order.ID)
                     };
 
-                   
+                    vo.OrderPassedForManaging();
+
                     return View(viewModel);
                 }
                 else
                 {
+                    vo.OrderNotFound(idUrl);
+
                     return RedirectToAction("OrderNotFound", "Error");
                 }
             }
             catch (ArgumentException)
             {
+                vo.WrongUrl(idUrl);
+
                 return RedirectToAction("WrongUrl", "Error");
             }
             catch (FormatException)
             {
+                vo.WrongUrl(idUrl);
+
                 return RedirectToAction("WrongUrl", "Error");
             }
         }
@@ -193,6 +219,7 @@ namespace CarRent.Controllers
                 int id = int.Parse(idUrl);
                
                 var order = DB.GetEntityById<Order>(id) as Order;
+                order.OfficeEnd = DB.GetEntityById<Office>(order.OfficeIdEnd) as Office;
               
                 if (order != null)
                 {
@@ -202,14 +229,17 @@ namespace CarRent.Controllers
                             {
                                 order.Status = "Waiting for customer confirm";
                                 DB.Update<Order>(order.ID);
+
+                                vo.ChangeStatus("Waiting for customer confirm");
                             }
                             break;                  
 
                         case "Waiting for customer confirm":
                             {                                      
                                 order.Status = "Waiting for execution";
-                                //order.StockID = stock.ID;
-                                DB.Update<Order>(order.ID);                                                        
+                                DB.Update<Order>(order.ID);
+
+                                vo.ChangeStatus("Waiting for execution");
                             }
                             break;
 
@@ -217,6 +247,8 @@ namespace CarRent.Controllers
                             {
                                 order.Status = "On execution";
                                 DB.Update<Order>(order.ID);
+
+                                vo.ChangeStatus("On execution");
                             }
                             break;
 
@@ -230,20 +262,19 @@ namespace CarRent.Controllers
 
                                     var stock = DB.GetEntityById<Stock>((int)stockId) as Stock;
                                     stock.IsBusy = false;
+                                    stock.CityID = order.OfficeEnd.CityID;
                                     DB.Update<Stock>(stock.ID);
+
+                                    vo.ChangeStatus("Executed");
                                 }
                                 else
                                 {
+                                    vo.OrderNotFound(idUrl);
+
                                     RedirectToAction("OrderNotFound", "Error");
                                 }
                             }
-                            break;
-
-                        case "Executed":
-                            {
-
-                            }
-                            break;
+                            break;                    
                         default:
                             {
                                 return null;
@@ -254,6 +285,8 @@ namespace CarRent.Controllers
                 }
                 else
                 {
+                    vo.OrderNotFound(idUrl);
+
                     RedirectToAction("OrderNotFound", "Error");
                 }
 
@@ -261,10 +294,14 @@ namespace CarRent.Controllers
             }
             catch (ArgumentException)
             {
+                vo.WrongUrl(idUrl);
+
                 return RedirectToAction("WrongUrl", "Error");
             }
             catch (FormatException)
             {
+                vo.WrongUrl(idUrl);
+
                 return RedirectToAction("WrongUrl", "Error");
             }
         }
@@ -275,6 +312,9 @@ namespace CarRent.Controllers
             {
                 var deny = viewModel.OrderConfirmDeny;
                 var order = DB.GetEntityById<Order>(deny.OrderID) as Order;
+                var user = DB.GetEntityById<ApplicationUser>(order.UserID) as ApplicationUser;
+                user.Debt -= order.Price;
+                DB.Update<ApplicationUser>(user.Id);
 
                 order.Status = "Denied";
                 DB.Update<Order>(order.ID);
@@ -289,6 +329,8 @@ namespace CarRent.Controllers
             }
             else
             {
+                vo.WrongUrl(viewModel.CurrentOrder.StockID.ToString());
+
                 return RedirectToAction("WrongUrl", "Error");
             }
         }
@@ -320,6 +362,8 @@ namespace CarRent.Controllers
             }
             else
             {
+                vo.WrongUrl(viewModel.CurrentOrder.StockID.ToString());
+
                 return RedirectToAction("WrongUrl", "Error");
             }
         }

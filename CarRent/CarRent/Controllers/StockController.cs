@@ -13,6 +13,18 @@ namespace CarRent.Controllers
     [Authorize(Roles = "admin")]
     public class StockController : Controller
     {
+        private readonly DB DB;
+
+        public StockController(DB Db)
+        {
+            DB = Db;
+        }
+        public StockController()
+        {
+            DB = new DB();
+        }
+
+
         public ActionResult CitiesStock()
         {
             var cities = DB.GetList<City>().ToList();

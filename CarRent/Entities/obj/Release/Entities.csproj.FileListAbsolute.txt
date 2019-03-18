@@ -1,0 +1,16 @@
+C:\Users\Visstal\Desktop\Car-rental-service\CarRent\Entities\bin\Release\Entities.dll.config
+C:\Users\Visstal\Desktop\Car-rental-service\CarRent\Entities\bin\Release\Entities.dll
+C:\Users\Visstal\Desktop\Car-rental-service\CarRent\Entities\bin\Release\Entities.pdb
+C:\Users\Visstal\Desktop\Car-rental-service\CarRent\Entities\bin\Release\EntityFramework.dll
+C:\Users\Visstal\Desktop\Car-rental-service\CarRent\Entities\bin\Release\EntityFramework.SqlServer.dll
+C:\Users\Visstal\Desktop\Car-rental-service\CarRent\Entities\bin\Release\Microsoft.AspNet.Identity.Core.dll
+C:\Users\Visstal\Desktop\Car-rental-service\CarRent\Entities\bin\Release\Microsoft.AspNet.Identity.EntityFramework.dll
+C:\Users\Visstal\Desktop\Car-rental-service\CarRent\Entities\bin\Release\EntityFramework.xml
+C:\Users\Visstal\Desktop\Car-rental-service\CarRent\Entities\bin\Release\EntityFramework.SqlServer.xml
+C:\Users\Visstal\Desktop\Car-rental-service\CarRent\Entities\bin\Release\Microsoft.AspNet.Identity.Core.xml
+C:\Users\Visstal\Desktop\Car-rental-service\CarRent\Entities\bin\Release\Microsoft.AspNet.Identity.EntityFramework.xml
+C:\Users\Visstal\Desktop\Car-rental-service\CarRent\Entities\obj\Release\Entities.csprojAssemblyReference.cache
+C:\Users\Visstal\Desktop\Car-rental-service\CarRent\Entities\obj\Release\Entities.csproj.CoreCompileInputs.cache
+C:\Users\Visstal\Desktop\Car-rental-service\CarRent\Entities\obj\Release\Entities.csproj.CopyComplete
+C:\Users\Visstal\Desktop\Car-rental-service\CarRent\Entities\obj\Release\Entities.dll
+C:\Users\Visstal\Desktop\Car-rental-service\CarRent\Entities\obj\Release\Entities.pdb

@@ -1,0 +1,31 @@
+﻿@model List<Entities.Office>
+
+@{
+    ViewBag.Title = "Contacts";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    <link href="~/Content/ContactsStyleSheet.css" rel="stylesheet" />
+}
+
+<div class="row">
+    <div class="col-md-9 col-md-offset-2">
+        <h2>Contacts</h2>
+        @foreach (var office in Model)
+        {
+            <div class="col-md-3 office">
+                <br />
+                <span class="city">@office.City.Name</span>, @office.PlaceDescription
+                <br />
+                <br />
+                @office.Address
+                <br />
+                <br />
+                @office.PhoneNumber
+                <br />
+                <br />
+                rentcarconfirmation@gmail.com
+                <br />
+                <br />
+            </div>
+        }
+    </div>
+</div>

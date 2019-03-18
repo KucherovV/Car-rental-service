@@ -1,0 +1,13 @@
+﻿@using Entities
+@model City
+@{ 
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Manage cars in @Model.Name</h2>
+
+<div id="results">
+    @Html.Action("GetStockList")
+</div>
+
+@Html.ActionLink("Back to cities list", "CitiesStock")

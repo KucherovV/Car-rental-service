@@ -15,12 +15,23 @@ namespace CarRent.Controllers
     [Authorize]
     public class ManageController : Controller
     {
+        private readonly DB DB;
+
+        public ManageController(DB Db)
+        {
+            DB = Db;
+        }
+        public ManageController()
+        {
+            DB = new DB();
+        }
+
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
-        public ManageController()
-        {
-        }
+        //public ManageController()
+        //{
+        //}
 
         public ManageController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {

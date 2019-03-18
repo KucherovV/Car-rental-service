@@ -11,6 +11,17 @@ namespace CarRent.Controllers
 {
     public class PaymentController : Controller
     {
+        private readonly DB DB;
+
+        public PaymentController(DB Db)
+        {
+            DB = Db;
+        }
+        public PaymentController()
+        {
+            DB = new DB();
+        }
+
         public ActionResult Index()
         {
             var usersWithDebt = DB.GetList<ApplicationUser>().Where(u => u.Fine > 0 || u.Debt > 0).ToList();

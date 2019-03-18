@@ -58,3 +58,4 @@ C:\Users\Visstal\Desktop\Car-rental-service\CarRent\Database\obj\Debug\Database.
 C:\Users\Visstal\Desktop\Car-rental-service\CarRent\Database\obj\Debug\Database.Migrations.extOrderProblem.resources
 C:\Users\Visstal\Desktop\Car-rental-service\CarRent\Database\obj\Debug\Database.Migrations.extUserModel.resources
 C:\Users\Visstal\Desktop\Car-rental-service\CarRent\Database\obj\Debug\Database.Migrations.extUser2.resources
+C:\Users\Visstal\Desktop\Car-rental-service\CarRent\Database\obj\Debug\Database.Migrations.addCarRating.resources

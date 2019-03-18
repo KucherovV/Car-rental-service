@@ -8,6 +8,17 @@ namespace CarRent.CustomValidation
 {
     public class UniqueVIN : ValidationAttribute
     {
+        private readonly DB DB;
+
+        public UniqueVIN(DB Db)
+        {
+            DB = Db;
+        }
+        public UniqueVIN()
+        {
+            DB = new DB();
+        }
+
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
             var model = validationContext.ObjectInstance as SpecificCarEditViewModel;

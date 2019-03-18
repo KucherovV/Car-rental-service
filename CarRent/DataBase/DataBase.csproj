@@ -216,6 +216,10 @@
     <Compile Include="Migrations\201903171145309_extUser2.Designer.cs">
       <DependentUpon>201903171145309_extUser2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201903181058171_addCarRating.cs" />
+    <Compile Include="Migrations\201903181058171_addCarRating.Designer.cs">
+      <DependentUpon>201903181058171_addCarRating.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -349,6 +353,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201903171145309_extUser2.resx">
       <DependentUpon>201903171145309_extUser2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903181058171_addCarRating.resx">
+      <DependentUpon>201903181058171_addCarRating.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

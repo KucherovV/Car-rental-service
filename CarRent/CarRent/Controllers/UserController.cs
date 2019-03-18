@@ -7,13 +7,26 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using Microsoft.AspNet.Identity;
+using CarRent.VO;
+using PagedList;
 
 namespace CarRent.Controllers
 {
-    [Authorize]
     public class UserController : Controller
     {
+        private readonly DB DB;
+
+        public UserController(DB Db)
+        {
+            DB = Db;
+        }
+        public UserController()
+        {
+            DB = new DB();
+        }
+
+        UserControllerVO vo = new UserControllerVO();
+
         public ActionResult CarList()
         {
             var pricing = DB.GetList<CarTimePricing>().ToList();
@@ -32,7 +45,8 @@ namespace CarRent.Controllers
                     "Default",
                     "Price Low",
                     "Price High",
-                    "Name"
+                    "Name",
+                    "Popularity"
                 }),
                 Grades = new MultiSelectList(Enumerations.Grades),
                 EngineTypes = new MultiSelectList(Enumerations.EngineTypes),
@@ -42,6 +56,7 @@ namespace CarRent.Controllers
                 Cities = new SelectList(DB.GetList<City>(), "ID", "Name")
             };
 
+            vo.CarIndexShown();
             return View(viewModel);
         }
 
@@ -55,6 +70,7 @@ namespace CarRent.Controllers
             int? MaxPricePerDay)
         {
             IEnumerable<Car> cars = DB.GetList<Car>().Where(c => c.Archived == false);
+            
             var items = new List<CarUserListItemViewModel>().ToList();
 
             if (CityID == null)
@@ -91,7 +107,6 @@ namespace CarRent.Controllers
                         .FirstOrDefault(s => s.CityID == CityID && s.CarID == car.ID && s.IsBusy == false) as Stock;
 
                     bool inStock;
-                    //bool isBusy;
                     DateTime? abilityTime = null;
 
                     if (freeCarInStock == null)
@@ -109,10 +124,8 @@ namespace CarRent.Controllers
                     }
                     else
                     {
-                        //isBusy = false;
                         inStock = true;
                     }
-
 
                     items.Add(new CarUserListItemViewModel
                     {
@@ -131,7 +144,8 @@ namespace CarRent.Controllers
                         CarTimePricing = (DB.GetList<CarTimePricing>().ToList()).SingleOrDefault(cp => cp.CarID == car.ID) ?? new CarTimePricing(),
                         CityID = (int)CityID,
                         IsInStock = inStock,
-                        WillBeAviable = abilityTime
+                        WillBeAviable = abilityTime,
+                        OrdersCount = car.OrdersCount
                     });
                 }
 
@@ -152,6 +166,12 @@ namespace CarRent.Controllers
                     case "Name":
                         {
                             items = items.OrderBy(vm => vm.Brand).ToList();
+                        }
+                        break;
+
+                    case "Popularity":
+                        {
+                            items = items.OrderByDescending(vm => vm.OrdersCount).ToList();
                         }
                         break;
                 }
@@ -261,6 +281,7 @@ namespace CarRent.Controllers
                 }
             }
 
+            vo.CarListDownloadedShown(finalList.Select(fl => fl.ID).ToArray());
             return PartialView(finalList);
         }
 
@@ -270,11 +291,15 @@ namespace CarRent.Controllers
             var user = DB.GetEntityById<ApplicationUser>(User.Identity.GetUserId()) as ApplicationUser;
             if (!user.PhoneNumberConfirmed)
             {
+                vo.UserIsNotLogined();
+
                 return RedirectToAction("AddPhoneNumber", "Manage");
             }
 
             if(user.Fine > 0 || user.Debt > 0)
             {
+                vo.UserHasDebt();
+
                 int amount = user.Debt + user.Fine;
                 return RedirectToAction("UserHasDebt", "Error", new { amount = amount });
             }
@@ -300,19 +325,27 @@ namespace CarRent.Controllers
                         Car = car
                     };
 
+                    vo.FormSent();
+
                     return View(viewModel);
                 }
                 else
                 {
+                    vo.CarNotFound(car.ID.ToString());
+
                     return RedirectToAction("CarNotFound", "Error");
                 }
             }
             catch (ArgumentException)
             {
+                vo.WrongUrl(idUrl);
+
                 return RedirectToAction("WrongUrl", "Error");
             }
             catch (FormatException)
             {
+                vo.WrongUrl(idUrl);
+
                 return RedirectToAction("WrongUrl", "Error");
             }
         }
@@ -320,6 +353,8 @@ namespace CarRent.Controllers
         [HttpGet]
         public ActionResult GetForm(OrderCreateViewModel viewModel)
         {
+            vo.FormDownloadedd();
+
             return PartialView("GetForm", viewModel);
         }
 
@@ -329,6 +364,8 @@ namespace CarRent.Controllers
             var user = DB.GetEntityById<ApplicationUser>(User.Identity.GetUserId()) as ApplicationUser;
             if (user.Fine > 0 || user.Debt > 0)
             {
+                vo.UserHasDebt();
+
                 int amount = user.Debt + user.Fine;
                 return RedirectToAction("UserHasDebt", "Error", new { amount = amount });
             }
@@ -410,11 +447,9 @@ namespace CarRent.Controllers
                         Status = "Waiting for manager review"
                     };
 
-                    //find free and busy stocks
                     viewModel.OfficeStart = DB.GetEntityById<Office>(viewModel.OfficeIdStart) as Office;
                     var cityID = (DB.GetEntityById<Office>(viewModel.OfficeIdStart) as Office).CityID;
-                    //var stocks = DB.GetList<Stock>()
-                    //    .Where(s => s.IsArchive == false && s.CarID == viewModel.CarID && s.CityID == cityID).ToList();
+                   
                     var orders = DB.GetList<Order>().ToList();
                     foreach(var item in orders)
                     {
@@ -434,12 +469,22 @@ namespace CarRent.Controllers
                         stocksFree.First().IsBusy = true;
                         DB.Save<Order>(order);
 
-                        user = DB.GetEntityById<ApplicationUser>(order.UserID) as ApplicationUser; // var user
+                        user = DB.GetEntityById<ApplicationUser>(order.UserID) as ApplicationUser;
                         user.Debt += order.Price;
+
+                        var car = DB.GetEntityById<Car>(order.CarID) as Car;
+                        car.OrdersCount += 1;
+
+                        DB.Update<Car>(order.CarID);
+
+                        vo.OrderSaved();
+
                         DB.Update<ApplicationUser>(user.Id);
                     }
                     else
                     {
+                        vo.NoFreeStoks();
+
                         return RedirectToAction("OrderNotFound", "Error");
                     }
                   
@@ -452,11 +497,15 @@ namespace CarRent.Controllers
                     viewModel.AdditionalOptions = DB.GetList<AdditionalOption>().ToList();
                     viewModel.CarTimePricing = DB.GetList<CarTimePricing>().SingleOrDefault(ctp => ctp.CarID == viewModel.CarID) as CarTimePricing;
 
+                    vo.FormIsNotValid(ModelState.Values.SelectMany(v => v.Errors.Select(b => b.ErrorMessage)));
+
                     return View("GetForm", viewModel);
                 }
             }
             else
             {
+                vo.CarNotFound(viewModel.ID.ToString());
+
                 return RedirectToAction("CarNotFound", "Error");
             }
         }
@@ -464,6 +513,19 @@ namespace CarRent.Controllers
         public ActionResult OrderSuccess()
         {
             return View();
+        }
+
+        public ActionResult RentRules()
+        {
+
+            return View();
+        }
+
+        public ActionResult Contacts()
+        {
+            var offices = DB.GetList<Office>().Where(o => o.IsArchived == false).ToList();
+
+            return View(offices); 
         }
     }
 

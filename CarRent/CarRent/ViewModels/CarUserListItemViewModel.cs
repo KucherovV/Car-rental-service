@@ -38,6 +38,8 @@ namespace CarRent.ViewModels
         [Display(Name = "Has Air Conditioning")]
         public bool HasAirConditioning { get; set; }
 
+        public int OrdersCount { get; set; }
+
         [Display(Name = "Image")]
         public string FileName { get; set; }
 

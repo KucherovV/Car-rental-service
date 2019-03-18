@@ -1,0 +1,380 @@
+﻿@model CarRent.ViewModels.OrderManageViewModel
+@{
+    ViewBag.Title = "Manage";
+    Layout = "~/Views/Shared/_ManagerLayout.cshtml";
+}
+
+<h2>Managing order</h2>
+
+<div class="row">
+    <div class="col-md-3">
+        <h3 class="col-md-offset-2">Current order</h3>
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(m => m.CurrentOrder.ID)
+            </dt>
+            <dd>
+                @Html.DisplayFor(m => m.CurrentOrder.ID)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(m => m.CurrentOrder.Status)
+            </dt>
+            <dd>
+                @Html.DisplayFor(m => m.CurrentOrder.Status)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(m => m.CurrentOrder.User)
+            </dt>
+            <dd>
+                @(Model.User.FirstName + " " + Model.User.LastName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(m => m.CurrentOrder.Car)
+            </dt>
+            <dd>
+                @Html.DisplayFor(m => m.CurrentOrder.Car.BrandModel)
+            </dd>
+
+            <dt>
+                Order DateTime
+            </dt>
+            <dd>
+                @(Model.CurrentOrder.OrderDateTime.ToShortDateString() + " " + Model.CurrentOrder.OrderDateTime.ToShortTimeString())
+            </dd>
+
+            <dt>
+                Office Start
+            </dt>
+            <dd>
+                @Model.CurrentOrder.OfficeStart.PlaceDescription
+            </dd>
+
+            <dt>
+                Rent Start DateTime
+            </dt>
+            <dd>
+                @(Model.CurrentOrder.RentStartDateTime.ToShortDateString() + " " + Model.CurrentOrder.RentStartDateTime.ToShortTimeString())
+            </dd>
+
+            <dt>
+                Office End
+            </dt>
+            <dd>
+                @Model.CurrentOrder.OfficeEnd.PlaceDescription
+            </dd>
+
+            <dt>
+                Rent Finish DateTime
+            </dt>
+            <dd>
+                @(Model.CurrentOrder.RentFinishDateTime.ToShortDateString() + " " + Model.CurrentOrder.RentFinishDateTime.ToShortTimeString())
+            </dd>
+
+            <dt>
+                Additional options
+            </dt>
+            <dd>
+                @foreach (var option in Model.AdditionalOptions)
+                {
+                    @option.Name <br />
+                }
+            </dd>
+
+            <dt>
+                Status
+            </dt>
+            <dd>
+                @Model.CurrentOrder.Status
+            </dd>
+
+            <dt>
+                Stock Id
+            </dt>
+            <dd>
+                @Model.CurrentOrder.StockID
+            </dd>
+            <dt>
+                Comment
+            </dt>
+            <dd>
+                @Html.DisplayFor(m => m.CurrentOrder.Comment)
+            </dd>
+
+            <dt>
+                Price
+            </dt>
+            <dd>
+                @Html.DisplayFor(m => m.CurrentOrder.Price)
+            </dd>
+        </dl>
+    </div>
+
+    <div class="col-md-3">
+        <h3 class="col-md-offset-2">Current user</h3>
+        <dl class="dl-horizontal">
+            <dt>
+                First Name
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.User.FirstName)
+            </dd>
+
+            <dt>
+                Last Name
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.User.LastName)
+            </dd>
+
+            <dt>
+                Email
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.User.Email)
+            </dd>
+
+            <dt>
+                Birth Date
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => Model.User.BirthDate)
+            </dd>
+
+            <dt>
+                Driving Liscense Date
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => Model.User.DrivingLicenseDate)
+            </dd>
+
+            <dt>
+                ID Number
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => Model.User.IDNumber)
+            </dd>
+
+            <dt>
+                Phone Number
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => Model.User.PhoneNumber)
+            </dd>
+        </dl>
+    </div>
+
+    <div class="col-md-6">
+        <h3>All customer orders</h3>
+        <table class="table">
+            <tr>
+                <th>ID</th>
+                <th>User Name</th>
+                <th>Car</th>
+                <th>Price</th>
+                <th>Status</th>
+                <th>Problem</th>
+                <th>Fine</th>
+            </tr>
+            @foreach (var item in Model.OrderProblemViewModelsUserOrders)
+            {
+                <tr>
+                    <td>@item.ID</td>
+                    <td>@item.UserName</td>
+                    <td>@item.BrandModel</td>
+                    <td>@item.Price</td>
+                    <td>@item.Status</td>
+                    <td>@item.Problem</td>
+                    <td>@item.Fine</td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        @switch (Model.CurrentOrder.Status)
+        {
+            case "Waiting for manager review":
+                {
+                    <div class="col-md-offset-2">
+                        <h4>Current status - @Model.CurrentOrder.Status</h4>
+                        <h4>Next status - Waiting for customer confirm</h4>
+                        @Html.ActionLink("Update Status", "UpdateStatus", "Manager", new { idUrl = Model.CurrentOrder.ID.ToString() }, htmlAttributes: new { @class = "btn btn-primary" }) <hr />
+
+                        @using (Html.BeginForm("DenyOrder", "Manager"))
+                        {
+                            <h5>Deny reason</h5>
+                            @Html.TextBoxFor(m => m.OrderConfirmDeny.Text, new { @class = "form-control reasonDeny" })
+                            @Html.HiddenFor(m => m.OrderConfirmDeny.OrderID, new { id = "OrderID", Value = Model.CurrentOrder.ID })
+                            @Html.HiddenFor(m => m.CurrentOrder.StockID)
+                            <h6 class="error text-danger">Reason lenght must be between 10 and 100 characters</h6>
+                            <br />
+                            <input type="submit" value="Deny" class="btn btn-danger deny" />
+                        }
+                    </div>
+                }
+                break;
+
+            case "Denied":
+                {
+                    <div class="col-md-offset-2">
+                        <h4>This order has been denied <br />Reason - @Model.OrderConfirmDeny.Text</h4>
+                    </div>
+                }
+                break;
+
+            case "Waiting for customer confirm":
+                {
+                    <div class="col-md-offset-2">
+                        <h4>Current status - @Model.CurrentOrder.Status</h4>
+                        <h4>Next status - Waiting for execution</h4>
+                        @Html.ActionLink("Update Status", "UpdateStatus", "Manager", new { idUrl = Model.CurrentOrder.ID.ToString(), carID = Model.CurrentOrder.CarID.ToString(), cityID = Model.CurrentOrder.OfficeStart.CityID.ToString() }, htmlAttributes: new { @class = "btn btn-primary" }) <hr />
+
+                        @using (Html.BeginForm("DenyOrder", "Manager"))
+                        {
+                            <h5>Deny reason</h5>
+                            @Html.TextBoxFor(m => m.OrderConfirmDeny.Text, new { @class = "form-control reasonDeny" })
+                            @Html.HiddenFor(m => m.OrderConfirmDeny.OrderID, new { id = "OrderID", Value = Model.CurrentOrder.ID })
+                            @Html.HiddenFor(m => m.CurrentOrder.StockID)
+                            <h6 class="error text-danger">Reason lenght must be between 10 and 100 characters</h6>
+                            <br />
+                            <input type="submit" value="Deny" class="btn btn-danger deny" />
+                        }
+                    </div>
+                }
+                break;
+
+            case "Waiting for execution":
+                {
+                    <div class="col-md-offset-2">
+                        <h4>Current status - @Model.CurrentOrder.Status</h4>
+                        <h4>Next status - On Execution</h4>
+                        @Html.ActionLink("Update Status", "UpdateStatus", "Manager", new { idUrl = Model.CurrentOrder.ID.ToString() }, htmlAttributes: new { @class = "btn btn-primary" }) <hr />
+
+                        @using (Html.BeginForm("DenyOrder", "Manager"))
+                        {
+                            <h5>Deny reason</h5>
+                            @Html.TextBoxFor(m => m.OrderConfirmDeny.Text, new { @class = "form-control reasonDeny" })
+                            @Html.HiddenFor(m => m.OrderConfirmDeny.OrderID, new { id = "OrderID", Value = Model.CurrentOrder.ID })
+                            @Html.HiddenFor(m => m.CurrentOrder.StockID)
+                            <h6 class="error text-danger">Reason lenght must be between 10 and 100 characters</h6>
+                            <br />
+                            <input type="submit" value="Deny" class="btn btn-danger deny" />
+                        }
+                    </div>
+                }
+                break;
+
+            case "On execution":
+                {
+                    <div class="col-md-offset-2">
+                        <div class="col-md-6">
+                            <h4>Current status - @Model.CurrentOrder.Status</h4>
+                            <h4>Next status - Executed</h4>
+                            @Html.ActionLink("Update Status", "UpdateStatus", "Manager", new { idUrl = Model.CurrentOrder.ID.ToString(), stockId = Model.CurrentOrder.StockID}, htmlAttributes: new { @class = "btn btn-primary" }) <hr />
+                        </div>
+                        <div class="col-md-6">
+                            @using (Html.BeginForm("OrderProblem", "Manager"))
+                            {
+                                <h4>If there were any car damage or other issues, fill this form</h4>
+                                @Html.TextBoxFor(m => m.OrderProblem.Text, new { @class = "form-control reason" })
+                                <h6 class="error text-danger">Reason lenght must be between 10 and 100 characters</h6>
+
+                                <br />
+
+                                @Html.TextBoxFor(m => m.OrderProblem.Fine, new { @class = "form-control fine" })
+                                <h6 class="errorFine text-danger">Fine bust be between 1 and 10000$</h6>
+
+                                @Html.HiddenFor(m => m.OrderConfirmDeny.OrderID, new { id = "OrderID", Value = Model.CurrentOrder.ID })
+                                @Html.HiddenFor(m => m.CurrentOrder.StockID)
+                                @Html.HiddenFor(m => m.CurrentOrder.UserID)
+
+                                <br />
+                                <input type="submit" value="Register problem" class="btn btn-danger denyProblem" />
+                            }
+                        </div>
+                    </div>
+                }
+                break;
+
+            case "Executed":
+                {
+                    <div class="col-md-offset-2">
+                        @if(Model.OrderProblem == null)
+                        {
+                            <h4>This order has been executed without any issues</h4>
+                        }
+                        else
+                        {
+                            <h3 class="text-danger">There was an issue in this order: <br /></h3>
+                            <h4>Reason - @Model.OrderProblem.Text <br />Fine - @Model.OrderProblem.Fine</h4>
+                        }
+                    </div>
+                }
+                break;
+        }
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<script type="text/javascript">
+    $(function () {
+        $('.error').hide();
+        $('.errorFine').hide();
+
+        $('.reason').focusout(reasonValidate);
+        $('.fine').focusout(fineValidate);
+        $('.reasonDeny').focusout(reasonValidateDeny);
+
+        function reasonValidate() {
+            $('.error').hide();
+            if ($('.reason').val().length <= 10 || $('.reason').val().length >= 100) {
+                $('.error').show();
+            }
+        }
+
+        function fineValidate() {
+            $('.errorFine').hide();
+                if (isNaN(parseInt($('.fine').val())) || parseInt($('.fine').val()) <= 1 || parseInt($('.fine').val()) >= 10000) {
+                    $('.errorFine').show();
+                }
+        }
+
+        function reasonValidateDeny() {
+            $('.error').hide();
+            if ($('.reasonDeny').val().length <= 10 || $('.reasonDeny').val().length >= 100) {
+                $('.error').show();
+            }
+        }
+
+        $('.denyProblem').click(function (e) {         
+            reasonValidate();
+            fineValidate();
+
+            if (!$('.error').is(":hidden") || !$('.errorFine').is(":hidden")) {
+                e.preventDefault();
+            }
+        });
+
+         $('.deny').click(function (e) {         
+             reasonValidateDeny();
+
+            if (!$('.error').is(":hidden")) {
+                e.preventDefault();
+            }
+        });
+    });
+</script>

@@ -10,7 +10,18 @@ using CarRent.ViewModels;
 namespace CarRent.Controllers
 {
     public class OfficeController : Controller
-    {
+    { 
+        private readonly DB DB;
+
+        public OfficeController(DB Db)
+        {
+            DB = Db;
+        }
+        public OfficeController()
+        {
+            DB = new DB();
+        }
+
         public ActionResult Index()
         {
             var cities = DB.GetList<City>().ToList();

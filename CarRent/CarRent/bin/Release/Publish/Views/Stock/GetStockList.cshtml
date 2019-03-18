@@ -1,0 +1,33 @@
+﻿@using CarRent.ViewModels
+@model  StockManageViewModel
+
+<table class="table" style="width: 40%; ">
+    <tr>
+        <th>Car</th>
+        <th>Amount</th>
+        <th>Amount Rented</th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.CarsInStock)
+    {
+        <tr>
+            <td>
+                @item.Car.Brand @item.Car.Model
+            </td>
+
+            <td>
+                @item.Amount
+            </td>
+
+            <td>
+                @item.AmountRented
+            </td>
+
+            <td>
+                @Html.ActionLink("Manage specific cars", "ListOfSpecificCars", "Stock", new {cityId = Model.City.ID.ToString(), carID = item.Car.ID.ToString() }, new { @class = "btn btn-info" })               
+            </td>
+        </tr>
+
+    }
+</table>

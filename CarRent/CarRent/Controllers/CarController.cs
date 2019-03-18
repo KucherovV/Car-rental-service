@@ -14,6 +14,17 @@ namespace CarRent.Controllers
     [Authorize(Roles = "admin")]
     public class CarController : Controller
     {
+        private readonly DB DB;
+
+        public CarController(DB Db)
+        {
+            DB = Db;
+        }
+        public CarController()
+        {
+            DB = new DB();
+        }
+
         public ActionResult Index(string search, bool? showArchive)
         {
             return View();

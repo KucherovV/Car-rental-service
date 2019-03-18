@@ -10,6 +10,17 @@ namespace CarRent.Controllers
     [Authorize(Roles = "admin")]
     public class CityController : Controller
     {
+        private readonly DB DB;
+
+        public CityController(DB Db)
+        {
+            DB = Db;
+        }
+        public CityController()
+        {
+            DB = new DB();
+        }
+
         public ActionResult Index()
         {
             var cities = DB.GetList<City>().ToList();

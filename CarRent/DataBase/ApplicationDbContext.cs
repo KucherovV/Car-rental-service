@@ -29,6 +29,7 @@ namespace DataBase
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
+            System.Data.Entity.Database.SetInitializer<ApplicationDbContext>(null);
         }
 
         public DbSet<City> Cities { get; set; }

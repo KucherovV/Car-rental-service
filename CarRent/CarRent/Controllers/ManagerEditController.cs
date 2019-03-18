@@ -15,11 +15,22 @@ namespace CarRent.Controllers
     [Authorize(Roles ="admin")]
     public class ManagerEditController : Controller
     {
-        private ApplicationUserManager _userManager;
+        private readonly DB DB;
 
+        public ManagerEditController(DB Db)
+        {
+            DB = Db;
+        }
         public ManagerEditController()
         {
+            DB = new DB();
         }
+
+        private ApplicationUserManager _userManager;
+
+        //public ManagerEditController()
+        //{
+        //}
 
         public ManagerEditController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {

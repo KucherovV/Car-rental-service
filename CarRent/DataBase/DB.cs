@@ -5,7 +5,7 @@ using System.Data.Entity;
 
 namespace DataBase
 {
-    public static class DB
+    public class DB
     {
         private static ApplicationDbContext context = new ApplicationDbContext();
 
@@ -15,14 +15,14 @@ namespace DataBase
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="id"></param>
         /// <returns></returns>
-        public static object GetEntityById<TEntity>(int id)
+        public  object GetEntityById<TEntity>(int id)
             where TEntity : class
         {
 
             return context.Set<TEntity>().Find(id);
         }
 
-        public static object GetEntityById<TEntity>(string id)
+        public  object GetEntityById<TEntity>(string id)
            where TEntity : class
         {
             return context.Set<TEntity>().Find(id);
@@ -33,7 +33,7 @@ namespace DataBase
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <returns></returns>
-        public static IEnumerable<TEntity> GetList<TEntity>()
+        public  IEnumerable<TEntity> GetList<TEntity>()
             where TEntity : class
         {
             return context.Set<TEntity>() as IEnumerable<TEntity>;
@@ -44,7 +44,7 @@ namespace DataBase
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="entity"></param>
-        public static void Save<TEntity>(TEntity entity)
+        public  void Save<TEntity>(TEntity entity)
             where TEntity : class
         {
             context.Set<TEntity>().Add(entity);
@@ -56,7 +56,7 @@ namespace DataBase
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="entity"></param>
-        public static void Delete<TEntity>(TEntity entity)
+        public  void Delete<TEntity>(TEntity entity)
             where TEntity : class
         {
             context.Set<TEntity>().Remove(entity);
@@ -68,7 +68,7 @@ namespace DataBase
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="entity"></param>
-        public static void Update<TEntity>(int id)
+        public  void Update<TEntity>(int id)
             where TEntity : class
         {
             var entity = context.Set<TEntity>().Find(id);
@@ -76,7 +76,7 @@ namespace DataBase
             context.SaveChanges();
         }
 
-        public static void Update<TEntity>(string id)
+        public  void Update<TEntity>(string id)
             where TEntity : class
         {
             var entity = context.Set<TEntity>().Find(id);
@@ -84,17 +84,17 @@ namespace DataBase
             context.SaveChanges();
         }
 
-        public static ApplicationDbContext GetContext()
+        public  ApplicationDbContext GetContext()
         {
             return context;
         }
 
-        public static object GetUsers()
+        public  object GetUsers()
         {
             return context.Users;
         }
 
-        public static bool Contains<TEntity>(TEntity entity)
+        public  bool Contains<TEntity>(TEntity entity)
             where TEntity : class
         {
             //var entity = context.Set<TEntity>().Find(id);

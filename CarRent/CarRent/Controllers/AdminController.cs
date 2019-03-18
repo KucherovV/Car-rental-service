@@ -15,11 +15,22 @@ namespace CarRent.Controllers
     [Authorize(Roles = "admin")]
     public class AdminController : Controller
     {
-        private ApplicationUserManager _userManager;
+        private readonly DB DB;
 
+        public AdminController(DB Db)
+        {
+            DB = Db;
+        }
         public AdminController()
         {
+            DB = new DB();
         }
+
+        private ApplicationUserManager _userManager;
+
+        //public AdminController()
+        //{
+        //}
 
         public AdminController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {

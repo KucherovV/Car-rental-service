@@ -1,0 +1,43 @@
+﻿@model IEnumerable<CarRent.ViewModels.ManagerRegisterViewModel>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>List of managers</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Register")
+</p>
+<table class="table" style="width:40%";>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LastName)
+        </th>     
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>      
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.FirstName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LastName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td>      
+        <td>
+            @Html.ActionLink("Delete", "Delete", new { id=item.ManagerID })
+        </td>
+    </tr>
+}
+
+</table>

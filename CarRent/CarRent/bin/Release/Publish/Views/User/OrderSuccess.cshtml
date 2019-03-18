@@ -1,0 +1,18 @@
+﻿
+@{
+    ViewBag.Title = "OrderSuccess";
+}
+
+<div class="text-center">
+    <h2>Your order has been successfully issued. <br />Manager will call you soon to confirm your order.</h2>
+
+    @Html.ActionLink("Back to car list", "CarList", "User", new { @class = "btn btn-default text-center"})
+</div>
+
+<script type="text/javascript">
+    history.pushState(null, null, window.location.href);
+    window.addEventListener('popstate', function (event) {
+        history.pushState(null, null, window.location.href);
+        event.preventDefault();
+    });
+</script>

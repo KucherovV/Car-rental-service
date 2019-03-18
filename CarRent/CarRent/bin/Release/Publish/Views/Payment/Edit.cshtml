@@ -1,0 +1,11 @@
+﻿@model Entities.ApplicationUser
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_ManagerLayout.cshtml";
+}
+
+<br />
+<div id="results">
+    @Html.Action("GetUserInfo", new { userID = Model.Id})
+</div>

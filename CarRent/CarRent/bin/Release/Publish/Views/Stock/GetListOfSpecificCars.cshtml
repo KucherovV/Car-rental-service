@@ -1,0 +1,58 @@
+﻿@model List<Entities.Stock>
+
+<table class="table" style="width:50%">
+    <tr>
+        <th>
+            VIN
+        </th>
+        <th>
+            Registration Number
+        </th>
+        <th>
+            Color
+        </th>
+        <th>
+            Defects
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.VIN)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RegistrationNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Color)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Defects)
+            </td>
+            @if (!item.IsBusy)
+            {
+                <td>
+                    @Html.ActionLink("Edit", "EditCar", new { idUrl = item.ID.ToString() }) |
+                    @if (!item.IsArchive)
+                    {
+                        @Ajax.ActionLink("Archive", "Archive", new { idUrl = item.ID.ToString() }, new AjaxOptions { UpdateTargetId = "results"})
+                    }
+                    else
+                    {
+                        @Ajax.ActionLink("Unarchive", "Archive", new { idUrl = item.ID.ToString() }, new AjaxOptions { UpdateTargetId = "results"})
+                    }
+                </td>
+            }
+            else
+            {
+                <td>
+                    Rented
+                </td>
+            }
+
+        </tr>
+    }
+</table>

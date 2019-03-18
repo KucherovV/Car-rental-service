@@ -1,0 +1,23 @@
+﻿@model Entities.Blocking
+
+<div>
+    <h4>You are blocked by admin</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Reason)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Reason)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BlockFinish)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BlockFinish)
+        </dd>
+    </dl>
+</div>

@@ -1,0 +1,86 @@
+2019-03-17 18:14:24.6484|INFO|CarRent.VO.CarRentVO|Instanse created
+2019-03-17 18:22:03.4524|INFO|CarRent.VO.CarRentVO|Instanse Created
+2019-03-17 18:29:03.2536|DEBUG|CarRent.VO.CarRentVO|Serious problem
+2019-03-17 18:35:57.7433|TRACE|CarRent.VO.UserControllerVO|Car list succesfully shown
+2019-03-17 18:49:11.1921|TRACE|CarRent.VO.UserControllerVO|Cars page succesfully shown
+2019-03-17 18:49:11.7769|TRACE|CarRent.VO.UserControllerVO|Car list successfully downloaded. ID's - 2005, 2006, 2009, 2012, 2015, 
+2019-03-17 18:51:19.5440|TRACE|CarRent.VO.UserControllerVO|Cars page succesfully shown
+2019-03-17 18:51:20.1680|TRACE|CarRent.VO.UserControllerVO|Car list successfully downloaded. ID's - 2005, 2006, 2009, 2012, 2015,
+2019-03-17 18:51:41.6714|TRACE|CarRent.VO.UserControllerVO|Cars page succesfully shown
+2019-03-17 18:51:42.2999|TRACE|CarRent.VO.UserControllerVO|Car list successfully downloaded. ID's - 2005, 2006, 2009, 2012, 2015
+2019-03-17 18:51:50.2270|TRACE|CarRent.VO.UserControllerVO|Cars page succesfully shown
+2019-03-17 18:51:50.2500|TRACE|CarRent.VO.UserControllerVO|Car list successfully downloaded. ID's - 2005, 2006, 2009, 2012, 2015
+2019-03-17 18:51:50.8162|TRACE|CarRent.VO.UserControllerVO|Cars page succesfully shown
+2019-03-17 18:51:50.8391|TRACE|CarRent.VO.UserControllerVO|Car list successfully downloaded. ID's - 2005, 2006, 2009, 2012, 2015
+2019-03-17 18:51:50.9858|TRACE|CarRent.VO.UserControllerVO|Cars page succesfully shown
+2019-03-17 18:51:51.0080|TRACE|CarRent.VO.UserControllerVO|Car list successfully downloaded. ID's - 2005, 2006, 2009, 2012, 2015
+2019-03-17 18:51:51.1506|TRACE|CarRent.VO.UserControllerVO|Cars page succesfully shown
+2019-03-17 18:51:51.1706|TRACE|CarRent.VO.UserControllerVO|Car list successfully downloaded. ID's - 2005, 2006, 2009, 2012, 2015
+2019-03-17 18:51:51.2948|TRACE|CarRent.VO.UserControllerVO|Cars page succesfully shown
+2019-03-17 18:51:51.3148|TRACE|CarRent.VO.UserControllerVO|Car list successfully downloaded. ID's - 2005, 2006, 2009, 2012, 2015
+2019-03-17 18:51:51.4484|TRACE|CarRent.VO.UserControllerVO|Cars page succesfully shown
+2019-03-17 18:51:51.4674|TRACE|CarRent.VO.UserControllerVO|Car list successfully downloaded. ID's - 2005, 2006, 2009, 2012, 2015
+2019-03-17 18:51:51.6187|TRACE|CarRent.VO.UserControllerVO|Cars page succesfully shown
+2019-03-17 18:51:51.6407|TRACE|CarRent.VO.UserControllerVO|Car list successfully downloaded. ID's - 2005, 2006, 2009, 2012, 2015
+2019-03-17 19:01:16.4981|TRACE|CarRent.VO.UserControllerVO|Cars page succesfully shown
+2019-03-17 19:01:17.0697|DEBUG|CarRent.VO.UserControllerVO|Car list successfully downloaded. ID's - 2005, 2006, 2009, 2012, 2015
+2019-03-17 19:01:25.3957|DEBUG|CarRent.VO.UserControllerVO|Car list successfully downloaded. ID's - 2005, 2006
+2019-03-17 19:01:39.5516|TRACE|CarRent.VO.UserControllerVO|User has debt
+2019-03-17 19:02:43.9785|TRACE|CarRent.VO.UserControllerVO|Cars page succesfully shown
+2019-03-17 19:02:44.6465|DEBUG|CarRent.VO.UserControllerVO|Car list successfully downloaded. ID's - 2005, 2006, 2009, 2012, 2015
+2019-03-17 19:03:02.7198|TRACE|CarRent.VO.UserControllerVO|Cars page succesfully shown
+2019-03-17 19:03:03.3525|DEBUG|CarRent.VO.UserControllerVO|Car list successfully downloaded. ID's - 2005, 2006, 2009, 2012, 2015
+2019-03-17 19:03:08.2057|WARN|CarRent.VO.UserControllerVO|Form has not been sent. User has debt
+2019-03-17 19:19:42.1143|TRACE|CarRent.VO.UserControllerVO|Cars page succesfully shown
+2019-03-17 19:19:43.1285|DEBUG|CarRent.VO.UserControllerVO|Car list successfully downloaded. ID's - 2005, 2006, 2009, 2012, 2015
+2019-03-17 19:19:47.9483|WARN|CarRent.VO.UserControllerVO|Form has not been sent. User has debt
+2019-03-17 19:20:04.3225|TRACE|CarRent.VO.UserControllerVO|Form has been successfully sent
+2019-03-17 19:20:04.3225|TRACE|CarRent.VO.UserControllerVO|Form has successfully downloaded
+2019-03-17 19:20:07.4733|INFO|CarRent.VO.UserControllerVO|Order has been successfully saved
+2019-03-17 19:20:08.6395|TRACE|CarRent.VO.UserControllerVO|Cars page succesfully shown
+2019-03-17 19:20:08.6635|DEBUG|CarRent.VO.UserControllerVO|Car list successfully downloaded. ID's - 2005, 2006, 2009, 2012, 2015
+2019-03-17 21:04:59.0975|TRACE|CarRent.VO.UserControllerVO|Cars page succesfully shown
+2019-03-17 21:05:00.2855|DEBUG|CarRent.VO.UserControllerVO|Car list successfully downloaded. ID's - 2005, 2006, 2009, 2012, 2015
+2019-03-17 21:32:53.0719|TRACE|CarRent.VO.UserControllerVO|Cars page succesfully shown
+2019-03-17 21:32:54.1532|DEBUG|CarRent.VO.UserControllerVO|Car list successfully downloaded. ID's - 2005, 2006, 2009, 2012, 2015
+2019-03-17 21:32:59.9525|TRACE|CarRent.VO.ManagerControllerVO|Orders page succesfully shown
+2019-03-17 21:33:00.2967|DEBUG|CarRent.VO.ManagerControllerVO|Orders have been successfully downloaded. IDs - 185
+2019-03-17 21:33:03.2067|TRACE|CarRent.VO.ManagerControllerVO|Order has been sent for managing
+2019-03-17 21:33:08.3200|TRACE|CarRent.VO.ManagerControllerVO|Order's status changed to Waiting for customer confirm
+2019-03-17 21:33:08.3200|TRACE|CarRent.VO.ManagerControllerVO|Orders page succesfully shown
+2019-03-17 21:33:08.3200|DEBUG|CarRent.VO.ManagerControllerVO|Orders have been successfully downloaded. IDs - 185
+2019-03-17 23:45:01.5924|TRACE|CarRent.VO.UserControllerVO|Cars page succesfully shown
+2019-03-17 23:45:02.7531|DEBUG|CarRent.VO.UserControllerVO|Car list successfully downloaded. ID's - 2005, 2006, 2009, 2012, 2015
+2019-03-17 23:45:05.1857|WARN|CarRent.VO.UserControllerVO|Form has not been sent. User has debt
+2019-03-17 23:45:10.6781|DEBUG|CarRent.VO.UserControllerVO|Car list successfully downloaded. ID's - 2005, 2006
+2019-03-17 23:47:48.8375|TRACE|CarRent.VO.UserControllerVO|Cars page succesfully shown
+2019-03-17 23:47:48.8808|DEBUG|CarRent.VO.UserControllerVO|Car list successfully downloaded. ID's - 2005, 2006, 2009, 2012, 2015
+2019-03-17 23:48:01.5328|WARN|CarRent.VO.UserControllerVO|Form has not been sent. User has debt
+2019-03-17 23:48:16.7554|TRACE|CarRent.VO.ManagerControllerVO|Orders page succesfully shown
+2019-03-17 23:48:17.1480|DEBUG|CarRent.VO.ManagerControllerVO|Orders have been successfully downloaded. IDs - 185
+2019-03-17 23:48:27.4558|TRACE|CarRent.VO.UserControllerVO|Form has been successfully sent
+2019-03-17 23:48:27.4638|TRACE|CarRent.VO.UserControllerVO|Form has successfully downloaded
+2019-03-17 23:51:01.7000|TRACE|CarRent.VO.UserControllerVO|Form has been successfully sent
+2019-03-17 23:51:02.0362|TRACE|CarRent.VO.UserControllerVO|Form has successfully downloaded
+2019-03-17 23:51:02.7644|TRACE|CarRent.VO.UserControllerVO|Form has been successfully sent
+2019-03-17 23:51:02.7644|TRACE|CarRent.VO.UserControllerVO|Form has successfully downloaded
+2019-03-17 23:52:28.2628|TRACE|CarRent.VO.UserControllerVO|Form has been successfully sent
+2019-03-17 23:52:28.5357|TRACE|CarRent.VO.UserControllerVO|Form has successfully downloaded
+2019-03-17 23:52:45.2725|TRACE|CarRent.VO.UserControllerVO|Form has been successfully sent
+2019-03-17 23:52:45.5870|TRACE|CarRent.VO.UserControllerVO|Form has successfully downloaded
+2019-03-17 23:53:07.9067|TRACE|CarRent.VO.UserControllerVO|Form has been successfully sent
+2019-03-17 23:53:08.1816|TRACE|CarRent.VO.UserControllerVO|Form has successfully downloaded
+2019-03-17 23:53:18.5468|TRACE|CarRent.VO.UserControllerVO|Form has been successfully sent
+2019-03-17 23:53:18.7738|TRACE|CarRent.VO.UserControllerVO|Form has successfully downloaded
+2019-03-17 23:53:33.5621|TRACE|CarRent.VO.UserControllerVO|Form has been successfully sent
+2019-03-17 23:53:33.8261|TRACE|CarRent.VO.UserControllerVO|Form has successfully downloaded
+2019-03-17 23:54:51.7716|TRACE|CarRent.VO.UserControllerVO|Form has been successfully sent
+2019-03-17 23:54:52.0964|TRACE|CarRent.VO.UserControllerVO|Form has successfully downloaded
+2019-03-17 23:56:40.1923|TRACE|CarRent.VO.UserControllerVO|Form has been successfully sent
+2019-03-17 23:56:40.5032|TRACE|CarRent.VO.UserControllerVO|Form has successfully downloaded
+2019-03-17 23:58:12.9698|TRACE|CarRent.VO.UserControllerVO|Form has been successfully sent
+2019-03-17 23:58:13.2861|TRACE|CarRent.VO.UserControllerVO|Form has successfully downloaded
+2019-03-17 23:58:22.5039|TRACE|CarRent.VO.UserControllerVO|Form has been successfully sent
+2019-03-17 23:58:22.7956|TRACE|CarRent.VO.UserControllerVO|Form has successfully downloaded
+2019-03-17 23:58:35.3955|TRACE|CarRent.VO.UserControllerVO|Form has been successfully sent
+2019-03-17 23:58:35.6993|TRACE|CarRent.VO.UserControllerVO|Form has successfully downloaded

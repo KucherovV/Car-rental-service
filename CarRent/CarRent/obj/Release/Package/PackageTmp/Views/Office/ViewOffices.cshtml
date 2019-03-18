@@ -1,0 +1,64 @@
+﻿@model CarRent.ViewModels.OfficeInCityCiewModel
+
+@{
+    ViewBag.Title = "ViewOffices";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<p class="h3">
+    @Html.ActionLink("Create New", "Create", new { idUrl= Model.City.ID.ToString() })
+</p>
+
+@if(Model.Offices.Count() != 0)
+{
+    <h2>All offices in @Model.City.Name</h2>
+
+
+    <table class="table" style="width: 40%">
+        <tr>
+            <th>
+                Place Description
+            </th>
+            <th>
+                Address
+            </th>
+            <th>
+                Phone Number
+            </th>
+            <th></th>
+        </tr>
+
+    @foreach (var item in Model.Offices) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.PlaceDescription)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PhoneNumber)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { idUrl = item.ID.ToString() }) |
+                @if (item.IsArchived)
+                {
+                    @Html.ActionLink("Unarchive", "Archive", new { idUrl = item.ID.ToString() }, new { @class = "text-danger" })
+                }
+                else
+                {
+                    @Html.ActionLink("Archive", "Archive", new { idUrl = item.ID.ToString() })
+                }
+
+            </td>
+        </tr>
+    }
+
+    </table>
+}
+else
+{
+    <h2>No offices found in @Model.City.Name. Create new.</h2>
+}
+
+@Html.ActionLink("Back to list", "Index")

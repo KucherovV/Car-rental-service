@@ -19,12 +19,23 @@ namespace CarRent.Controllers
     [Authorize]
     public class AccountController : Controller
     {
+        private readonly DB DB;
+
+        public AccountController(DB Db)
+        {
+            DB = Db;
+        }
+        public AccountController()
+        {
+            DB = new DB();
+        }
+
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
-        public AccountController()
-        {
-        }
+        //public AccountController()
+        //{
+        //}
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
         {

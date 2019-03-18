@@ -1,0 +1,84 @@
+﻿@using CarRent.ViewModels
+@model  CarUserIndexViewModel
+
+@{
+    <link href="~/Content/ListStyleSheet.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,500,700" rel="stylesheet">
+}
+
+<div class="col-md-2 col-sm-2 sideNav">
+
+    @using (Ajax.BeginForm("GetCars", "User", null, new AjaxOptions { UpdateTargetId = "results" }))
+    {
+        <p class="h3">Search and filters</p>
+        <hr />
+
+        <div class="carSearch">
+            @Html.TextBox("search", null, new { @class = "form-control", @placeholder = "Search Car" })
+        </div>
+
+        <p class="h4">Choose city</p>
+        @Html.DropDownListFor(m => m.CityID, Model.Cities, new { @class = "form-control" })
+
+
+        <p class="h4">Brands</p>
+        @Html.ListBoxFor(m => m.SelectedBrands, Model.Brands, new { @class = "form-control brands" })
+
+        <p class="h4">Sort by</p>
+        @Html.DropDownListFor(m => m.SortBy, Model.Sortings, new { @class = "form-control" })
+
+        <div class="panel-group">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" href="#collapseGrades">Grades</a>
+                    </h4>
+                </div>
+                <div id="collapseGrades" class="panel-collapse collapse">
+                    @Html.ListBoxFor(m => m.SelectedGrades, Model.Grades, new { @class = " form-control grades list-group" })
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-group">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" href="#collapse1">Engines</a>
+                    </h4>
+                </div>
+                <div id="collapse1" class="panel-collapse collapse">
+                    @Html.ListBoxFor(m => m.SelectedEngineTypes, Model.EngineTypes, new { @class = " form-control engines list-group" })
+                </div>
+            </div>
+        </div>
+
+        <p class="h4">Price range for single day</p>
+        <p class="h5">Min</p>
+        @Html.EditorFor(m => m.MinPricePerDay, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(m => m.MinPricePerDay, "", new { @class = "text-danger" })
+        <p class="h5">Max</p>
+        @Html.EditorFor(m => m.MaxPricePerDay, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(m => m.MaxPricePerDay, "", new { @class = "text-danger" })
+
+        <div class="apply">
+            <button type="submit" class="btn btn-info">Apply filters</button>
+            @Ajax.ActionLink("Reset", "GetCars", "User", new AjaxOptions { UpdateTargetId = "results" }, new { @class = "btn btn-danger" })
+        </div>
+    }
+
+</div>
+
+<div class="carList col-md-10 col-sm-10">
+    <div class="row">
+        <div id="results">
+            @Html.Action("GetCars")
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/UserIndexScripts.js"></script>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -11,6 +11,17 @@ namespace CarRent.Controllers
     [Authorize(Roles = "admin")]
     public class AdditionalOptionController : Controller
     {
+        private readonly DB DB;
+
+        public AdditionalOptionController(DB Db)
+        {
+            DB = Db;
+        }
+        public AdditionalOptionController()
+        {
+            DB = new DB();
+        }
+
         public ActionResult Index()
         {
             var additionalOptions = DB.GetList<AdditionalOption>().ToList();
