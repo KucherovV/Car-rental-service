@@ -58,3 +58,4 @@ C:\Users\Visstal\Desktop\Car-rental-service\CarRent\Database\obj\Release\DataBas
 C:\Users\Visstal\Desktop\Car-rental-service\CarRent\Database\obj\Release\DataBase.csproj.CopyComplete
 C:\Users\Visstal\Desktop\Car-rental-service\CarRent\Database\obj\Release\Database.dll
 C:\Users\Visstal\Desktop\Car-rental-service\CarRent\Database\obj\Release\Database.pdb
+C:\Users\Visstal\Desktop\Car-rental-service\CarRent\Database\obj\Release\Database.Migrations.addCarRating.resources

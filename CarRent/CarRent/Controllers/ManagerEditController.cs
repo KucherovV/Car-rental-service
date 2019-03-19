@@ -28,10 +28,6 @@ namespace CarRent.Controllers
 
         private ApplicationUserManager _userManager;
 
-        //public ManagerEditController()
-        //{
-        //}
-
         public ManagerEditController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
@@ -59,26 +55,24 @@ namespace CarRent.Controllers
           
             using(var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(DB.GetContext())))
             {
-                foreach(var user in users)
+                foreach (var user in users)
                 {
-                    if(userManager.GetRoles(user.Id).First() == "moderator")
+                    var managerViewModel = new ManagerRegisterViewModel()
                     {
-                        managers.Add(new ManagerRegisterViewModel()
-                        {
-                            Email = user.Email,
-                            FirstName = user.FirstName,
-                            LastName = user.LastName,
-                            ManagerID = user.Id
-                        });
+                        Email = user.Email,
+                        FirstName = user.FirstName,
+                        LastName = user.LastName,
+                        ManagerID = user.Id
+                    };
+
+                    if (UserManager.IsInRole(user.Id, "moderator"))
+                    {
+                        managers.Add(managerViewModel);
                     }
-                }
-            }
 
-            if(managers == null)
-            {
-                managers = new List<ManagerRegisterViewModel>();
+                    
+                };            
             }
-
             return View(managers);
         }
 
@@ -101,8 +95,10 @@ namespace CarRent.Controllers
             {
                 manager.BirthDate = DateTime.Now.AddYears(-100);
                 manager.DrivingLicenseDate = DateTime.Now;
-                manager.UserName = viewModel.Email; 
-
+                manager.UserName = viewModel.Email;
+                manager.EmailConfirmed = true;
+                manager.PhoneNumberConfirmed = true;
+               
                 var test =  UserManager.Create(manager, viewModel.Password);
                 var userManager = new ApplicationUserManager(new UserStore<ApplicationUser>(DB.GetContext()));
 

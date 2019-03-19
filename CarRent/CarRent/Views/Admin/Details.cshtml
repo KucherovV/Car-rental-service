@@ -3,66 +3,111 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h3>Are you sure you want to delete this user?</h3>
-<div>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.FirstName)
-        </dt>
+<h3>User info</h3>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+    <div>
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.FirstName)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.FirstName)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.LastName)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.LastName)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.LastName)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.LastName)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.Email)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Email)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.Email)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.BirthDate)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.BirthDate)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => Model.BirthDate)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => Model.BirthDate)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.DrivingLicenseDate)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.DrivingLicenseDate)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => Model.DrivingLicenseDate)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => Model.DrivingLicenseDate)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.IDNumber)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.IDNumber)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => Model.IDNumber)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => Model.IDNumber)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.PhoneNumber)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.PhoneNumber)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => Model.PhoneNumber)
-        </dd>
-    </dl>
+            <dd>
+                @Html.DisplayFor(model => Model.PhoneNumber)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Debt)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Debt) $
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Fine)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Fine) $
+            </dd>
+        </dl>
+    </div>
+    </div>
+    <div class="col-md-6">
+    <table class="table">
+        <tr>
+            <th>ID</th>
+            <th>User Name</th>
+            <th>Car</th>
+            <th>Price</th>
+            <th>Status</th>
+            <th>Problem</th>
+            <th>Fine</th>
+        </tr>
+        @foreach (var item in Model.OrderProblemViewModels)
+        {
+            <tr>
+                <td>@item.ID</td>
+                <td>@item.UserName</td>
+                <td>@item.BrandModel</td>
+                <td>@item.Price</td>
+                <td>@item.Status</td>
+                <td>@item.Problem</td>
+                <td>@item.Fine</td>
+            </tr>
+        }
+    </table>
+    </div>
 </div>
 
 @if (!Model.IsBlocked)
@@ -102,7 +147,7 @@
 }
 else
 {
-    <h4>This user is blocked</h4>
+    <h3>This user is blocked</h3>
     <hr />
     <dl class="dl-horizontal">
         <dt>

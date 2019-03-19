@@ -28,10 +28,6 @@ namespace CarRent.Controllers
 
         private ApplicationUserManager _userManager;
 
-        //public AdminController()
-        //{
-        //}
-
         public AdminController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
@@ -61,6 +57,7 @@ namespace CarRent.Controllers
             return View();
         }
 
+        //dowmload users to akax
         public ActionResult GetUserList(bool? showBlock, string search)
         {
             var users = (DB.GetUsers() as IEnumerable<ApplicationUser>).ToList();
@@ -117,6 +114,7 @@ namespace CarRent.Controllers
             return PartialView(usersOnly);
         }
 
+        //get viewmodel with user info
         public ActionResult Details(string id)
         {
             var user = DB.GetEntityById<ApplicationUser>(id) as ApplicationUser;
@@ -132,7 +130,9 @@ namespace CarRent.Controllers
                     LastName = user.LastName,
                     IDNumber = user.IDNumber,
                     PhoneNumber = !String.IsNullOrEmpty(user.PhoneNumber) ? user.PhoneNumber : "none",
-                    IsBlocked = user.IsBlocked
+                    IsBlocked = user.IsBlocked,
+                    Fine = user.Fine,
+                    Debt = user.Debt
                 };
 
                 if (user.IsBlocked)
@@ -140,6 +140,37 @@ namespace CarRent.Controllers
                     userViewModel.Blocking =  (DB.GetList<Blocking>() as IEnumerable<Blocking>)
                         .SingleOrDefault(b => b.UserID == user.Id) as Blocking;
                 }
+
+                var orderProblemViewModels = new List<OrderProblemViewModel>();
+                var orders = DB.GetList<Order>().Where(o => o.UserID == user.Id).ToList();
+                var problems = DB.GetList<OrderProblem>().ToList();
+
+                foreach (var ord in orders)
+                {
+                    var problem = problems.SingleOrDefault(p => p.Order_ID == ord.ID);
+                    var problemText = "No problems";
+                    var fine = "";
+                    if (problem != null)
+                    {
+                        problemText = problem.Text;
+                        fine = problem.Fine.ToString();
+                    }
+
+                    var orderProblemViewModel = new OrderProblemViewModel()
+                    {
+                        ID = ord.ID,
+                        BrandModel = ord.Car.BrandModel,
+                        Price = ord.Price,
+                        Status = ord.Status,
+                        UserName = ord.User.FirstName + " " + ord.User.LastName,
+                        Problem = problemText,
+                        Fine = fine,
+                    };
+
+                    orderProblemViewModels.Add(orderProblemViewModel);
+                }
+
+                userViewModel.OrderProblemViewModels = orderProblemViewModels;
 
                 return View(userViewModel);
             }
@@ -149,6 +180,7 @@ namespace CarRent.Controllers
             }
         }
 
+        //block user
         public ActionResult BlockUser(Blocking blocking, string userID)
         {
             if (userID != null)
@@ -191,6 +223,7 @@ namespace CarRent.Controllers
             }
         }
 
+        //unblock user
         public ActionResult UnblockUser(string userID)
         {
             if (userID != null)

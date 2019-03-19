@@ -33,9 +33,6 @@ namespace CarRent.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
-        //public AccountController()
-        //{
-        //}
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
         {
@@ -95,7 +92,18 @@ namespace CarRent.Controllers
                             await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                             if (user.PhoneNumberConfirmed == true)
                             {
-                                return RedirectToLocal(returnUrl);
+                                if(UserManager.IsInRole(user.Id, "admin"))
+                                {
+                                    return RedirectToAction("Index", "Admin");
+                                }
+                                else if (UserManager.IsInRole(user.Id, "moderator"))
+                                {
+                                    return RedirectToAction("Orders", "Manager");
+                                }
+                                else if (UserManager.IsInRole(user.Id, "user"))
+                                {
+                                    return RedirectToAction("CarList", "User");
+                                }
                             }
                             else
                             {
@@ -210,8 +218,19 @@ namespace CarRent.Controllers
                     BirthDate = model.BirthDate,
                     DrivingLicenseDate = model.DrivingLicenseDate,
                 };
-                var result = await UserManager.CreateAsync(user, model.Password);
+
+                var userWithSimilarEmail = DB.GetList<ApplicationUser>().SingleOrDefault(u => u.Email == model.Email) as ApplicationUser;
+                if (userWithSimilarEmail != null)
+                {
+                    ModelState.AddModelError("Email", "This email is already takken");
+                    return View(model);
+                }
+
+                var result = UserManager.Create(user, model.Password);
                 var userManager = new ApplicationUserManager(new UserStore<ApplicationUser>(DB.GetContext()));
+
+                
+
                 userManager.AddToRole(user.Id, "user");
 
                 if (result.Succeeded)
@@ -274,19 +293,9 @@ namespace CarRent.Controllers
                 var user = await UserManager.FindByNameAsync(model.Email);
                 if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
                 {
-                    // Don't reveal that the user does not exist or is not confirmed
                     return View("ForgotPasswordConfirmation");
                 }
-
-                // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
-                // Send an email with this link
-                // string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-                // var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);		
-                // await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
-                // return RedirectToAction("ForgotPasswordConfirmation", "Account");
             }
-
-            // If we got this far, something failed, redisplay form
             return View(model);
         }
 
@@ -461,7 +470,7 @@ namespace CarRent.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("CarList", "User");
         }
 
         //

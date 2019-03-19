@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System;
 using CarRent.ViewModels;
-using System.Data.SqlClient;
 using System.Data.Entity.Infrastructure;
 
 namespace CarRent.Controllers
@@ -24,7 +23,7 @@ namespace CarRent.Controllers
             DB = new DB();
         }
 
-
+        //get list of cities and stocks
         public ActionResult CitiesStock()
         {
             var cities = DB.GetList<City>().ToList();
@@ -58,6 +57,7 @@ namespace CarRent.Controllers
             }
         }
 
+        //get list of cars in city
         public ActionResult GetStockList(string idUrl)
         {
             try
@@ -100,6 +100,7 @@ namespace CarRent.Controllers
             }
         }
 
+        //get list of specific cars in city
         public ActionResult ListOfSpecificCars(string carID, string cityID)
         {
             try
@@ -189,6 +190,9 @@ namespace CarRent.Controllers
                         CityID = cityId,
                         City = city
                     };
+
+                    ManagerController uc = new ManagerController();
+                    uc.NoticeSubscribers(carId, cityId);
 
                     return View(stock);
                 }
@@ -287,9 +291,10 @@ namespace CarRent.Controllers
                         DB.Save<Stock>(stock);
                     }
 
+                    var managerController = new ManagerController();
+                    managerController.NoticeSubscribers(viewModel.CarID, viewModel.CityID);
+
                     return RedirectToAction("ListOfSpecificCars", "Stock", new { cityID = viewModel.CityID, carID = viewModel.CarID });
-                    //var stocks = DB.GetList<Stock>().Where(s => s.CityID == stock.CityID && s.CarID == stock.CarID).ToList();
-                    //return PartialView("GetListOfSpecificCars", stocks);
                 }
                 else
                 {
@@ -338,7 +343,6 @@ namespace CarRent.Controllers
 
                     DB.Update<Stock>(stock.ID);
 
-                    //return RedirectToAction("ListOfSpecificCars", "Stock", new { cityID = stock.CityID, carID = stock.CarID });
                     var stocks = DB.GetList<Stock>().Where(s => s.CityID == stock.CityID && s.CarID == stock.CarID).ToList();
                     return PartialView("GetListOfSpecificCars", stocks);
                 }

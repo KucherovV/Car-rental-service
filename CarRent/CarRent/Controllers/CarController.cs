@@ -237,6 +237,7 @@ namespace CarRent.Controllers
             }
         }
 
+        //return view with archive confirmation
         [HttpGet]
         public ActionResult Archive(string idUrl)
         {
@@ -273,6 +274,7 @@ namespace CarRent.Controllers
             }
         }
 
+        //archive car
         [HttpGet]
         public ActionResult ArchiveConfirmed(string idUrl)
         {
@@ -302,6 +304,7 @@ namespace CarRent.Controllers
             }
         }    
 
+        //validate file
         private bool ValidateFile(HttpPostedFileBase file)
         {
             string fileExtensions = Path.GetExtension(file.FileName).ToLower();
@@ -314,6 +317,7 @@ namespace CarRent.Controllers
             return false;
         }
 
+        //save file
         private void SaveFileToDisk(HttpPostedFileBase file)
         {
             WebImage img = new WebImage(file.InputStream);
@@ -324,6 +328,7 @@ namespace CarRent.Controllers
             img.Save(Constants.ProductImagePath + Path.GetFileName(file.FileName));         
         }      
 
+        //return view with pricing managing
         [HttpGet]
         public ActionResult ManagePricing(string idUrl)
         {
@@ -364,6 +369,7 @@ namespace CarRent.Controllers
             }
         }
 
+        //save pricing
         [HttpPost]
         public ActionResult ManagePricing(CarPricingViewModel carPricingViewModel)
         {

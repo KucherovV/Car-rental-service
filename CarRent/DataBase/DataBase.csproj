@@ -220,6 +220,14 @@
     <Compile Include="Migrations\201903181058171_addCarRating.Designer.cs">
       <DependentUpon>201903181058171_addCarRating.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201903182233386_addedUserWaitings.cs" />
+    <Compile Include="Migrations\201903182233386_addedUserWaitings.Designer.cs">
+      <DependentUpon>201903182233386_addedUserWaitings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903182242365_fixUserWaitings.cs" />
+    <Compile Include="Migrations\201903182242365_fixUserWaitings.Designer.cs">
+      <DependentUpon>201903182242365_fixUserWaitings.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -356,6 +364,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201903181058171_addCarRating.resx">
       <DependentUpon>201903181058171_addCarRating.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903182233386_addedUserWaitings.resx">
+      <DependentUpon>201903182233386_addedUserWaitings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903182242365_fixUserWaitings.resx">
+      <DependentUpon>201903182242365_fixUserWaitings.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

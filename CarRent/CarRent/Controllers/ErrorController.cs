@@ -60,5 +60,15 @@ namespace CarRent.Controllers
             ViewBag.Amount = amount;
             return View();
         }
+
+        public ActionResult UserUnder21()
+        {
+            return View();
+        }
+
+        public ActionResult DrivingLisencelessThan2Years()
+        {
+            return View();
+        }
     }
 }

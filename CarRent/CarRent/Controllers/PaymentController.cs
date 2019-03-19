@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using Entities;
 using CarRent.ViewModels;
@@ -58,6 +56,7 @@ namespace CarRent.Controllers
             }
         }
 
+        //return page with user info
         public ActionResult GetUserInfo(string userID)
         {
             var user = DB.GetEntityById<ApplicationUser>(userID) as ApplicationUser;
@@ -72,6 +71,7 @@ namespace CarRent.Controllers
             }
         }
 
+        //pay debt
         public ActionResult PayDebt(string userID)
         {
             var user = DB.GetEntityById<ApplicationUser>(userID) as ApplicationUser;
@@ -89,6 +89,7 @@ namespace CarRent.Controllers
             }
         }
 
+        //pay fine
         public ActionResult PayFine(string userID)
         {
             var user = DB.GetEntityById<ApplicationUser>(userID) as ApplicationUser;

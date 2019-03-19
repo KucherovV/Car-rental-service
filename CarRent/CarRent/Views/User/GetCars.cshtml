@@ -1,11 +1,12 @@
 ﻿@using CarRent.ViewModels
-@model IEnumerable<CarUserListItemViewModel>
+@model CarListViewModel
+@using Newtonsoft.Json;
 
-@if (Model.Count() == 0)
+@if (Model.Cars.Count() == 0)
 {
     <h3>No cars found by your request. Change filters and try again</h3>
 }
-@foreach (var carViewModel in Model)
+@foreach (var carViewModel in Model.Cars)
 {
     <div class="col-md-5">
         <div class="car">
@@ -55,9 +56,9 @@
             else
             {
                 string bntText = "";
-                if(carViewModel.WillBeAviable == null)
+                if (carViewModel.WillBeAviable == null)
                 {
-                    bntText = "Out of stock";
+                    bntText = "Unaviable";
                 }
                 else
                 {
@@ -65,10 +66,28 @@
                     bntText = "Will be able " + abilityTime.ToShortDateString();
                 }
 
-                @Html.ActionLink(bntText, "", "", htmlAttributes: new { @class = "btn btn-warning rent disabled" });
+                @Html.ActionLink(bntText, "", "", htmlAttributes: new { @class = "btn btn-warning rent disabled" })
+
+                if (!carViewModel.IsNoticed)
+                {
+
+                    using (Ajax.BeginForm("Notice", "User", new AjaxOptions() { UpdateTargetId = "results" }))
+                    {                       
+                        @Html.Hidden("json", JsonConvert.SerializeObject(Model.Cars))
+                        @Html.Hidden("carID", carViewModel.ID.ToString())
+                        @Html.Hidden("cityId", carViewModel.CityID.ToString())
+
+                        <input type="submit" value="Notice me" class="btn btn-default rent" />
+                    }
+
+                    @*@Ajax.ActionLink("Notice", "Notice", "User", new { carID = carViewModel.ID.ToString(), cityID = carViewModel.CityID.ToString() }, new AjaxOptions() { UpdateTargetId = "reslts" }, new { @class = "btn btn-default rent notice" });*@
+                }
+                else
+                {
+                    @Html.ActionLink("Noticed", "", "", new { @class = "btn btn-default rent disabled" });
+                }
             }
             <div class="minPrice">Starting at <span>@carViewModel.CarTimePricing.PricePerMoreThanMonth$</span> per day</div>
         </div>
     </div>
 }
-

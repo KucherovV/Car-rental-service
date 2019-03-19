@@ -121,3 +121,7 @@ C:\Users\Visstal\Desktop\Car-rental-service\CarRent\CarRent\obj\Release\CarRent.
 C:\Users\Visstal\Desktop\Car-rental-service\CarRent\CarRent\obj\Release\CarRent.csproj.CopyComplete
 C:\Users\Visstal\Desktop\Car-rental-service\CarRent\CarRent\obj\Release\CarRent.dll
 C:\Users\Visstal\Desktop\Car-rental-service\CarRent\CarRent\obj\Release\CarRent.pdb
+C:\Users\Visstal\Desktop\Car-rental-service\CarRent\CarRent\bin\PagedList.dll
+C:\Users\Visstal\Desktop\Car-rental-service\CarRent\CarRent\bin\PagedList.Mvc.dll
+C:\Users\Visstal\Desktop\Car-rental-service\CarRent\CarRent\bin\PagedList.xml
+C:\Users\Visstal\Desktop\Car-rental-service\CarRent\CarRent\bin\PagedList.Mvc.xml

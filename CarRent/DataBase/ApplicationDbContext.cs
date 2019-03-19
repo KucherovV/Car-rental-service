@@ -32,7 +32,7 @@ namespace DataBase
             System.Data.Entity.Database.SetInitializer<ApplicationDbContext>(null);
         }
 
-        public DbSet<City> Cities { get; set; }
+        public DbSet<City> Cities { get; }
         public DbSet<Car> Cars { get; set; }
         public DbSet<AdditionalOption> AdditionalOptions { get; set; }
         public DbSet<Blocking> Blockings { get; set; }
@@ -42,6 +42,7 @@ namespace DataBase
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderConfirmDeny> OrderConfirmDenies { get; set; }
         public DbSet<OrderProblem> OrderProblems { get; set; }
+        public DbSet<UserWait> UserWaits { get; set; }
 
         public static ApplicationDbContext Create()
         {

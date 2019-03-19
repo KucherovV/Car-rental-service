@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using Entities;
 using DataBase;
 using Newtonsoft.Json;
 using CarRent.ViewModels;
-using CarRent.Common;
 using CarRent.VO;
+using Microsoft.AspNet.Identity;
 
 namespace CarRent.Controllers
 {
+    [Authorize(Roles = "moderator")]
     public class ManagerController : Controller
     {
         private readonly DB DB;
@@ -39,9 +39,10 @@ namespace CarRent.Controllers
             return View(viewModel);
         }
 
+        //download orders to ajax
         public ActionResult GetOrdersList(string search, List<string> SelectedStatuses)
         {
-            var orders = DB.GetList<Order>()/*.Where(o => o.IsArchived == false)*/.ToList();
+            var orders = DB.GetList<Order>().ToList();
             var offices = DB.GetList<Office>().ToList();
             var viewModels = new List<ManagerOrderViewModel>();
 
@@ -125,6 +126,7 @@ namespace CarRent.Controllers
             return PartialView(viewModels);
         }
 
+        //return view vith managing info
         public ActionResult Manage(string idUrl)
         {
             try
@@ -139,7 +141,7 @@ namespace CarRent.Controllers
                     var orders = DB.GetList<Order>().Where(o => o.UserID == order.UserID).ToList();
 
 
-                    var problems = DB.GetList<OrderProblem>()/*.Where(o => o.Order.UserID == order.UserID)*/.ToList();
+                    var problems = DB.GetList<OrderProblem>().ToList();
                     foreach(var problem in problems)
                     {
                         problem.Order = DB.GetEntityById<Order>(problem.Order_ID) as Order;
@@ -212,6 +214,7 @@ namespace CarRent.Controllers
             }
         }
 
+        //update status of order
         public ActionResult UpdateStatus(string idUrl, string cityID, int? stockId)
         {
             try
@@ -245,6 +248,13 @@ namespace CarRent.Controllers
 
                         case "Waiting for execution":
                             {
+                                var user = DB.GetEntityById<ApplicationUser>(order.UserID) as ApplicationUser;
+                                if(user.Debt > 0 || user.Fine > 0)
+                                {
+                                    int amount = user.Debt + user.Fine;
+                                    return RedirectToAction("UserHasDebt", "Error", new { amount = amount });
+                                }
+
                                 order.Status = "On execution";
                                 DB.Update<Order>(order.ID);
 
@@ -264,6 +274,8 @@ namespace CarRent.Controllers
                                     stock.IsBusy = false;
                                     stock.CityID = order.OfficeEnd.CityID;
                                     DB.Update<Stock>(stock.ID);
+
+                                    NoticeSubscribers(order.CarID, stock.CityID);
 
                                     vo.ChangeStatus("Executed");
                                 }
@@ -306,11 +318,14 @@ namespace CarRent.Controllers
             }
         }
 
+        //deny order
         public ActionResult DenyOrder(OrderManageViewModel viewModel)
         {
             if (viewModel != null)
             {
                 var deny = viewModel.OrderConfirmDeny;
+                DB.Save<OrderConfirmDeny>(deny);
+
                 var order = DB.GetEntityById<Order>(deny.OrderID) as Order;
                 var user = DB.GetEntityById<ApplicationUser>(order.UserID) as ApplicationUser;
                 user.Debt -= order.Price;
@@ -319,11 +334,11 @@ namespace CarRent.Controllers
                 order.Status = "Denied";
                 DB.Update<Order>(order.ID);
 
-                DB.Save<OrderConfirmDeny>(deny);
-
                 var stock = DB.GetEntityById<Stock>((int)viewModel.CurrentOrder.StockID) as Stock;
                 stock.IsBusy = false;
                 DB.Update<Stock>(stock.ID);
+
+                NoticeSubscribers(viewModel.CurrentOrder.CarID, stock.CarID);
 
                 return RedirectToAction("Orders");
             }
@@ -335,6 +350,7 @@ namespace CarRent.Controllers
             }
         }
 
+        //register order problem
         public ActionResult OrderProblem(OrderManageViewModel viewModel)
         {
             if (viewModel != null)
@@ -365,6 +381,49 @@ namespace CarRent.Controllers
                 vo.WrongUrl(viewModel.CurrentOrder.StockID.ToString());
 
                 return RedirectToAction("WrongUrl", "Error");
+            }
+        }
+
+        //send emails to all car subscribers
+        public void NoticeSubscribers(int carId, int cityId)
+        {
+            var car = DB.GetEntityById<Car>(carId) as Car;
+            var city = DB.GetEntityById<City>(cityId) as City;
+
+            var userIds = DB.GetList<UserWait>()
+                .Where(uw => uw.CarID == carId && uw.CityID == cityId)
+                .Select(s => s.UserID)
+                .ToList();
+
+            var emails = new List<string>();
+            var users = DB.GetList<ApplicationUser>().ToList();
+            foreach(var user in users)
+            {
+                if (userIds.Contains(user.Id))
+                {
+                    emails.Add(user.Email);
+                }
+            }
+
+            foreach(var email in emails)
+            {
+                EmailService emailService = new EmailService();
+                emailService.Send(new IdentityMessage()
+                {
+                    Body = "Car " + car.BrandModel + " that you subscribed is awiable for renting",
+                    Destination = email,
+                    Subject = "Car rect"
+                });               
+            }         
+            
+            foreach(var id in userIds)
+            {
+                var userWait = DB.GetList<UserWait>()
+                    .SingleOrDefault(uw => uw.UserID == id && uw.CityID == cityId && uw.CarID == carId) as UserWait;
+                if(userWait != null)
+                {
+                    DB.Delete<UserWait>(userWait);
+                }
             }
         }
     }

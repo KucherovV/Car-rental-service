@@ -49,7 +49,12 @@ namespace CarRent.ViewModels
 
         public Blocking Blocking { get; set; }
 
+        public int Fine { get; set; }
+
+        public int Debt { get; set; }
+
         // orders
+        public List<OrderProblemViewModel> OrderProblemViewModels { get; set; }
 
         //warnings
 

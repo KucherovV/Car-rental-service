@@ -8,7 +8,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using CarRent.VO;
-using PagedList;
 
 namespace CarRent.Controllers
 {
@@ -60,6 +59,7 @@ namespace CarRent.Controllers
             return View(viewModel);
         }
 
+        //download car list with ajax
         public ActionResult GetCars(string search,
             int? CityID,
             List<string> SelectedBrands,
@@ -81,6 +81,7 @@ namespace CarRent.Controllers
                     CityID = cities.First().ID;
                 }
             }
+            
 
             if (!string.IsNullOrEmpty(search))
             {
@@ -112,20 +113,29 @@ namespace CarRent.Controllers
                     if (freeCarInStock == null)
                     {
                         inStock = false;
-
+                   
                         var temp = DB.GetList<Order>()
                                     .Where(o => o.CarID == car.ID
                                         && o.Stock.CityID == (int)CityID)
                                     .Select(o => o.RentFinishDateTime).ToList();
                         if (temp.Count != 0)
                             abilityTime = temp.Min();
-
-
                     }
                     else
                     {
                         inStock = true;
                     }
+
+                    bool isNoticed = false;
+                    var userWait = DB.GetList<UserWait>()
+                        .Where(uw => uw.CarID == car.ID
+                            && uw.CityID == CityID
+                            && uw.UserID == User.Identity.GetUserId()).ToList();
+                    if(userWait.Count != 0)
+                    {
+                        isNoticed = true;
+                    }
+
 
                     items.Add(new CarUserListItemViewModel
                     {
@@ -145,7 +155,8 @@ namespace CarRent.Controllers
                         CityID = (int)CityID,
                         IsInStock = inStock,
                         WillBeAviable = abilityTime,
-                        OrdersCount = car.OrdersCount
+                        OrdersCount = car.OrdersCount,
+                        IsNoticed = isNoticed
                     });
                 }
 
@@ -281,11 +292,24 @@ namespace CarRent.Controllers
                 }
             }
 
+            if(CityID != 7)
+            {
+                var temp2 = finalList.Where(fl => fl.CityID == CityID).ToList();
+            }
+
+
+            var viewModel = new CarListViewModel()
+            {
+                Cars = finalList
+            };
+
             vo.CarListDownloadedShown(finalList.Select(fl => fl.ID).ToArray());
-            return PartialView(finalList);
+            return PartialView(viewModel);
         }
 
+        //get rent form
         [HttpGet]
+        [Authorize(Roles ="user")]
         public ActionResult RentForm(string idUrl, string cityID)
         {
             var user = DB.GetEntityById<ApplicationUser>(User.Identity.GetUserId()) as ApplicationUser;
@@ -302,6 +326,16 @@ namespace CarRent.Controllers
 
                 int amount = user.Debt + user.Fine;
                 return RedirectToAction("UserHasDebt", "Error", new { amount = amount });
+            }
+
+            if((DateTime.Now - user.BirthDate).TotalDays/365 < 21)
+            {
+                return RedirectToAction("UserUnder21", "Error");
+            }
+
+            if((DateTime.Now - user.DrivingLicenseDate).TotalDays/365 < 2)
+            {
+                return RedirectToAction("DrivingLisencelessThan2Years", "Error");
             }
 
             try
@@ -351,6 +385,7 @@ namespace CarRent.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "user")]
         public ActionResult GetForm(OrderCreateViewModel viewModel)
         {
             vo.FormDownloadedd();
@@ -359,6 +394,7 @@ namespace CarRent.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "user")]
         public ActionResult RentForm(OrderCreateViewModel viewModel)
         {
             var user = DB.GetEntityById<ApplicationUser>(User.Identity.GetUserId()) as ApplicationUser;
@@ -510,22 +546,92 @@ namespace CarRent.Controllers
             }
         }
 
+        [Authorize(Roles = "user")]
         public ActionResult OrderSuccess()
         {
             return View();
         }
 
+        //get rent rules
         public ActionResult RentRules()
         {
-
             return View();
         }
 
+        //get contacts
         public ActionResult Contacts()
         {
             var offices = DB.GetList<Office>().Where(o => o.IsArchived == false).ToList();
 
             return View(offices); 
+        }
+
+        //register message when car is in stock
+        //[Authorize(Roles = "user")]
+        public ActionResult Notice(string carID, string cityID, string json)
+        {
+            try
+            {
+                int cityId = int.Parse(cityID);
+                var city = DB.GetEntityById<City>(cityId) as City;
+                int carId = int.Parse(carID);
+                var car = DB.GetEntityById<Car>(carId) as Car;
+
+                if (car != null && city != null)
+                {
+                    var userWait = DB.GetList<UserWait>()
+                        .Where(uw => uw.CarID == car.ID
+                            && uw.CityID == cityId
+                            && uw.UserID == User.Identity.GetUserId()).ToList();
+
+                    if (userWait.Count() == 0)
+                    {
+                        var userWaitToAdd = new UserWait()
+                        {
+                            CarID = carId,
+                            CityID = cityId,
+                            UserID = User.Identity.GetUserId()
+                        };
+
+                        DB.Save<UserWait>(userWaitToAdd);
+                    }
+
+                    var items = JsonConvert.DeserializeObject<List<CarUserListItemViewModel>>(json);
+                    foreach(var item in items)
+                    {
+                        if(item.ID == carId)
+                        {
+                            item.IsNoticed = true;
+                        }
+                    }
+
+                    CarListViewModel vm = new CarListViewModel()
+                    {
+                        Cars = items
+                    };
+
+                    return PartialView("GetCars", vm);
+                                      
+                }
+                else
+                {
+                    vo.WrongUrl(carID);
+
+                    return RedirectToAction("CarNotFound", "Error");
+                }
+            }
+            catch (ArgumentException)
+            {
+                vo.WrongUrl(carID);
+
+                return RedirectToAction("WrongUrl", "Error");
+            }
+            catch (FormatException)
+            {
+                vo.WrongUrl(carID);
+
+                return RedirectToAction("WrongUrl", "Error");
+            }
         }
     }
 
